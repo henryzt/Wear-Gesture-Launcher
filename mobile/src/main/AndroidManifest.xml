@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.format.gesturelauncher">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"> <!-- android:theme="@style/AppTheme" -->
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".GestureActivity"
+            android:label="Create a Gesture"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".dialog_confirm"
+            android:label="Confirm"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" /> <!-- 使其变成对话框 -->
+
+        <activity
+            android:name=".AppSelect"
+            android:label="@string/title_activity_app_select"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
+        <service
+            android:name=".MobileConnectService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".WelcomeActivity" />
+        <activity
+            android:name=".HelpActivity"
+            android:label="Wear Gesture Launcher"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        <activity
+            android:name=".ActionSelect"
+            android:label="Choose an Action"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" />
+
+        <activity android:name=".BackUp"
+            android:label="Backup &amp; Restore"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+    </application>
+
+</manifest>

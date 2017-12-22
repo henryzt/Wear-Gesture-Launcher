@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.format.gesturelauncher.AppSelector"
+    tools:deviceIds="wear"
+    android:background="@color/dark_grey">
+
+
+    <ListView
+        android:id="@+id/listviewApp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/diag_button_bottom_padding_round"
+        android:paddingBottom="@dimen/diag_button_bottom_padding_round"
+        android:clipToPadding="false"
+
+        >
+
+    </ListView>
+</android.support.wearable.view.BoxInsetLayout>

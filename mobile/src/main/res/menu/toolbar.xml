@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="80dp"
+    android:background="@color/colorPrimary"
+    android:id="@+id/tool_bar"
+
+    >
+        <!--android:theme="@style/AppToolbar"-->
+
+        <!-- "Mark Favorite", should appear as action button if possible -->
+
+
+        <item
+            android:id="@+id/action_sync"
+            android:icon="@drawable/ic_autorenew_black_24dp"
+            android:title="@string/settings_sync"
+            app:showAsAction="ifRoom"/>
+
+
+        <item
+            android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/settings_settings"
+            app:showAsAction="ifRoom" />
+
+        <!-- Settings, should always be in the overflow -->
+        <item
+            android:id="@+id/action_help"
+            android:title="@string/help"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_backup"
+            android:title="@string/backup_and_restore"
+            app:showAsAction="never" />
+
+        <!--<item-->
+            <!--android:id="@+id/action_reload"-->
+            <!--android:title="Reload gestures"-->
+            <!--android:visible="false"-->
+            <!--app:showAsAction="never" />-->
+
+        <item
+            android:id="@+id/action_rate"
+            android:title="@string/rate_the_app"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/action_about"
+            android:title="@string/about" />
+
+</menu>

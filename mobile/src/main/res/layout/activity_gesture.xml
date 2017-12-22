@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.format.gesturelauncher.GestureActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/textViewInd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:text="Please draw the new pattern that you would like to create" />
+
+        <android.gesture.GestureOverlayView
+            android:id="@+id/gestureOverlayView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.93"
+            android:background="@color/wallet_bright_foreground_holo_dark"
+            android:gestureColor="@android:color/holo_orange_light"
+            android:uncertainGestureColor="@color/wallet_dim_foreground_disabled_holo_dark"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            >
+
+
+        </android.gesture.GestureOverlayView>
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:text="Back"
+            android:theme="@style/PrimaryFlatButton" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

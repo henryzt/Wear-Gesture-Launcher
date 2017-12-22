@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mWelcome"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.format.gesturelauncher.WelcomeActivity"
+    >
+
+    <Button
+        android:id="@+id/buttonGetStart"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="266dp"
+
+        android:layout_height="80dp"
+        android:layout_marginBottom="105dp"
+
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:elevation="0dp"
+        android:text="@string/get_started"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:theme="@style/PrimaryButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewintro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:paddingEnd="50dp"
+        android:paddingStart="50dp"
+        android:text="@string/intro_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGetStart"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCant"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Can't connect?"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGetStart" />
+
+    <ImageView
+        android:id="@+id/imageViewlogo"
+        android:layout_width="222dp"
+        android:layout_height="182dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewintro"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619"
+        app:srcCompat="@drawable/logo1" />
+</android.support.constraint.ConstraintLayout>

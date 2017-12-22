@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gestenstarter</string>
+    <string name="title_gesture_main">Gestenstarter</string>
+    <string name="draw_your_pattern">Zeichne dein Muster</string>
+    <string name="title_activity_main">Gestenstarter</string>
+    <string name="empty_lib">Gestenbibliothek ist leer, bitte vom Handy synchronisieren!</string>
+    <string name="welcome_msg1">Herzlich willkommen! Um Wear Gesture Launcher zu verwenden, m��ssen Sie auf der n?chsten Seite die Berechtigung zum ��bernehmen erteilen.</string>
+    <string name="settings_open_instruction">Um den Gesture Launcher zu ?ffnen, tippe einfach auf den Rand von %1$s an einer beliebigen Stelle auf der Uhr.</string>
+    <string name="welcome_sure">Sicher!</string>
+    <string name="settings_show">Schnellstartprogramm</string>
+    <string name="title_activity_all_gestures">AllGestures</string>
+    <string name="title_activity_app_selector">AppSelektor</string>
+    <string name="title_activity_add_gesture">AddGesture</string>
+    <string name="title_activity_add_confirm_gesture">AddConfirmGesture</string>
+    <string name="title_activity_help">Hilfe</string>
+    <string name="title_activity_about">��ber</string>
+    <string name="title_activity_about_page">��berPage</string>
+    <string name="menu_help"><![CDATA[Hilfe & mehr]]></string>
+    <string name="Version_Warning">Sie verwenden Android 1.5 oder niedriger, was derzeit nicht vollst?ndig unterst��tzt wird, indem Sie auf die Bildschirmkante tippen, um sie zu ?ffnen. Stattdessen m��ssen Sie es ?ffnen, indem Sie den Systemstart starten. Tipps: Sie k?nnen ein Zifferblatt mit Verkn��pfung verwenden, um den Launcher schneller zu ?ffnen!</string>
+    <string name="main_click_perfrom_gesture">Klicken Sie hier, um eine Geste auszuf��hren</string>
+    <string name="connection_phone_disconnect">Telefon getrennt</string>
+    <string name="main_quicklauncher_disabled_notice">Quick Launcher deaktiviert, k?nnen Sie diese App als eine Verkn��pfung zum ?ffnen hinzuf��gen, oder klicken Sie hier, um jetzt Geste auszuf��hren</string>
+    <string name="main_settings">die Einstellungen</string>
+    <string name="main_all_gestures">Alle Gesten</string>
+    <string name="main_add_a_gesture">F��gen Sie eine Geste hinzu</string>
+    <string name="settings_general">Allgemeines</string>
+    <string name="settings_show_quick_launcher">Schnellstarter anzeigen</string>
+    <string name="settings_vibration">Vibration</string>
+    <string name="settings_quick_launcher_style">Quick Launcher-Stil</string>
+    <string name="settings_long_press_disable">Dr��cken Sie lange auf Deaktivieren</string>
+    <string name="settings_shorter_length">K��rzere L?nge</string>
+    <string name="settings_wider_width">Gr??ere Breite</string>
+    <string name="settings_quick_launcher_location">Schnellstartort</string>
+    <string name="settings_right_edge">Rechte Ecke</string>
+    <string name="settings_left_edge">Linke Ecke</string>
+    <string name="settings_top_edge">Oberkante</string>
+    <string name="settings_bottom_edge">Unterkante</string>
+    <string name="settings_gesture_recognition_accuracy">Gestenerkennung Genauigkeit</string>
+    <string name="settings_restore_to_default">Zur��ck zu Werkeinstellungen</string>
+    <string name="settings_clear_gestures">Klare Gesten</string>
+    <string name="settings_reload_gestures">Gesten neu laden</string>
+
+</resources>

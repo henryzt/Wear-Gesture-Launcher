@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context="com.format.gesturelauncher.GesturePerformActivity"
+    tools:deviceIds="wear">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/diag_button_bottom_padding_round"
+        android:paddingTop="@dimen/diag_content_top_padding_round"
+        android:clipToPadding="false"
+        app:layout_box="left|right">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/textwelcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center"
+
+                android:scrollbars="none"
+                android:text="@string/welcome_msg1"
+                app:layout_box="left|right"
+                android:paddingBottom="10dp"/>
+
+            <Button
+                android:id="@+id/buttonsure"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="@string/welcome_sure"
+                app:layout_box="all" />
+
+            <Button
+                android:id="@+id/buttonskip"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="Skip"
+                android:textColor="@color/card_grey_text_color"
+                app:layout_box="all" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.wearable.view.BoxInsetLayout>

@@ -1,0 +1,43 @@
+﻿<resources>
+    <string name="app_name">手勢啟動器</string>
+    <string name="title_gesture_main">Gesture Launcher</string>
+    <string name="draw_your_pattern">畫出圖形</string>
+    <string name="title_activity_main">Gesture Launcher</string>
+    <string name="empty_lib">手勢庫內沒有內容，請在手機上同步</string>
+    <string name="welcome_msg1">歡迎！要開始使用手勢啟動器，您需要在下一頁面中允許\'在其他應用程式之上顯示內容\'的權限</string>
+    <string name="settings_open_instruction">要打開手勢啟動器，在任意介面下您只需點擊您手錶的%1$s側邊緣區域以快速啟動</string>
+    <string name="welcome_sure">好的!</string>
+    <string name="settings_show">顯示快速啟動</string>
+    <string name="title_activity_all_gestures">AllGestures</string>
+    <string name="title_activity_app_selector">AppSelector</string>
+    <string name="title_activity_add_gesture">AddGesture</string>
+    <string name="title_activity_add_confirm_gesture">AddConfirmGesture</string>
+    <string name="title_activity_help">Help</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_about_page">AboutPage</string>
+    <string name="main_click_perfrom_gesture">點擊這裏進行繪畫</string>
+    <string name="main_quicklauncher_disabled_notice">快速啓動已關閉，您可以添加這個app作爲快捷方式直接啓動，或現在點擊這裏進行繪畫</string>
+    <string name="main_add_a_gesture">添加手勢</string>
+    <string name="main_all_gestures">手勢列表</string>
+    <string name="main_settings">設定</string>
+    <string name="connection_phone_disconnect">移動設備未連接</string>
+    <string name="menu_help">幫助與更多</string>
+    <string name="Version_Warning">您正在使用 Android wear 1.5 或更低的版本，暫時不支持使用快速啓動。您可以添加這個app以快捷方式啓動或從系統啓動器打開。</string>
+    <string name="settings_general">一般</string>
+    <string name="settings_show_quick_launcher">顯示快速啓動器</string>
+    <string name="settings_vibration">震動</string>
+    <string name="settings_quick_launcher_style">快速啓動器樣式</string>
+    <string name="settings_long_press_disable">長按隱藏</string>
+    <string name="settings_shorter_length">長度短一點</string>
+    <string name="settings_wider_width">寬一點</string>
+    <string name="settings_quick_launcher_location">快速啓動器位置</string>
+    <string name="settings_right_edge">右側</string>
+    <string name="settings_left_edge">左側</string>
+    <string name="settings_top_edge">頂部</string>
+    <string name="settings_bottom_edge">底部</string>
+    <string name="settings_gesture_recognition_accuracy">Gesture recognition accuracy</string>
+    <string name="settings_restore_to_default">Restore to default</string>
+    <string name="settings_clear_gestures">清除手勢</string>
+    <string name="settings_reload_gestures">重新載入</string>
+
+</resources>

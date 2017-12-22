@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Gesture Launcher</string>
+    <string name="title_gesture_main">Gesture Launcher</string>
+    <string name="draw_your_pattern">Draw your pattern</string>
+    <string name="title_activity_main">Gesture Launcher</string>
+    <string name="empty_lib">Gesture library is empty, please sync from mobile!</string>
+    <string name="welcome_msg1">Welcome!  To start using Wear Gesture Launcher, you need to grant draw over permission in next page.</string>
+    <string name="settings_open_instruction">To open Gesture Launcher, simply tap the %1$s edge of the screen, anywhere on the watch.</string>
+    <string name="welcome_sure">Sure!</string>
+    <string name="settings_show">Quick Launcher</string>
+    <string name="title_activity_all_gestures">AllGestures</string>
+    <string name="title_activity_app_selector">AppSelector</string>
+    <string name="title_activity_add_gesture">AddGesture</string>
+    <string name="title_activity_add_confirm_gesture">AddConfirmGesture</string>
+    <string name="title_activity_help">Help</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_about_page">AboutPage</string>
+    <string name="menu_help"><![CDATA[Help & More]]></string>
+    <string name="Version_Warning">You are using Android wear 1.5 or lower, which currently isn\'t fully supported by tapping the screen edge to open. Instead, you have to open it by entering from the system launcher.  Tips: You can use a watch face with shortcut to open the launcher quicker!</string>
+    <string name="main_click_perfrom_gesture">Click here to perform gesture</string>
+    <string name="connection_phone_disconnect">Phone disconnected</string>
+    <string name="main_quicklauncher_disabled_notice">Quick Launcher disabled, you can add this app as a shortcut to open, or click here to perform gesture now</string>
+    <string name="main_settings">Settings</string>
+    <string name="main_all_gestures">All gestures</string>
+    <string name="main_add_a_gesture">Add a gesture</string>
+    <string name="settings_general">General</string>
+    <string name="settings_show_quick_launcher">Show quick launcher</string>
+    <string name="settings_vibration">Vibration</string>
+    <string name="settings_quick_launcher_style">Quick Launcher style</string>
+    <string name="settings_long_press_disable">Long press disable</string>
+    <string name="settings_shorter_length">Shorter length</string>
+    <string name="settings_wider_width">Wider width</string>
+    <string name="settings_quick_launcher_location">Quick Launcher Location</string>
+    <string name="settings_right_edge">Right edge</string>
+    <string name="settings_left_edge">Left edge</string>
+    <string name="settings_top_edge">Top edge</string>
+    <string name="settings_bottom_edge">Bottom edge</string>
+    <string name="settings_gesture_recognition_accuracy">Gesture recognition accuracy</string>
+    <string name="settings_restore_to_default">Restore to default</string>
+    <string name="settings_clear_gestures">Clear gestures</string>
+    <string name="settings_reload_gestures">Reload gestures</string>
+
+</resources>

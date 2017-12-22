@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context="com.format.gesturelauncher.AddGesture"
+    tools:deviceIds="wear">
+
+    <TextView
+        android:id="@+id/textDraw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
+
+        android:text="@string/draw_your_pattern"
+        android:textColor="@color/white"
+        app:layout_box="all" />
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/gestureDraw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadeDuration="200"
+        android:fadeEnabled="true"
+
+        >
+
+    </android.gesture.GestureOverlayView>
+
+    <Button
+        android:id="@+id/buttonBack"
+        style="@android:style/MediaButton.Pause"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_gravity="bottom|center"
+        android:background="#91737373"
+        android:text="Back"
+        android:textColor="#c3ffffff" />
+
+
+</android.support.wearable.view.BoxInsetLayout>

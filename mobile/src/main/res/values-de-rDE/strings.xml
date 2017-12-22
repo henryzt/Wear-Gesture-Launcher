@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wear gesture</string>
+    <string name="title_activity_app_select">Aktion ausw?hlen</string>
+    <string name="choose_action_below">W?hlen Sie unten eine Aktion</string>
+    <string name="intro_text">Danke f¨¹r die Installation!\n\nLassen Sie loslegen, indem Sie sich mit Ihrem Wearable verbinden!</string>
+    <string name="get_started">Loslegen!</string>
+    <string name="intro_text2">Wearables sind nun verbunden! \n\nUm dir den Anfang zu machen, haben wir auch ein paar Gesten aus den h?ufig verwendeten Apps hinzugef¨¹gt, die du installiert hast. \n\nGenie?en!</string>
+    <string name="main_reload_confirm">Dadurch werden die anf?nglichen Gesten basierend auf den von Ihnen installierten Apps neu geladen. Alle deine derzeitigen Gesten * werden ¨¹berschrieben. Fortsetzen?</string>
+    <string name="intro_connecting">Verbindung herstellen ... Bitte stellen Sie sicher, dass diese App auf Ihrer Uhr ge?ffnet ist</string>
+    <string name="intro_checkAPI">Tragbar pr¨¹fen ...</string>
+    <string name="title_activity_settings">die Einstellungen</string>
+    <string name="waitSync">Bitte warten Sie, bis wearable die Synchronisierung durchf¨¹hrt und versuchen Sie es erneut.</string>
+    <string name="main_syncing">Synchronisierung ...</string>
+    <string name="backup_restore_success">Geste erfolgreich wiederhergestellt</string>
+    <string name="backup_backup_success">Sicherungserfolg</string>
+    <string name="sync_success">Erfolgreich synchronisiert!</string>
+    <string name="settings_sync">Synchronisieren</string>
+    <string name="settings_settings">die Einstellungen</string>
+    <string name="help">Hilfe</string>
+    <string name="backup_and_restore">sichern und Wiederherstellen</string>
+    <string name="rate_the_app">Bewerten Sie die App</string>
+    <string name="about">¨¹ber</string>
+    <string name="main_rate_message">Diese App ist v?llig kostenlos, es ist die beste Unterst¨¹tzung f¨¹r uns, wenn Sie einen Moment Zeit nehmen k?nnen, um es im Google Play Store zu bewerten!</string>
+    <string name="action_send_feedback">Feedback abschicken</string>
+    <string name="action_no_thanks">Nein Danke</string>
+    <string name="action_sure">Sicher!</string>
+    <string name="main_not_sync">Gestenbibliothek nicht synchronisiert</string>
+    <string name="dialog_title_delete">L?schen Sie die Geste</string>
+    <string name="dialog_delete_msg">Willst du die Geste l?schen?</string>
+    <string name="main_howto">Wie man?</string>
+    <string name="main_howto_msg">Um eine Geste hinzuzuf¨¹gen, tippen Sie auf die Schaltfl?che Hinzuf¨¹gen. Um eine Geste zu l?schen, tippen Sie darauf. Um mehr zu erfahren und Hilfe zu erhalten, tippen Sie auf das Men¨¹ mit den drei Punkten in der oberen rechten Ecke</string>
+    <string name="main_faildelete">Nicht zu l?schen, tragbar, keine Antwort</string>
+    <string name="action_launch_wearable_app">Starten Sie die Wearable App</string>
+    <string name="action_timer_actions">Timer-Aktionen</string>
+    <string name="action_make_phone_calls">Telefonanrufe t?tigen</string>
+    <string name="action_launch_mobile_apps">Starten Sie Mobile Apps</string>
+    <string name="cancel">Stornieren</string>
+    <string name="choose_an_action">W?hlen Sie eine Aktion, mit der Sie eine Geste erstellen m?chten</string>
+    <string name="delete">L?schen</string>
+</resources>

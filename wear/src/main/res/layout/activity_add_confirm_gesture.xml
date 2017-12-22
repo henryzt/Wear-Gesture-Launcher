@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context="com.format.gesturelauncher.AddConfirmGesture"
+    tools:deviceIds="wear">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/diag_content_top_padding_round"
+        android:paddingBottom="@dimen/diag_button_bottom_padding_round"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center"
+
+                android:paddingBottom="25dp"
+                android:paddingLeft="@dimen/diag_content_side_padding_round"
+                android:paddingRight="@dimen/diag_content_side_padding_round"
+                android:scrollbars="none"
+                android:text="Confirm to add this gesture?"
+                android:textAppearance="@style/TextAppearance.WearDiag.Message"
+                app:layout_box="all" />
+
+            <ImageView
+                android:id="@+id/imageViewConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@color/action_button_background" />
+
+            <TextView
+                android:id="@+id/textViewAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center"
+
+                android:paddingLeft="@dimen/diag_content_side_padding_round"
+                android:paddingRight="@dimen/diag_content_side_padding_round"
+                android:scrollbars="none"
+                android:text="Open App"
+                android:textAppearance="@style/TextAppearance.WearDiag.Message"
+                android:textColor="#ffea00"
+                app:layout_box="all"
+                android:paddingBottom="25dp"
+                android:paddingTop="5dp"/>
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<android.support.wearable.view.CircledImageView-->
+                    <!--android:id="@+id/btn_cancel"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="left|bottom"-->
+                    <!--android:src="@drawable/ic_cross"-->
+                    <!--app:circle_color="#AFAFAF"-->
+                    <!--app:circle_radius="25dp"-->
+                    <!--app:circle_radius_pressed="20dp" />-->
+
+                <!--<android.support.wearable.view.CircledImageView-->
+                    <!--android:id="@+id/btn_ok"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="right|bottom"-->
+                    <!--android:src="@drawable/ic_tick"-->
+                    <!--app:circle_color="@android:color/holo_blue_bright"-->
+                    <!--app:circle_radius="25dp"-->
+                    <!--app:circle_radius_pressed="20dp" />-->
+            <!--</LinearLayout>-->
+
+
+            <TextView
+                android:id="@+id/textCollision"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|center"
+                android:paddingBottom="10dp"
+
+
+                android:paddingLeft="10dp"
+                android:text="Collision check"
+                android:textColor="#e6e6e6" />
+
+            <Button
+                android:id="@+id/buttonConfirm"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:textColor="@android:color/holo_blue_bright"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="Confirm"
+
+                app:layout_box="all" />
+
+            <Button
+                android:id="@+id/buttonConfirmCancel"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="Back"
+                android:textColor="@android:color/holo_blue_bright"
+                app:layout_box="all" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.wearable.view.BoxInsetLayout>

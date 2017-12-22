@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.format.gesturelauncher.dialog_confirm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+
+            android:paddingLeft="10dp"
+            android:text="Confirm to add this gesture?" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            app:srcCompat="@color/cast_expanded_controller_ad_label_background_color" />
+
+        <TextView
+            android:id="@+id/textAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+
+            android:text="Action"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+            android:textColor="@color/colorAccent" />
+
+
+        <TextView
+            android:id="@+id/textViewCollision"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+
+            android:paddingLeft="10dp"
+            android:text="Collision check" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+
+            <Button
+
+                android:id="@+id/buttonRedraw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Redraw"
+
+                android:theme="@style/PrimaryFlatButton" /><!--style="?android:attr/buttonBarButtonStyle"-->
+
+            <Button
+
+                android:id="@+id/buttonNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="Done"
+
+                android:theme="@style/PrimaryFlatButton" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.format.gesturelauncher">
+
+    <uses-feature android:name="android.hardware.type.watch" />
+
+    <meta-data
+        android:name="com.google.android.wearable.standalone"
+        android:value="true" />
+
+    <!-- Permission required to draw floating widget over other apps -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission-sdk-22 android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--
+     Allows an application to grant specific permissions.
+         @hide
+    -->
+    <!-- <permission android:name="android.permission.GRANT_RUNTIME_PERMISSIONS" -->
+    <!-- android:protectionLevel="signature|installer|verifier" /> -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault">
+        <uses-library
+            android:name="com.google.android.wearable"
+            android:required="false" />
+
+        <activity
+            android:name=".GesturePerformActivity"
+            android:label="@string/title_activity_main"
+            android:noHistory="true"
+            android:theme="@style/Theme.transparent_swipenotdismiss"> <!-- 改变label和theme以达到左划返不回，以及透明度设置 -->
+
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:finishOnTaskLaunch="true"
+            android:label="@string/title_activity_main"
+            android:persistent="true"> <!-- android:theme="@style/swipenotdismiss" -->
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".FloaterService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".WearConnectService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".GesturePerformService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".BootUpReceiver"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".DialogFirst" />
+        <activity
+            android:name=".AllGestures"
+            android:label="@string/title_activity_all_gestures">
+
+            <!-- android:theme="@android:style/Theme.DeviceDefault.Light" -->
+
+        </activity>
+        <activity
+            android:name=".AppSelector"
+            android:label="@string/title_activity_app_selector">
+
+
+        </activity>
+
+
+
+
+        <activity
+            android:name=".AddGesture"
+            android:label="@string/title_activity_add_gesture"
+            android:theme="@style/swipenotdismiss" />
+        <activity
+            android:name=".AddConfirmGesture"
+            android:label="@string/title_activity_add_confirm_gesture"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
+        <activity
+            android:name=".Help"
+            android:label="@string/title_activity_help"
+            android:theme="@android:style/Theme.DeviceDefault.Light" />
+        <activity
+            android:name=".Setting"
+            android:label="@string/title_activity_about_page" />
+        <activity android:name=".AddAction"></activity>
+
+
+    </application>
+
+</manifest>

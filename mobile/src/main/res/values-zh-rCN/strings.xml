@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wear手勢啟動</string>
+    <string name="choose_action_below">選擇操作</string>
+    <string name="get_started">繼續</string>
+    <string name="intro_text">感謝安裝Wear手勢啟動器！\n準備好體驗一種在衣袖裡就能控制一切的全新app啟動玩法了嗎？\n讓我們先連接到您的手錶</string>
+    <string name="main_reload_confirm">這將會重新載入初始手勢，這些手勢將會根據您已安裝的App進行載入。\n注意：所有您自己添加的手勢將會被刪除，確定要繼續嗎？</string>
+    <string name="title_activity_app_select">選擇一個</string>
+    <string name="intro_text2">手錶連接成功！為了讓你更快地使用，程序已自動添加了一些您已經安裝的常用app的手勢，試試吧！</string>
+    <string name="intro_connecting">正在嘗試連接...請確保此app已在手錶上啟動</string>
+    <string name="waitSync">請等待同步完成后重試...</string>
+    <string name="title_activity_settings">設置</string>
+    <string name="intro_checkAPI">檢查手錶中...</string>
+    <string name="main_syncing">正在同步...</string>
+    <string name="backup_restore_success">成功還原手勢庫!</string>
+    <string name="backup_backup_success">成功備份手勢庫!</string>
+    <string name="sync_success">同步成功！</string>
+    <string name="settings_sync">同步</string>
+    <string name="settings_settings">設置</string>
+    <string name="help">幫助</string>
+    <string name="backup_and_restore"></string>
+    <string name="rate_the_app">評價這個應用</string>
+    <string name="about">關於</string>
+    <string name="main_rate_message">這個應用完全免費，如果您可以在 Google Play Store 留下您的評價，將會對我們幫助甚多！</string>
+    <string name="action_send_feedback">發送反饋</string>
+    <string name="action_no_thanks">不，謝謝</string>
+    <string name="action_sure">好的！</string>
+    <string name="main_not_sync">手勢庫未同步</string>
+    <string name="dialog_title_delete">刪除手勢</string>
+    <string name="dialog_delete_msg">要刪除手勢 \'</string>
+    <string name="main_howto">如何使用?</string>
+    <string name="main_howto_msg">要添加手勢，點擊添加按鈕  要刪除手勢，點擊那個手勢  需要幫助或更多，請點擊右上角的菜單鍵</string>
+    <string name="main_faildelete">刪除失敗，手錶無響應</string>
+    <string name="action_launch_wearable_app">啓動手錶應用</string>
+    <string name="action_timer_actions">計時器應用</string>
+    <string name="action_make_phone_calls">撥號</string>
+    <string name="action_launch_mobile_apps">啓動手機應用</string>
+    <string name="cancel">取消</string>
+    <string name="choose_an_action">選擇一個與該手勢相關的操作以繼續</string>
+    <string name="delete">刪除</string>
+</resources>

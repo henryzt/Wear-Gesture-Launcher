@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#87424242"
+    tools:context="com.format.gesturelauncher.GesturePerformActivity"
+    tools:deviceIds="wear">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
+
+        android:text="@string/draw_your_pattern"
+        android:textColor="@color/white"
+        app:layout_box="all" />
+
+    <android.gesture.GestureOverlayView
+        android:id="@+id/gesture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.20"
+        android:fadeDuration="200"
+
+        android:fadeEnabled="true">
+
+    </android.gesture.GestureOverlayView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/buttonwhat"
+            style="@android:style/MediaButton.Pause"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_weight="0.04"
+            android:background="@android:color/transparent"
+            android:text="Manage gestures"
+            android:textColor="#c3a8a8a8"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonClose"
+            style="@android:style/MediaButton.Pause"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_gravity="bottom|center"
+            android:background="#91414141"
+            android:text="Cancel"
+            android:textColor="#c3606060" />
+
+    </LinearLayout>
+
+
+</android.support.wearable.view.BoxInsetLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.format.gesturelauncher.BackUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+
+            android:paddingLeft="10dp"
+            android:text="You can backup a copy of all the current gestures in your phone, so the changes after that won't affect this copy, even if you uninstall the wearable app. After backup, You can restore the copy to overwrite all current gestures." />
+
+        <LinearLayout
+            android:id="@+id/LastBackup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/textAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+
+                android:paddingLeft="10dp"
+                android:text="Last backup details"
+                android:textAlignment="viewStart"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+
+                android:paddingLeft="15dp"
+                android:text="Time: 24-11-2017 00:00 Gesture quantity: 10"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+            <Button
+                android:id="@+id/buttonRestore"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:text="Restore"
+
+                android:theme="@style/PrimaryButton"
+                android:visibility="visible" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/buttonBackup"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            android:text="Backup"
+
+            android:theme="@style/PrimaryButton" />
+
+        <Button
+
+            android:id="@+id/buttonClose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="Close"
+
+            android:theme="@style/PrimaryFlatButton" />
+
+    </LinearLayout>
+
+</RelativeLayout>
