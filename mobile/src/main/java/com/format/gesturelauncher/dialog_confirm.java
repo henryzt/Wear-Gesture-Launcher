@@ -48,20 +48,10 @@ public class dialog_confirm extends AppCompatActivity {
          next =(Button) findViewById(R.id.buttonNext);
         nameEd = (TextView) findViewById(R.id.textAction);
 
-//        final File mStoreFile = new File(getFilesDir(), "gesturesNew");
-//
-////        lib= GestureLibraries.fromRawResource(this,R.raw.gesturesm);//导入手势
-//        lib= GestureLibraries.fromFile(mStoreFile);//导入手势
-//
-//        if (!lib.load()) {          //必须要这
-//            Toast.makeText(this,"Warning: Gesture Library unload", Toast.LENGTH_SHORT).show();
-//            finish();
-//        }
-
-//        action=null;
 
 
-        //---------------------------接受信息+图片
+
+        //---------------------------get extra & image
         Intent intent = getIntent();
         final Gesture gesture =  intent.getParcelableExtra("gesture");
         MethodNameForReturn=intent.getStringExtra("method");
@@ -75,7 +65,7 @@ public class dialog_confirm extends AppCompatActivity {
 
 
 
-        //--------------------------------按钮事件
+        //--------------------------------button action
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

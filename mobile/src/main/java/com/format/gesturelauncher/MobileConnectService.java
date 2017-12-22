@@ -55,26 +55,26 @@ public class MobileConnectService extends Service implements
 
 
 
-    public static GestureLibrary lib; //手势库
+    public static GestureLibrary lib; //gesture lib
 
     static GoogleApiClient mGoogleApiClient; //Wearable
 
-    public static String WEARABLE_PATH = "/gestures"; //发送位置
-    public static String MOBILE_RECEIVE = "/receive";//接收位置
+    public static String WEARABLE_PATH = "/gestures"; //Send location
+    public static String MOBILE_RECEIVE = "/receive";//receive location
 
-    public final static String TAG = "fz"; //调试tag
-
-
-    Boolean mobileAlone = false; //指示是否是本地模式，或者较老的手表版本
-    String PATH;//指示从手表收到的PATH
+    public final static String TAG = "fz"; //tag
 
 
-    public static String[] wearPackList; //手表的程序包列表
-    public static String[] wearAppList; //手表的程序包对应的app名列表
+    Boolean mobileAlone = false; //not in use currently, thought that maybe phone app can be used alone
+    String PATH;//PATH from wear
+
+
+    public static String[] wearPackList; //wear package names
+    public static String[] wearAppList; //wear package names corresponding app labels
 
 
     static boolean alreadyCreated =false ;
-    static boolean Overwrite=false;//指示是否要覆盖wear
+    static boolean Overwrite=false;//overwrite wear's library or not
 
     static int WEAR_VERSION;
     static int MOBILE_VERSION;
@@ -120,11 +120,11 @@ public class MobileConnectService extends Service implements
 
 //MsgT("Connection");
 
-        //-------------------------------------------手势
+        //-------------------------------------------Gestures
 
         final File mStoreFile = new File(getFilesDir(), "gesturesNew");
 
-        lib = GestureLibraries.fromFile(mStoreFile);//导入手势
+        lib = GestureLibraries.fromFile(mStoreFile);//Import
 
 
 
@@ -141,22 +141,22 @@ public class MobileConnectService extends Service implements
 
 
 
-    //=============================================================================发送数据给手表
+    //=============================================================================Send data to wear
 
     final static public void Sync(MobileConnectService connect, boolean overwrite){
 
         finishedSync(false);
 
-        if(connect.mobileAlone || overwrite){ //如果是老版本或者本地运行  ||或者要覆盖
+        if(connect.mobileAlone || overwrite){ //if running old version or need overwrite
             Overwrite=true;
-            connect.sendDataMapToDataLayer("/gestures");//用手机上的lib覆盖手表
+            connect.sendDataMapToDataLayer("/gestures");//overwrite wear using mobile's lib
 
         }else {
-            connect.sendDataMapToDataLayer("/needupdate"); //请求手表update
+            connect.sendDataMapToDataLayer("/needupdate"); //request wear lib to overwrite mobile
 
         }
 
-    }//外部使用
+    }//used outside this service
 
 
 
@@ -180,15 +180,15 @@ public class MobileConnectService extends Service implements
             e1.printStackTrace();
         }
         return b;
-    }   //将文件转化成byte以发送到手表
+    }   //transfer the gesture file to bytes to send as a data
 
     private DataMap createDatamap() {
         DataMap dataMap = new DataMap();
 
-        dataMap.putByteArray("File",file2byte()); //同步手势文件
+        dataMap.putByteArray("File",file2byte()); //Sync gesture in bytes
         dataMap.putString("Sent","From mobile");
-        dataMap.putString("Time", Long.toString(System.currentTimeMillis()) ); //同步时间，改变数据以完成同步
-        dataMap.putInt("version",BuildConfig.VERSION_CODE);//发送版本号，手表比手机大1000
+        dataMap.putString("Time", Long.toString(System.currentTimeMillis()) ); //send different time to complete sync every time
+        dataMap.putInt("version",BuildConfig.VERSION_CODE);//send version，wear = mobile + 1000
         dataMap.putBoolean("overwrite",Overwrite);
 
 
@@ -203,7 +203,7 @@ public class MobileConnectService extends Service implements
         dataMap.putBoolean("vibrate",vib);
         dataMap.putString("location",loca);
         dataMap.putInt("accuracy",accuracy);
-//--------------------------------------------------
+        //--------------------------------------------------
 
         return dataMap;
     }
@@ -244,7 +244,7 @@ public class MobileConnectService extends Service implements
 
 
 
-    //-----------------------------------------------------------------------RECEIVE 接收手表的确认数据
+    //-----------------------------------------------------------------------RECEIVE from wear
 
     public void byte2FileAndWrite(byte[] fileInBytes){
         String strFilePath = getFilesDir()+"/gesturesNew";
@@ -262,10 +262,10 @@ public class MobileConnectService extends Service implements
             System.out.println("IOException : " + ioe);
         }
 
-    }  //将收到的byte转换为文件
+    }  //get byte transfered to file
 
     @Override
-    public void onDataChanged(DataEventBuffer dataEvents) {  //数据改变时
+    public void onDataChanged(DataEventBuffer dataEvents) {
         for (DataEvent event : dataEvents) {
 
             PutDataMapRequest putDataMapRequest =
@@ -287,52 +287,24 @@ public class MobileConnectService extends Service implements
 
                 PATH=item.getUri().getPath();
 
-                if(PATH.equals(MOBILE_RECEIVE)){   //如果路径等于receive（确保收到的不是自己的而是手表发过来的）
-                                //----------------------------------------------------------------------------------------------------------------版本检查
+                if(PATH.equals(MOBILE_RECEIVE)){   //If the path equals 'receive'（To make sure the receved data isn't send by mobile itself but by wear）
+                                //----------------------------------------------------------------------------------------------------------------Version check
 
                                  WEAR_VERSION=map.getInt("version");
 
-                                if(WEAR_VERSION!=MOBILE_VERSION+1000){ //如果版本不同则提醒更新
-                                    if(map.getInt("version")<2012){ //如果版本过小
+                                if(WEAR_VERSION!=MOBILE_VERSION+1000){ //If version inconsistent
 
-
-            //                            final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            //                            builder.setTitle(R.string.app_name);
-            //                            builder.setMessage("Warning: your mobile app is running an old version, which is trying to overwrote your gestures on the watch using the gestures in your phone.\nDo you wish to overwrote?");
-            //
-            //                            builder.setPositiveButton("Overwrote - use mobile's", new DialogInterface.OnClickListener() {
-            //                                public void onClick(DialogInterface dialog, int id) {
-            //
-            //                                    dialog.cancel();
-            //                                }
-            //                            });
-            //                            builder.setNegativeButton("Cancel - keep watch's", new DialogInterface.OnClickListener() {
-            //                                public void onClick(DialogInterface dialog, int id) {
-            //
-            //                                    dialog.cancel();
-            //                                }
-            //                            });
-            //
-            //                            builder.show();
-                                        Toast.makeText(this,  "Warning: Gestures overwrote from phone, Wearable app version too old, please update the app on your watch.", Toast.LENGTH_LONG).show();
-                                        if(!mobileAlone){
-                                            warningdialog();
-                                            mobileAlone=true;
-                                        }
-
-                                        break;
-                                    }else {
 //                                        Toast.makeText(this, "Mobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG).show();
                                         if(!updateInfoShowed){
                                             versionNote();
                                             updateInfoShowed=true;
                                         }
 
-                                        Sync(mobileconnect,false);//从手表读取覆盖
-                                    }
+                                        Sync(mobileconnect,false);//overwrite from wear
+
                                 }else {
                                     mobileAlone=false;
-                                    Sync(mobileconnect,false);//从手表读取覆盖
+                                    Sync(mobileconnect,false);//overwrite from wear
                                 }
                                 //----------------------------------------------------------------------------------------------------------------
 
@@ -419,9 +391,9 @@ public class MobileConnectService extends Service implements
 //        }else {
         if(lib.load()){
             Overwrite=false;
-            sendDataMapToDataLayer("/gestures");//首次向手表同步，确认版本号
+            sendDataMapToDataLayer("/gestures");//first sync to wear, confirm version code
 
-            finishedSync(false);//首次同步，false表示未同步可见
+            finishedSync(false);//false makes the syncing bar visible in main activity
 //            MsgT("yes");
         }else {
 //            startActivity(new Intent(main,WelcomeActivity.class));

@@ -93,7 +93,7 @@ public class BackUp extends AppCompatActivity {
                 builder.setPositiveButton("Restore", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        if(wearPackList==null){ //如果没有同步得到列表的话
+                        if(wearPackList==null){ //if not synced
                             Toast.makeText(getApplicationContext(), R.string.waitSync, Toast.LENGTH_LONG).show();
                             Sync(mobileconnect,false);
                         }else {
@@ -171,7 +171,7 @@ public class BackUp extends AppCompatActivity {
 
             byte2FileAndWrite(file2byte(LocationBackup),LocationCurrent);
             final File mStoreFile = new File(getFilesDir(), LocationCurrent);
-            MobileConnectService.lib = GestureLibraries.fromFile(mStoreFile);//导入手势
+            MobileConnectService.lib = GestureLibraries.fromFile(mStoreFile);//import
             if(lib.load()){
                 Sync(mobileconnect,true);
                 Toast.makeText(getApplicationContext(), R.string.backup_restore_success,Toast.LENGTH_SHORT).show();

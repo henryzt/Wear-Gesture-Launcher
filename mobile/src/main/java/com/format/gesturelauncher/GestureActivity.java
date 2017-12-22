@@ -33,15 +33,7 @@ public class GestureActivity extends AppCompatActivity {
 
 
 
-//        //---------------------------接受信息
-//        Intent intent = getIntent();
-//        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-////        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
 
-        //----------------------------
-//        redraw.setEnabled(false);
-//        next.setEnabled(false);
-        //=---------------------------------------------手势
         GestureOverlayView gesturer = (GestureOverlayView) findViewById(R.id.gestureOverlayView);
 
         gesturer.cancelClearAnimation();
@@ -54,10 +46,10 @@ public class GestureActivity extends AppCompatActivity {
 //                viewtest.setImageBitmap(newBitmap);
 
 //                sendConfirm(gesture.toBitmap(150,150,10, Color.BLUE));
-                if(wearPackList==null){ //如果没有同步得到列表的话
+                if(wearPackList==null){ //if not synced
                     finish();
                     Toast.makeText(getApplicationContext(), "Fail to fetch app list, please connect to wearable to sync and try again", Toast.LENGTH_LONG).show();
-                }else { //否则打开
+                }else {
                     sendConfirm(gesture);
                     finish();
                 }

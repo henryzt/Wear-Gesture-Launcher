@@ -69,12 +69,12 @@ public class MainActivity extends AppCompatActivity{
 
 //    Snackbar notsyncIndicator;
 
-    public final static String TAG = "fz"; //调试tag
-    ArrayList<String> titles = new ArrayList<String>(); //用于列表,原标题
-    ArrayList<String> shortentitles = new ArrayList<String>(); //用于列表,用于显示的
-    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //用于列表
+    public final static String TAG = "fz"; //tag
+    ArrayList<String> titles = new ArrayList<String>(); //used for gridview, title of gestures unfiltered
+    ArrayList<String> shortentitles = new ArrayList<String>(); //used for gridview, title of gestures filtered
+    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //used for gridview
 
-    int defColor = Color.BLACK;//默认颜色
+    int defColor = Color.BLACK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,30 +86,30 @@ public class MainActivity extends AppCompatActivity{
 //        startSync();
         main=this;
 
-        //-----------------------------------------创建连接，载入手势
+        //-----------------------------------------initiate connection & load all gestures
         initiateConnection();
 
-        //-----------------------------------------创建Toolbar
+        //-----------------------------------------createToolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 //        myToolbar.setTitleTextColor(Color.WHITE);
 
-        //-------------------------------------------载入列表
+        //-------------------------------------------load grid
 //        refreshGrid();
 
 
-        //-------------------------------------------悬浮按钮事件
+        //-------------------------------------------fab activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Click action
 
-                if(wearPackList==null){ //如果没有同步得到列表的话
+                if(wearPackList==null){ //if not synced
                     Toast.makeText(getApplicationContext(), R.string.waitSync, Toast.LENGTH_LONG).show();
-                    startSync();//尝试同步
+                    startSync();//try to sync
 //                    startSync();
-                }else { //否则打开
+                }else { //else is good to go
                     openCreateGesture();
                 }
 
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
-    }  //载入Toolbar
+    }  //Toolbar
 
 
     //@Override
@@ -268,11 +268,11 @@ public class MainActivity extends AppCompatActivity{
 
 
             case R.id.action_settings:
-                if(wearPackList==null){ //如果没有同步得到列表的话
+                if(wearPackList==null){ //if not synced
                     Toast.makeText(getApplicationContext(), R.string.waitSync, Toast.LENGTH_LONG).show();
-                    startSync();//尝试同步
+                    startSync();//try to sync
 
-                }else { //否则打开
+                }else { //else is good to go
                     startActivity(new Intent(getApplicationContext(), Settings.class));
                 }
                 return true;
@@ -292,9 +292,9 @@ public class MainActivity extends AppCompatActivity{
 
 
         }
-    } //Toolbar选项
+    } //Toolbar actions
 
-    public void sendEmail(){     //发送Email给开发者
+    public void sendEmail(){    
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/plain");
                         intent.setData(Uri.parse("mailto:henryzhang9802@gmail.com")); // only email apps should handle this
@@ -308,29 +308,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-
-//    public void rateApp(){
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Do you enjoy wear gesture launcher?");
-//        builder.setMessage("How do you feel about this app?");
-//
-//
-//        builder.setPositiveButton("It's great!", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-////                startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
-//                rateAppGoogle();
-//                dialog.cancel();
-//            }
-//        });
-//        builder.setNegativeButton("It's terrible", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                rateAppEmail();
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
-//    }
 
     private void rateAppGoogle(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -436,18 +413,12 @@ public class MainActivity extends AppCompatActivity{
     public void openCreateGesture() {
         Intent intent = new Intent(this, ActionSelect.class);
         startActivity(intent);
-    } //打开窗口
+    } 
 
     //--------------------------------------------------------------------------Grid View
     public void refreshGrid() {
 
-        //-------------------------------------------手势
-
-//        final File mStoreFile = new File(getFilesDir(), "gesturesNew");
-
-//        lib = GestureLibraries.fromFile(mStoreFile);//导入手势
-
-        //        lib= GestureLibraries.fromRawResource(this,R.raw.gesturesm);//导入手势
+    
         if (!lib.load()) {          //必须要这个
             Intent intent = new Intent(this, WelcomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -457,28 +428,28 @@ public class MainActivity extends AppCompatActivity{
         titles.clear();
         bitmaps.clear();
         shortentitles.clear();
-        //----------------------------------------------------------------------------手势
+        //----------------------------------------------------------------------------Gestures
 
 
-        Set<String> gestureNameSet = lib.getGestureEntries(); //获得所有手势的名称
+        Set<String> gestureNameSet = lib.getGestureEntries(); //get all the unfiltered names of the gesture
 
         if(gestureNameSet.size()<=0){
             MsgS("Gesture library is empty, add one now!",Snackbar.LENGTH_INDEFINITE);
         }
 
-        for (String gestureName : gestureNameSet) { //每一个名称，做
+        for (String gestureName : gestureNameSet) { //for each name
 
-            ArrayList<Gesture> gesturesList = lib.getGestures(gestureName);//获得这个名称里的手势（可能会有多个）
+            ArrayList<Gesture> gesturesList = lib.getGestures(gestureName);//get the gesture from this name ( could have mutiple ones)
 
             Log.d(TAG, gestureName);
 
-            NameFilter filter = new NameFilter(gestureName);//自己声明的，用于去掉##后的内容
+            NameFilter filter = new NameFilter(gestureName);//To delete things after ##
 
 
             for (Gesture gesture : gesturesList) {
                 titles.add(gestureName);
-                bitmaps.add(gesture.toBitmap(125, 125, 30, defColor));//生成bitmap并添加到列表
-                shortentitles.add(filter.GetfiltedName());//用于去掉##后的内容
+                bitmaps.add(gesture.toBitmap(125, 125, 30, defColor));//generate bitmap and add to the list
+                shortentitles.add(filter.GetfiltedName());//To delete things after ##
 
 //                        setImageBitmap(gesture.toBitmap(100,100,10,defColor));
             }
@@ -488,10 +459,10 @@ public class MainActivity extends AppCompatActivity{
 
         final GridView gridview = (GridView) findViewById(R.id.gridview);
         final ImageAdapter adapter = new ImageAdapter(getApplicationContext(), shortentitles, bitmaps); //建立继承，adaper，放入bitmap和标题
-        gridview.setAdapter(adapter);//采用adaper
+        gridview.setAdapter(adapter);//adaper
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) { //当点击项目
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) { //when click
 
                 delete(position);
             }
@@ -505,9 +476,9 @@ public class MainActivity extends AppCompatActivity{
 //            }
 //        });
 
-//        Sync();//尝试同步
+//        Sync();//try to sync
 
-    } //刷新gridview,采用adapter以展示图片和文本
+    } //refresh gridview,use adapter to show image & text
 
 
     //--------------------------------------------------------------------------
@@ -554,7 +525,7 @@ public class MainActivity extends AppCompatActivity{
 
         builder.show();
 
-    } //提示Delete
+    } //Delete warning
 
 
     public void deleteItem(int position) {
@@ -576,14 +547,14 @@ public class MainActivity extends AppCompatActivity{
         refreshGrid();
         Sync(mobileconnect,true);
 
-    }  //------------------------------------删除项目
+    }  //------------------------------------delete item
 
 
     @Override
     protected void onResume() {
         super.onResume();
         if(alreadyCreated) {
-            if (!lib.load()) {          //必须要这个
+            if (!lib.load()) {
                 Intent intent = new Intent(this, WelcomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);

@@ -33,7 +33,7 @@ public class AppSelect extends AppCompatActivity {
 
 
 
-    ArrayList<String> packagename= new ArrayList<String>(); //用于存放应用包名
+    ArrayList<String> packagename= new ArrayList<String>(); //To store pacakgenames
     String MethodNameForReturn;
     ListView mainListView;
 
@@ -47,39 +47,11 @@ public class AppSelect extends AppCompatActivity {
         mainListView = (ListView) findViewById(R.id.ListViewApps);
 
 
-//        //-------------------------------------------------------------------------------fab事件
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Adding...", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                        LoadMobileApps(getApplicationContext());
-//            }
-//        });
 
-//        findViewById(R.id.buttonPhone).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Adding...", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                        LoadMobileApps(getApplicationContext());
-//            }
-//        });
-//
-//
-//        findViewById(R.id.buttonWear).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Adding...", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                LoadWearApps(getApplicationContext());
-//            }
-//        });
 
 
         Intent intent = getIntent();
-        String message = intent.getStringExtra("type"); //获取启动信息
+        String message = intent.getStringExtra("type"); //get the method
         switch (message){
             case "wear":
                 LoadWearApps(getApplicationContext());
@@ -125,12 +97,12 @@ public class AppSelect extends AppCompatActivity {
         listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
 
 
-        //---------------------------------------------------------------------取程序列表
+        //---------------------------------------------------------------------get application list
         final PackageManager pm = getPackageManager(); //packge manager
         final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA); // get list of installed program package
         for (ApplicationInfo packageInfo : packages) {
 
-            if(checkForLaunchIntent(packageInfo)==true && checkAlreadyExist(packageInfo)==false){ //如果这个包是可以运行的
+            if(checkForLaunchIntent(packageInfo)==true && checkAlreadyExist(packageInfo)==false){ //if this package is runnable
                 listAdapter.add(pm.getApplicationLabel(packageInfo).toString());
                 packagename.add(packageInfo.packageName);
             }
@@ -162,13 +134,13 @@ public class AppSelect extends AppCompatActivity {
 
     }
     private boolean checkForLaunchIntent(ApplicationInfo info) {
-        //检查这个程序确保可以运行 而不是系统程序
-//load launchable list 原：https://github.com/StackTipsLab/Advance-Android-Tutorials/blob/master/ListInstalledApps/src/com/javatechig/listapps/AllAppsActivity.java
+        //filter system apps
+//load launchable list    src：https://github.com/StackTipsLab/Advance-Android-Tutorials/blob/master/ListInstalledApps/src/com/javatechig/listapps/AllAppsActivity.java
             try {
-                if (null != getPackageManager().getLaunchIntentForPackage(info.packageName)) { //如果可以打开这个程序
+                if (null != getPackageManager().getLaunchIntentForPackage(info.packageName)) { //if runnable
                     return true;
                 }else {
-                    Log.v(MainActivity.TAG,"已删除不能打开的程序 " + info.packageName);
+                    Log.v(MainActivity.TAG,"filtered apps can't run: " + info.packageName);
                 }
             } catch (Exception e) {
 
@@ -177,7 +149,7 @@ public class AppSelect extends AppCompatActivity {
             }
 
             return false;
-    }//检查这个程序确保可以运行 而不是系统程序
+    }//filter sys apps
     private boolean checkAlreadyExist(ApplicationInfo info) {
 
           for(String methodName : lib.getGestureEntries()){
@@ -189,7 +161,7 @@ public class AppSelect extends AppCompatActivity {
 
 
         return false;
-    }//检查这个程序exist or not
+    }//check app exist or not
 
 
 
@@ -212,17 +184,17 @@ public class AppSelect extends AppCompatActivity {
         for (int i=0;i < wearPacks.length;  i++) {
 //            try {
 //                String appLabel = (String)getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(wearPacks[i],PackageManager.GET_META_DATA));
-//                listAdapter.add(appLabel); //列表加入程序名
-//                packagename.add(wearPacks[i]); //包名加入当前包名
+//                listAdapter.add(appLabel); //add app label to the list
+//                packagename.add(wearPacks[i]); //add app packName to the list
 //            } catch (PackageManager.NameNotFoundException e) {
-//                listAdapter.add(wearPacks[i]); //列表加入程序名！！！
-//                packagename.add(wearPacks[i]); //包名加入当前包名！！！
+//                listAdapter.add(wearPacks[i]); //add app label to the list！！！
+//                packagename.add(wearPacks[i]); //add app packName to the list！！！
 //                Log.v(MainActivity.TAG,e+ ", " + wearPacks[i]+ " Not Found");
 //                e.printStackTrace();
 //            }
 
-            listAdapter.add(wearPacksAppName[i]); //列表加入程序名
-            packagename.add(wearPacks[i]); //包名加入当前包名
+            listAdapter.add(wearPacksAppName[i]); //add app label to the list
+            packagename.add(wearPacks[i]); //add app packName to the list
         }
 
         //----------------------------------------------------------------------
@@ -276,7 +248,7 @@ public class AppSelect extends AppCompatActivity {
         for (int i=0;i < methods.length;  i++) {
 
             if (!TimerCheckExist(methods[i])) { //If not exist then add
-                listAdapter.add(methodsIndicator[i]); //列表加入程序名
+                listAdapter.add(methodsIndicator[i]); //add app label to the list
                 nonExistMethods.add(methods[i]);
 
             }
@@ -353,7 +325,7 @@ public void GenerateMethod(String runType,String runMethod, String Label ){
 
 
 
-}//启动指定的应用程序
+}
 
 
 }

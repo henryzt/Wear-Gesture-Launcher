@@ -30,7 +30,7 @@ public class NameFilter {
 
     public String GetfiltedName(){
         return filteredName;
-    } //过滤掉名字里多余的信息
+    }
 
     public String getMethod(){
         return method;
@@ -43,7 +43,7 @@ public class NameFilter {
 
     public String getOriginalName(){
         return OriginalName;
-    } //返回原名称
+    }
 
 
 

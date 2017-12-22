@@ -22,7 +22,7 @@ public class HelpActivity extends AppCompatActivity {
                 image.setImageDrawable(getResources().getDrawable(R.drawable.help_connect));
                 break;
             case "help":
-                image.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.help_tutorial));//记住：大图要放在res/drawable-xxhdpi中
+                image.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.help_tutorial));//ps: large image have to be in  res/drawable-xxhdpi
                 break;
         }
 

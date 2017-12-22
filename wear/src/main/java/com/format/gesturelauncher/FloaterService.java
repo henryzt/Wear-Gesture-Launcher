@@ -48,7 +48,7 @@ public class FloaterService extends Service {
     }
 
 
-    //============================================================================================== 悬浮窗
+    //============================================================================================== Floater
 
 
     private void startFloater(){
@@ -135,7 +135,7 @@ public class FloaterService extends Service {
 
         int default_width = 35;
 
-        //启动器位置
+        //Quick Launcher location-----------------
         int LayoutID =R.layout.layout_quick_vertical;
         switch (location) {
             case "r":
@@ -242,7 +242,7 @@ public class FloaterService extends Service {
 //                }
 
                     Intent intent = new Intent(context, GesturePerformActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//TODO|Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//TODO Clear top so won't wake any previously launched activities up |Intent.FLAG_ACTIVITY_CLEAR_TASK
                     PendingIntent pendingIntent =
                             PendingIntent.getActivity(context, 0, intent, 0);
                     try {
@@ -292,7 +292,7 @@ public class FloaterService extends Service {
 
                 if(frameLayoutfloater!=null) {
                     if (millisUntilFinished <= 2000) {
-                        frameLayoutfloater.setAlpha((float) (millisUntilFinished / 20) / 100);//设置透明度(/50)/100
+                        frameLayoutfloater.setAlpha((float) (millisUntilFinished / 20) / 100);//Set transparency(/50)/100
                     } else {
                         frameLayoutfloater.setAlpha((float) 1);
                     }

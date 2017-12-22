@@ -61,10 +61,6 @@
             android:name=".WearConnectService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name=".GesturePerformService"
-            android:enabled="true"
-            android:exported="true" />
 
         <receiver
             android:name=".BootUpReceiver"
