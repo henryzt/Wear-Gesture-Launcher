@@ -8,12 +8,8 @@ import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class AddGesture extends WearableActivity {
@@ -23,8 +19,8 @@ public class AddGesture extends WearableActivity {
 
     private BoxInsetLayout mContainerView;
 
-    String MethodNameForReturn;
-    String filterdName;
+    String methodNameForReturn;
+    String filteredName;
 
     TextView indicator;
 
@@ -37,11 +33,11 @@ public class AddGesture extends WearableActivity {
         mContainerView = (BoxInsetLayout) findViewById(R.id.container);
 
 
-        MethodNameForReturn= getIntent().getStringExtra("method");
-        filterdName=getIntent().getStringExtra("name");
+        methodNameForReturn = getIntent().getStringExtra("method");
+        filteredName =getIntent().getStringExtra("name");
 
         indicator=(TextView) findViewById(R.id.textDraw);
-        indicator.setText("Draw to set the pattern of action '"+filterdName+"'");
+        indicator.setText("Draw to set the pattern of action '"+ filteredName +"'");
 
 
         //=---------------------------------------------手势
@@ -72,8 +68,8 @@ public class AddGesture extends WearableActivity {
     public void sendConfirm(Gesture gesture){
         Intent confirm = new Intent(this, AddConfirmGesture.class);
         confirm.putExtra("gesture", gesture);
-        confirm.putExtra("method",MethodNameForReturn);
-        confirm.putExtra("name",filterdName);
+        confirm.putExtra("method", methodNameForReturn);
+        confirm.putExtra("name", filteredName);
         startActivity(confirm);
     }
 

@@ -7,16 +7,16 @@ package com.format.gesturelauncher;
  */
 
 public class NameFilter {
-    String OriginalName; //example: "Spotify##wearapp##com.spotify.spotify"
+    String originalName; //example: "Spotify##wearapp##com.spotify.spotify"
     String filteredName;//spotify
     String method;//wearapp
     String executionName;//com.xx.xx
 
 
     public NameFilter(String NameOriginal ) {
-        this.OriginalName=NameOriginal;
-        if(OriginalName.indexOf("##") != -1){
-            String[] spilt =OriginalName.split("##");
+        this.originalName =NameOriginal;
+        if(originalName.indexOf("##") != -1){
+            String[] spilt = originalName.split("##");
 
             filteredName= spilt[0];
             method=spilt[1];
@@ -28,10 +28,7 @@ public class NameFilter {
         }
     }
 
-
-    public String GetfiltedName(){
-        return filteredName;
-    } //过滤掉名字里多余的信息
+    public String getFilteredName(){ return filteredName; } //过滤掉名字里多余的信息
 
     public String getMethod(){
         return method;
@@ -41,15 +38,11 @@ public class NameFilter {
         return executionName;
     }
 
-
     public String getOriginalName(){
-        return OriginalName;
+        return originalName;
     } //返回原名称
 
-    public String changeFiltedName(String newName){
+    public String changeFilteredName(String newName){
         return newName+"##"+method+"##"+executionName;
     }
-
-
-
 }

@@ -74,22 +74,15 @@
         </receiver>
 
         <activity android:name=".DialogFirst" />
+
         <activity
             android:name=".AllGestures"
-            android:label="@string/title_activity_all_gestures">
-
+            android:label="@string/title_activity_all_gestures" />
             <!-- android:theme="@android:style/Theme.DeviceDefault.Light" -->
 
-        </activity>
         <activity
             android:name=".AppSelector"
-            android:label="@string/title_activity_app_selector">
-
-
-        </activity>
-
-
-
+            android:label="@string/title_activity_app_selector" />
 
         <activity
             android:name=".AddGesture"
@@ -106,9 +99,7 @@
         <activity
             android:name=".Setting"
             android:label="@string/title_activity_about_page" />
-        <activity android:name=".AddAction"></activity>
-
+        <activity android:name=".AddAction"/>
 
     </application>
-
 </manifest>

@@ -12,11 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.format.gesturelauncher.MainActivity.wearconnect;
+import static com.format.gesturelauncher.MainActivity.wearConnect;
 import static com.format.gesturelauncher.WearConnectService.lib;
 import static com.format.gesturelauncher.WearConnectService.sendMobile;
 
@@ -24,7 +23,7 @@ public class AddConfirmGesture extends WearableActivity {
 
 
     private BoxInsetLayout mContainerView;
-    String MethodNameForReturn;
+    String methodNameForReturn;
     String filterdName;
     Gesture gesture;
 
@@ -38,7 +37,7 @@ public class AddConfirmGesture extends WearableActivity {
 
         mContainerView = (BoxInsetLayout) findViewById(R.id.container);
 
-        MethodNameForReturn= getIntent().getStringExtra("method");
+        methodNameForReturn = getIntent().getStringExtra("method");
         filterdName=getIntent().getStringExtra("name");
         gesture=getIntent().getParcelableExtra("gesture");
 
@@ -55,7 +54,7 @@ public class AddConfirmGesture extends WearableActivity {
             @Override
             public void onClick(View view) {
 
-                lib.addGesture(MethodNameForReturn,gesture);
+                lib.addGesture(methodNameForReturn,gesture);
                 lib.save();
 
 //                Toast.makeText(getApplicationContext(),"Gesture saved!",Toast.LENGTH_SHORT).show();
@@ -73,7 +72,7 @@ public class AddConfirmGesture extends WearableActivity {
                     public void onAnimationFinished() {
                         startActivity(intent);
                         finish();
-                        sendMobile(wearconnect);
+                        sendMobile(wearConnect);
 
                     }
                 })
@@ -118,7 +117,7 @@ public class AddConfirmGesture extends WearableActivity {
 
         if(maxfound > 2.0){
 
-            String gesturename=new NameFilter(maxName).GetfiltedName();
+            String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/5)*100);
 
             text.setText(" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");

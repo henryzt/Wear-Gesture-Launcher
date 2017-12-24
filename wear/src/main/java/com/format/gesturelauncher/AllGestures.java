@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static com.format.gesturelauncher.MainActivity.wearconnect;
+import static com.format.gesturelauncher.MainActivity.wearConnect;
 import static com.format.gesturelauncher.WearConnectService.lib;
 import static com.format.gesturelauncher.WearConnectService.sendMobile;
 
@@ -28,7 +28,7 @@ public class AllGestures extends WearableActivity {
 
     private BoxInsetLayout mContainerView;
     ArrayList<String> titles = new ArrayList<String>(); //用于列表,原标题
-    ArrayList<String> shortentitles = new ArrayList<String>(); //用于列表,用于显示的
+    ArrayList<String> shortenTitles = new ArrayList<String>(); //用于列表,用于显示的
     ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //用于列表
 
     Boolean openMain=false;
@@ -74,7 +74,7 @@ public class AllGestures extends WearableActivity {
 //        }
         titles.clear();
         bitmaps.clear();
-        shortentitles.clear();
+        shortenTitles.clear();
         //----------------------------------------------------------------------------手势
 
 
@@ -93,7 +93,7 @@ public class AllGestures extends WearableActivity {
 
             ArrayList<Gesture> gesturesList = lib.getGestures(gestureName);//获得这个名称里的手势（可能会有多个）
 
-//            Log.d(TAG, gestureName);
+//            Log.d(tag, gestureName);
 
             NameFilter filter = new NameFilter(gestureName);//自己声明的，用于去掉##后的内容
 
@@ -101,7 +101,7 @@ public class AllGestures extends WearableActivity {
             for (Gesture gesture : gesturesList) {
                 titles.add(gestureName);
                 bitmaps.add(gesture.toBitmap(125, 125, 30, Color.YELLOW));//生成bitmap并添加到列表
-                shortentitles.add(filter.GetfiltedName());//用于去掉##后的内容
+                shortenTitles.add(filter.getFilteredName());//用于去掉##后的内容
 
 //                        setImageBitmap(gesture.toBitmap(100,100,10,defColor));
             }
@@ -110,7 +110,7 @@ public class AllGestures extends WearableActivity {
         //--------------------------------------------------------------------------Grid View
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        final ImageAdapter adapter = new ImageAdapter(getApplicationContext(), shortentitles, bitmaps); //建立继承，adaper，放入bitmap和标题
+        final ImageAdapter adapter = new ImageAdapter(getApplicationContext(), shortenTitles, bitmaps); //建立继承，adaper，放入bitmap和标题
         listview.setAdapter(adapter);//采用adaper
 
 //        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,7 +135,7 @@ public class AllGestures extends WearableActivity {
     public void delete( final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete gesture");
-        builder.setMessage("Do you want to delete Gesture '" + shortentitles.get(position)+"' ?");
+        builder.setMessage("Do you want to delete Gesture '" + shortenTitles.get(position)+"' ?");
 
 
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -159,9 +159,9 @@ public class AllGestures extends WearableActivity {
 
         lib.removeEntry(titles.get(position));
         lib.save();
-//        Msg("Item deleted");
+//        msg("Item deleted");
         refreshList();
-        sendMobile(wearconnect);//TODO A static method cannot call a non-static method, but we can use a reference, which include a non-static method to the static method. https://stackoverflow.com/questions/31661110/calling-a-non-static-method-in-an-android-onpreferenceclicklistener
+        sendMobile(wearConnect);//TODO A static method cannot call a non-static method, but we can use a reference, which include a non-static method to the static method. https://stackoverflow.com/questions/31661110/calling-a-non-static-method-in-an-android-onpreferenceclicklistener
         new ConfirmationOverlay()
                 .setMessage("Item deleted")
                 .setType(ConfirmationOverlay.SUCCESS_ANIMATION)
@@ -192,7 +192,7 @@ public class AllGestures extends WearableActivity {
         }
     }
 
-    public void Msg(String message) {
+    public void msg(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 

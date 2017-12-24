@@ -5,19 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.wearable.view.ConfirmationOverlay;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.format.gesturelauncher.MainActivity.APIcompatibleMode;
-import static com.format.gesturelauncher.MainActivity.wearconnect;
+import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
+import static com.format.gesturelauncher.MainActivity.wearConnect;
 import static com.format.gesturelauncher.WearConnectService.reload;
 import static com.format.gesturelauncher.WearConnectService.sendMobile;
 
@@ -27,7 +23,7 @@ public class Setting extends Activity {
     Switch vibrate;
     Switch small;
     Switch wider;
-    Switch longpress;
+    Switch longPress;
     RadioGroup location;
     int accuracy;
 //    private TextViewew mTextView;
@@ -45,7 +41,7 @@ public class Setting extends Activity {
         String loca=sharedPref.getString("location","r");
         accuracy=sharedPref.getInt("accuracy",2);
         boolean smallQ=sharedPref.getBoolean("small",false);
-        boolean b_longpress = sharedPref.getBoolean("longpress",true);
+        boolean b_longpress = sharedPref.getBoolean("longPress",true);
         boolean b_wider = sharedPref.getBoolean("wider",false);
 
         //------------------------------------------------------change
@@ -58,8 +54,8 @@ public class Setting extends Activity {
         small =(Switch) findViewById(R.id.switchNarrow);
         small.setChecked(smallQ);
 
-        longpress =(Switch) findViewById(R.id.switchLongpress);
-        longpress.setChecked(b_longpress);
+        longPress =(Switch) findViewById(R.id.switchLongpress);
+        longPress.setChecked(b_longpress);
 
         wider =(Switch) findViewById(R.id.switchWide);
         wider.setChecked(b_wider);
@@ -121,7 +117,7 @@ public class Setting extends Activity {
 
                 builder.setPositiveButton("Reload", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        reload(wearconnect);
+                        reload(wearConnect);
                         dialog.cancel();
                     }
                 });
@@ -156,7 +152,7 @@ public class Setting extends Activity {
             findViewById(R.id.settings_quicklauncher).setVisibility(View.GONE);
         }
 
-        if(APIcompatibleMode){
+        if(apiCompatibleMode){
 //            findViewById(R.id.switch1).setVisibility(View.GONE);
 //            findViewById(R.id.switchNarrow).setVisibility(View.GONE);
 //            findViewById(R.id.radio).setVisibility(View.GONE);
@@ -194,7 +190,7 @@ public class Setting extends Activity {
         editor.putBoolean("show", showQuick.isChecked());
         editor.putBoolean("vibrate", vibrate.isChecked());
         editor.putBoolean("small", small.isChecked());
-        editor.putBoolean("longpress", longpress.isChecked());
+        editor.putBoolean("longPress", longPress.isChecked());
         editor.putBoolean("wider", wider.isChecked());
 
 
@@ -213,7 +209,7 @@ public class Setting extends Activity {
                 FloaterService.frameLayoutfloater.removeAllViews();
                 FloaterService.frameLayoutfloater = null;
                 stopService(new Intent(Setting.this, FloaterService.class));
-//            Msg("service stopped");
+//            msg("service stopped");
 
                 if (sharedPref.getBoolean("show", true)) {
                     startService(new Intent(Setting.this, FloaterService.class));
@@ -232,16 +228,16 @@ public class Setting extends Activity {
 //            }
 //        }
 
-        LoadPref();
+        loadPref();
     }
 
     //---------------------------------------------------加载preference
-    public void LoadPref() {
+    public void loadPref() {
         SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-        wearconnect.ShowQuickLauncher = sharedPref.getBoolean("show", true);
-        wearconnect.vibratorOn = sharedPref.getBoolean("vibrate", true);
-        wearconnect.location = sharedPref.getString("location", "r");
-        wearconnect.accuracy = sharedPref.getInt("accuracy", 2);
+        wearConnect.showQuickLauncher = sharedPref.getBoolean("show", true);
+        wearConnect.vibratorOn = sharedPref.getBoolean("vibrate", true);
+        wearConnect.location = sharedPref.getString("location", "r");
+        wearConnect.accuracy = sharedPref.getInt("accuracy", 2);
     }
 
 
@@ -253,7 +249,7 @@ public class Setting extends Activity {
         intent.putExtra("extra","notini");
         intent.putExtra("message","Changes saved");
         startActivity(intent);
-        sendMobile(wearconnect);
+        sendMobile(wearConnect);
 //        MobileConnectService.Sync(MainActivity.mobileconnect,true);
         super.onDestroy();
     }

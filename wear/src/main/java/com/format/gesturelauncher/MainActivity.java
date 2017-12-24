@@ -5,32 +5,26 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
 import android.support.wearable.view.ConfirmationOverlay;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.wearable.intent.RemoteIntent;
-import com.google.android.wearable.playstore.PlayStoreAvailability;
 
-import static com.format.gesturelauncher.WearConnectService.ShowQuickLauncher;
+import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
 import static com.format.gesturelauncher.WearConnectService.compatibleMode;
-import static com.format.gesturelauncher.WearConnectService.lib;
 
 
 public class MainActivity extends Activity {
 
-    static WearConnectService wearconnect;
+    static WearConnectService wearConnect;
 //    static FloaterService floaterService;
-    static boolean APIcompatibleMode =false;
+    static boolean apiCompatibleMode =false;
     boolean doInitiate =true;
 
     boolean show;
@@ -55,7 +49,7 @@ public class MainActivity extends Activity {
 
             if(getIntent().getStringExtra("extra").equals("notini")){ //not initiate
                 doInitiate=false;
-//                APIcompatibleMode=true;
+//                apiCompatibleMode=true;
             }
 
             if(getIntent().hasExtra("message")){
@@ -78,7 +72,7 @@ public class MainActivity extends Activity {
 
         if(!show && doInitiate){
 
-//            APIcompatibleMode=true;
+//            apiCompatibleMode=true;
             Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
             startActivity(intent);
             initiateConnection();// for some reason, because we are cutting down all the following code
@@ -115,7 +109,7 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(getApplicationContext(),AddAction.class));
 
 //                if(compatibleMode){
-//                    warningdialog();
+//                    warningDialog();
 //                }
             }
         });
@@ -193,7 +187,7 @@ public class MainActivity extends Activity {
             text.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!ShowQuickLauncher) {
+                    if(!showQuickLauncher) {
                         Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
                         startActivity(intent);
                     }
@@ -245,7 +239,7 @@ public class MainActivity extends Activity {
             initiateConnection();
             if(show){initiateFloater();}
 //            }else{
-//                APIcompatibleMode=true;
+//                apiCompatibleMode=true;
 //                Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
 //                startActivity(intent);
 //            }
@@ -253,11 +247,11 @@ public class MainActivity extends Activity {
         }
 
         if(compatibleMode){
-            warningdialog();
+            warningDialog();
         }
 
 
-        if(APIcompatibleMode){
+        if(apiCompatibleMode){
             TextView text=findViewById(R.id.textViewIns);
 //            text.setText("Compatible mode");
 //            text.setVisibility(View.GONE);
@@ -266,7 +260,7 @@ public class MainActivity extends Activity {
             text.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if(!ShowQuickLauncher) {
+//                    if(!showQuickLauncher) {
                         Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
                         startActivity(intent);
 //                    }
@@ -291,12 +285,12 @@ public class MainActivity extends Activity {
                     SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
 
                     if(sharedPref.getBoolean("NEWINSTALL", true)) {
-                        VersionAlert();
+                        versionAlert();
                         sharedPref.edit().putBoolean("NEWINSTALL", false).apply();
                     }
 
 
-                    APIcompatibleMode=true;
+                    apiCompatibleMode =true;
 
                 }
 //            Toast.makeText(getApplicationContext(),"You are using Android wear 1.5 or lower, which currently isn't fully supported to show the edge quick launcher.",Toast.LENGTH_LONG).show();
@@ -341,7 +335,7 @@ public class MainActivity extends Activity {
 
 
 
-    public void VersionAlert(){
+    public void versionAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 //            builder.setTitle(R.string.app_name);
         builder.setMessage(R.string.Version_Warning)
@@ -360,7 +354,7 @@ public class MainActivity extends Activity {
 
 
 
-    public void warningdialog(){
+    public void warningDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.app_name);
         builder.setMessage("All gesture library changes on your watch might be lost when you sync from phone. This is because your mobile app is running an old version, it might because you just updated the wearable app. Normally you only need to wait for the auto-update on your phone. Please make sure you are using the same version to ensure sync running properly.")
@@ -386,7 +380,7 @@ public class MainActivity extends Activity {
 
 //        if (!this.isFinishing()){
 //            //TODOTODODONE find the problem caused which after user click the home button, the launching speed will be slow(Possible solution: swipe to open)
-////            Msg("This action would take longer to load next time, please use cancel button instead.");
+////            msg("This action would take longer to load next time, please use cancel button instead.");
 //            Intent intent = new Intent(getApplicationContext(),GesturePerformActivity.class);
 //
 //            intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);

@@ -18,11 +18,11 @@ import java.util.ArrayList;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     ArrayList<String> title;
-    ArrayList<Bitmap> Imageid;
+    ArrayList<Bitmap> imageID;
 
-    public ImageAdapter(Context c, ArrayList<String> title, ArrayList<Bitmap> Imageid ) {
+    public ImageAdapter(Context c, ArrayList<String> title, ArrayList<Bitmap> imageID ) {
         mContext = c;
-        this.Imageid = Imageid;
+        this.imageID = imageID;
         this.title = title;
     }
 
@@ -58,8 +58,8 @@ public class ImageAdapter extends BaseAdapter {
 //            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
 //            ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
 //            textView.setText(title.get(position));
-////            imageView.setImageResource(Imageid[position]);
-//            imageView.setImageBitmap(Imageid.get(position));
+////            imageView.setImageResource(imageID[position]);
+//            imageView.setImageBitmap(imageID.get(position));
 //        } else {
 //            grid = (View) convertView;
 //        }
@@ -78,7 +78,7 @@ public class ImageAdapter extends BaseAdapter {
         TextView textView = (TextView) grid.findViewById(R.id.grid_text);
         ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
         textView.setText(title.get(position));
-        imageView.setImageBitmap(Imageid.get(position));
+        imageView.setImageBitmap(imageID.get(position));
 
         return grid;
     }

@@ -20,9 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Api;
-
-import static com.format.gesturelauncher.MainActivity.APIcompatibleMode;
+import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
 
 public class FloaterService extends Service {
 
@@ -42,7 +40,7 @@ public class FloaterService extends Service {
     public void onCreate() {
         super.onCreate();
 //        MainActivity.floaterService=this;
-        if(!APIcompatibleMode) {
+        if(!apiCompatibleMode) {
             startFloater();
         }
     }
@@ -50,7 +48,7 @@ public class FloaterService extends Service {
 
     //============================================================================================== Floater
 
-
+    //TODO Verify logic
     private void startFloater(){
         //Check if the application has draw over other apps permission or not?
         //This permission is by default available for API<23. But for API > 23
@@ -59,16 +57,12 @@ public class FloaterService extends Service {
 
             //If the draw over permission is not available open the settings screen
             //to grant the permission.
-
-            Msg("To display the quick launcher, please enable the draw over permission");
-
-
-
+            msg("To display the quick launcher, please enable the draw over permission");
 
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getPackageName()));
 //           startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
-            Msg("Fail to open quick launcher: not allowed");
+            msg("Fail to open quick launcher: not allowed");
 //            startActivity(intent);
 
             createFloater();
@@ -96,10 +90,9 @@ public class FloaterService extends Service {
 //        }
     }
 
-
     private void createFloater(){
         if(frameLayoutfloater==null) {
-//            Msg("Quick Launcher enabled");//TODO GONE
+//            msg("Quick Launcher enabled");//TODO GONE
 
 //            try{
             newFloater();
@@ -107,7 +100,7 @@ public class FloaterService extends Service {
 //        }
 
         }else {
-            Msg("Floater already exits");
+            msg("Floater already exits");
         }
     }
 
@@ -216,9 +209,9 @@ public class FloaterService extends Service {
                 public void onClick(View view) {
 
 //                findViewById(R.id.watch_view).setVisibility(View.GONE);
-//                Msg("You clicked!");
+//                msg("You clicked!");
 //                Intent intent = new Intent(getApplicationContext(),GesturePerformActivity.class);
-//                Msg("Launching...");
+//                msg("Launching...");
 
 //                intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);//确保不会被打开两次
@@ -248,7 +241,7 @@ public class FloaterService extends Service {
                     try {
                         pendingIntent.send();
                     } catch (PendingIntent.CanceledException e) {
-                        Msg("Canceled");
+                        msg("Canceled");
                         e.printStackTrace();
                     }
 
@@ -258,38 +251,28 @@ public class FloaterService extends Service {
 
             });
 
-
             sideOpen.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
 
                     SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-                    boolean longpress=sharedPref.getBoolean("longpress",true);
+                    boolean longpress=sharedPref.getBoolean("longPress",true);
                     if(longpress) {
                         stopMe();
                     }
                     return true;
                 }
             });
-
-
-
-
         }catch (Exception e){
-//            Msg(e.toString());
-            Msg("Floater create failed, retrying...");
+//            msg(e.toString());
+            msg("Floater create failed, retrying...");
             stopMe();
         }
 
-
-
-
         new CountDownTimer(5000, 20) {
 
-
             public void onTick(long millisUntilFinished) {
-//                mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
-
+//              mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
                 if(frameLayoutfloater!=null) {
                     if (millisUntilFinished <= 2000) {
                         frameLayoutfloater.setAlpha((float) (millisUntilFinished / 20) / 100);//Set transparency(/50)/100
@@ -306,29 +289,18 @@ public class FloaterService extends Service {
                 }
             }
         }.start();
-
-
-
-
     }
 
     public void stopMe(){
-
-
-        Msg("Quick Launcher disabled");
+        msg("Quick Launcher disabled");
         frameLayoutfloater.removeAllViews();
         frameLayoutfloater=null;
         stopSelf();
     }
 
-
-
     //==============================================================================================
-
-    public void Msg(String message){
-
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-
+    public void msg(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         Log.v("fzg",message);
     }
 }

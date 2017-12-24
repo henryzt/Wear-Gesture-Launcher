@@ -44,8 +44,8 @@ public class WearConnectService extends Service implements
         GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
-    String PATH;
-    String MOBILE_RECEIVED = "/receive";
+    String path;
+    String mobile_received = "/receive";
 
 
 //    GestureLibrary libfromFile; //手势库
@@ -57,7 +57,7 @@ public class WearConnectService extends Service implements
     static boolean alreadyCreated ;
 
 
-    String TAG ="fzg";
+    static final String TAG ="fzg";
     byte[] fileInBytes;
     static String[] packNameList;//包名
     static String[] appNameList;//包对应程序名
@@ -69,7 +69,7 @@ public class WearConnectService extends Service implements
     static boolean compatibleMode=false;
 
 
-    static boolean ShowQuickLauncher;
+    static boolean showQuickLauncher;
     static boolean vibratorOn;
     static String location ;
     static int accuracy ;
@@ -99,13 +99,13 @@ public class WearConnectService extends Service implements
 
 
 
-        MainActivity.wearconnect=this;//A static method cannot call a non-static method, but we can use a reference, which include a non-static method to the static method.
+        MainActivity.wearConnect =this;//A static method cannot call a non-static method, but we can use a reference, which include a non-static method to the static method.
 
 
         WEAR_VERSION=BuildConfig.VERSION_CODE;
         MOBILE_VERSION=0;
 
-        LoadLibrary();
+        loadLibrary();
 
 
     }
@@ -114,7 +114,7 @@ public class WearConnectService extends Service implements
     //=====================================================================================================================================================================================
 
     //---------------------------------------------------加载lib
-    public void LoadLibrary(){
+    public void loadLibrary(){
         final File mStoreFile = new File(getFilesDir(), "gestureNew");
         lib= GestureLibraries.fromFile(mStoreFile);
 
@@ -127,14 +127,14 @@ public class WearConnectService extends Service implements
             firstInitiate();
         }
 
-        LoadPref();
+        loadPref();
 
     }
 
     //---------------------------------------------------加载preference
-    public void LoadPref() {
+    public void loadPref() {
         SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-        ShowQuickLauncher = sharedPref.getBoolean("show", true);
+        showQuickLauncher = sharedPref.getBoolean("show", true);
         vibratorOn = sharedPref.getBoolean("vibrate", true);
         location = sharedPref.getString("location", "r");
         accuracy = sharedPref.getInt("accuracy", 2);
@@ -202,7 +202,7 @@ public class WearConnectService extends Service implements
                     PackageManager packageManager= getApplicationContext().getPackageManager();
                     try {
                         String appName = (String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(filter.getPackName(), PackageManager.GET_META_DATA));
-                        finalName = filter.changeFiltedName(appName);
+                        finalName = filter.changeFilteredName(appName);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                         finalName = gestureName;
@@ -211,7 +211,7 @@ public class WearConnectService extends Service implements
 
 
                     lib.addGesture(finalName,gesture); //加入lib
-//                    packNameWhichExists = packNameWhichExists + filter.GetfiltedName() +", ";
+//                    packNameWhichExists = packNameWhichExists + filter.getFilteredName() +", ";
                 }
 
             }
@@ -219,15 +219,15 @@ public class WearConnectService extends Service implements
 
 
         if(lib.save()){  //当手势文件导入成功后（初始化完成），改变界面
-            Msg("Gesture Library initiated!");
+            msg("Gesture Library initiated!");
 
         }else{
-            Msg("Error: fail to save gesture library");
+            msg("Error: fail to save gesture library");
 //            finish();
         }
 
         if(!lib.load()){   //再确定是否已经成功添加
-            Msg("No gestures found, failsafe gesture is added.");
+            msg("No gestures found, failsafe gesture is added.");
             lib.addGesture("Test",libInitial.getGestures("WearTest##wearapp##com.format.weartest").get(0));
             lib.save();
         }
@@ -252,7 +252,7 @@ public class WearConnectService extends Service implements
 
     //============================================================================================== RECEIVE 接收文件
 
-    public void byte2File(){
+    public void byteToFile(){
         String strFilePath = getFilesDir()+"/gestureNew";
         try {
             FileOutputStream fos = new FileOutputStream(strFilePath);
@@ -275,7 +275,7 @@ public class WearConnectService extends Service implements
     @Override
     public void onConnected(Bundle bundle) {
         Wearable.DataApi.addListener(mGoogleApiClient, this);
-//        Msg("Phone connected");
+//        msg("Phone connected");
     }
 
     @Override
@@ -299,9 +299,9 @@ public class WearConnectService extends Service implements
 
 
                 DataItem item = event.getDataItem();
-                PATH=item.getUri().getPath();
+                path =item.getUri().getPath();
 
-                if(PATH.equals("/gestures")) { //1.确保收到的是手机发送的数据，覆盖手表的lib
+                if(path.equals("/gestures")) { //1.确保收到的是手机发送的数据，覆盖手表的lib
                     // DataItem changed
 
 
@@ -353,9 +353,9 @@ public class WearConnectService extends Service implements
 
                     if(map.getBoolean("overwrite")||map.getInt("version")<1012){  //如果手机说要覆盖则覆盖，如果说false的话证明手机只是在检查连接和版本号,或者如果版本号过老也覆盖
                         fileInBytes = map.getByteArray("File"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        byte2File();//保存
-                        LoadLibrary();
-                        Msg("Gesture Library Synced!");
+                        byteToFile();//保存
+                        loadLibrary();
+                        msg("Gesture Library Synced!");
                     }
 
 
@@ -369,7 +369,7 @@ public class WearConnectService extends Service implements
                             }
                     }catch (NullPointerException e){
                         e.printStackTrace();
-                        Msg("No pref received");
+                        msg("No pref received");
                     }
 
                     if(safe) {
@@ -387,7 +387,7 @@ public class WearConnectService extends Service implements
                             FloaterService.frameLayoutfloater.removeAllViews();
                             FloaterService.frameLayoutfloater=null;
                             stopService(new Intent(WearConnectService.this, FloaterService.class));
-//                            Msg("service stopped");
+//                            msg("service stopped");
 
                             if(sharedPref.getBoolean("show",true)){
                                 startService(new Intent(WearConnectService.this, FloaterService.class));
@@ -401,7 +401,7 @@ public class WearConnectService extends Service implements
                     }
 
 
-                    LoadPref();
+                    loadPref();
                     //--------------------------------------------------------------
 
 
@@ -410,22 +410,22 @@ public class WearConnectService extends Service implements
 
                     //以下用于测试。可有可无
 //                    byte[] data = item.getData();
-//                    Msg(data.toString());
-//                    Msg(PATH);
+//                    msg(data.toString());
+//                    msg(path);
 //                    String s = new String(data);
 //                    TextView text = findViewById(R.id.text);
-////                    text.setText("PATH: " + PATH + s);
+////                    text.setText("path: " + path + s);
 //                    text.setText("Gesture Library updated!");
 
                     //---------------------------------------
 
-                }else if(PATH.equals("/initiate")){  //如果PATH等于启动
+                }else if(path.equals("/initiate")){  //如果PATH等于启动
                     sendDataMapToDataLayerForMobile("/receive");//发送给手机接收确认!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    Msg("Connection Initiated!");
+                    msg("Connection Initiated!");
 
-                }else if(PATH.equals("/needupdate")) {  //如果PATH等于需要刷新则提供刷新的手势库
+                }else if(path.equals("/needupdate")) {  //如果PATH等于需要刷新则提供刷新的手势库
                     sendDataMapToDataLayerForMobile("/update");
-//                    Msg("Library updated to mobile");
+//                    msg("Library updated to mobile");
                 }
 
 
@@ -561,10 +561,10 @@ public class WearConnectService extends Service implements
     } //建立数据包准备发送
 
     public void sendDataMapToDataLayerForMobile(String location){
-        MOBILE_RECEIVED = location;
+        mobile_received = location;
         if(mGoogleApiClient.isConnected()){
             DataMap dataMap = createDatamap();
-            new SendDataMapToDataLayer(MOBILE_RECEIVED,dataMap).start();
+            new SendDataMapToDataLayer(mobile_received,dataMap).start();
         }
     } //发送
 
@@ -582,7 +582,7 @@ public class WearConnectService extends Service implements
         public void run(){
 //            NodeApi.GetConnectedNodesResult nodeList = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
 
-            PutDataMapRequest putDataMapReq = PutDataMapRequest.create(MOBILE_RECEIVED);
+            PutDataMapRequest putDataMapReq = PutDataMapRequest.create(mobile_received);
             putDataMapReq.getDataMap().putAll(dataMap);
             PutDataRequest putDataReq = putDataMapReq.asPutDataRequest();
             PendingResult<DataApi.DataItemResult> pendingResult =
@@ -606,7 +606,7 @@ public class WearConnectService extends Service implements
 
 
 
-    public void Msg(String message){
+    public void msg(String message){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
         Log.v(TAG,message);
     }

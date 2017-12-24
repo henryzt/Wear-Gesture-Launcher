@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.format.gesturelauncher.MainActivity.APIcompatibleMode;
-import static com.format.gesturelauncher.WearConnectService.ShowQuickLauncher;
+import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
+import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
 import static com.format.gesturelauncher.WearConnectService.accuracy;
 import static com.format.gesturelauncher.WearConnectService.lib;
 import static com.format.gesturelauncher.WearConnectService.vibratorOn;
@@ -34,13 +34,13 @@ public class GesturePerformActivity extends Activity {
 
 
 
-    TextView hinttext;
+    TextView hintText;
     Button mButtonClose;
     Button mButtonWhat;
 
     static boolean active = false;//check if this is running
 
-    String TAG ="fzg";
+    String tag ="fzg";
 
 //    public static boolean vibratorOn = true; //振动开关
 
@@ -55,7 +55,7 @@ public class GesturePerformActivity extends Activity {
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             // Activity was brought to front and not created,
             // Thus finishing this will get us to the last viewed activity
-//            Msg("Clear");
+//            msg("Clear");
 
             finish();
             return;
@@ -81,7 +81,7 @@ public class GesturePerformActivity extends Activity {
         if(vibratorOn){v.vibrate(right,-1);} //Vibrate to show it is open
 
         GestureOverlayView mGesture = findViewById(R.id.gesture); //定义
-        hinttext = findViewById(R.id.text);//定义
+        hintText = findViewById(R.id.text);//定义
 
 
         //lib=GestureLibraries.fromRawResource(this,R.raw.gestures);//导入手势
@@ -92,7 +92,7 @@ public class GesturePerformActivity extends Activity {
         mGesture.addOnGestureListener(new GestureOverlayView.OnGestureListener() {
             @Override
             public void onGestureStarted(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
-                hinttext.setVisibility(View.GONE);
+                hintText.setVisibility(View.GONE);
                 mButtonClose.setVisibility(View.INVISIBLE);
                 mButtonWhat.setVisibility(View.GONE);
             }
@@ -104,16 +104,16 @@ public class GesturePerformActivity extends Activity {
 
             @Override
             public void onGestureEnded(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
-                hinttext.setVisibility(View.VISIBLE);
-                hinttext.setText("Matching...");
+                hintText.setVisibility(View.VISIBLE);
+                hintText.setText("Matching...");
                 mButtonClose.setVisibility(View.VISIBLE);
 
             }
 
             @Override
             public void onGestureCancelled(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
-                hinttext.setVisibility(View.VISIBLE);
-                hinttext.setText(R.string.draw_your_pattern);
+                hintText.setVisibility(View.VISIBLE);
+                hintText.setText(R.string.draw_your_pattern);
                 mButtonClose.setVisibility(View.VISIBLE);
             }
         });  //手势事件s
@@ -127,7 +127,7 @@ public class GesturePerformActivity extends Activity {
                 if(!lib.load()){
                     //如果没有手势
 //                    Toast.makeText(getApplicationContext(), R.string.empty_lib,Toast.LENGTH_LONG).show();
-                    hinttext.setText(R.string.empty_lib);
+                    hintText.setText(R.string.empty_lib);
                     if(vibratorOn){v.vibrate(wrong,-1);}
                     return;
                 }
@@ -142,7 +142,7 @@ public class GesturePerformActivity extends Activity {
 
                 for(Prediction prediction:predictionArrayList){
 
-                    Log.v(TAG,prediction.toString() + "---" + Double.toString(prediction.score));
+                    Log.v(tag,prediction.toString() + "---" + Double.toString(prediction.score));
 
 
                     if(prediction.score > maxfound){
@@ -153,16 +153,16 @@ public class GesturePerformActivity extends Activity {
                 }
 
                 if(maxfound > accuracy){//2.0
-                    hinttext.setText(maxName +" performed!");
-                    //Msg(prediction.toString());
+                    hintText.setText(maxName +" performed!");
+                    //msg(prediction.toString());
                     matched=true;
                     if(vibratorOn){v.vibrate(right,-1);}
-                    MatchOpen(maxName);//尝试打开app
+                    matchOpen(maxName);//尝试打开app
 
                     //break;
 
                 }else {
-                    hinttext.setText("No match");
+                    hintText.setText("No match");
 
 
                 }
@@ -173,7 +173,7 @@ public class GesturePerformActivity extends Activity {
 
                     mButtonWhat.setVisibility(View.VISIBLE);
 
-//                    Msg("Please try again");
+//                    msg("Please try again");
                 }
 
             }
@@ -197,7 +197,7 @@ public class GesturePerformActivity extends Activity {
 //                Intent intent=new Intent(getApplicationContext(),AllGestures.class);
 //                intent.putExtra("open","y");
                 Intent intent=new Intent(GesturePerformActivity.this,MainActivity.class);
-//                if(APIcompatibleMode) {
+//                if(apiCompatibleMode) {
                     intent.putExtra("extra", "notini");
 //                }
                 finish();
@@ -208,7 +208,7 @@ public class GesturePerformActivity extends Activity {
 
 
 
-        if( APIcompatibleMode==true || !ShowQuickLauncher){
+        if( apiCompatibleMode ==true || !showQuickLauncher){
             mButtonWhat.setVisibility(View.VISIBLE);
         }
 
@@ -219,7 +219,7 @@ public class GesturePerformActivity extends Activity {
 
 
     //============================================================================================== 打开应用
-    public void MatchOpen(String activity){
+    public void matchOpen(String activity){
 
         NameFilter name = new NameFilter(activity);
         try {
@@ -227,7 +227,7 @@ public class GesturePerformActivity extends Activity {
                 case "wearapp":
 
                     if(name.getPackName().equals(getApplicationContext().getPackageName())) {
-                        hinttext.setText("Opening Main screen");
+                        hintText.setText("Opening Main screen");
 
                         Intent intent = new Intent(GesturePerformActivity.this,MainActivity.class); //spilt 2 是pakagename
                         finish();
@@ -237,8 +237,8 @@ public class GesturePerformActivity extends Activity {
                     }else {
                         Intent intent = getPackageManager().getLaunchIntentForPackage(name.getPackName()); //spilt 2 是pakagename
                         startActivity(intent);
-                        //            Msg("Opening " + spilt[0]);
-                        hinttext.setText("Opening " + name.GetfiltedName());
+                        //            msg("Opening " + spilt[0]);
+                        hintText.setText("Opening " + name.getFilteredName());
                     }
 
 
@@ -246,20 +246,20 @@ public class GesturePerformActivity extends Activity {
 
 
                 case "timer":
-                    TimerOpen(name.getPackName());
-                    hinttext.setText(name.GetfiltedName());
+                    timerOpen(name.getPackName());
+                    hintText.setText(name.getFilteredName());
                     break;
 
 
                 case "call":
                     callOpen(name.getPackName());
-                    hinttext.setText(name.GetfiltedName());
+                    hintText.setText(name.getFilteredName());
                     break;
 
             }
 
         }catch (Exception e){
-            Msg("Fail to open "+name.GetfiltedName());
+            msg("Fail to open "+name.getFilteredName());
             return;
         }
 
@@ -268,39 +268,32 @@ public class GesturePerformActivity extends Activity {
     }
 
 
-
-    public void TimerOpen(String method){
+    public void timerOpen(String method) {
+        Intent intent = null;
         switch (method) {
             case "Alarm":
-                Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-//                }
+                intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
             case "Timer":
-                Intent intent2 = new Intent(AlarmClock.ACTION_SET_TIMER);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-//                if (intent2.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent2);
-//                }
+                intent = new Intent(AlarmClock.ACTION_SET_TIMER);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
             case "Stopwatch":
-                Intent intent3 = new Intent("com.google.android.wearable.action.STOPWATCH" );
-                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-//                if (intent3.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent3);
-//                }
+                intent = new Intent("com.google.android.wearable.action.STOPWATCH");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 break;
             case "Alarm List":
-                Intent intent4 = new Intent("android.intent.action.SHOW_ALARMS");
-                intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);//
-//                if (intent3.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent4);
-//                }
+                intent = new Intent("android.intent.action.SHOW_ALARMS");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);//
                 break;
 
         }
+      if (intent != null){
+    //UNKNOWN: What was this here to prevent? Add answer in group collab space.
+//      if(intent.resolveActivity(getPackageManager()) != null) {
+        startActivity(intent);
+      }
     }
 
 
@@ -320,7 +313,7 @@ public class GesturePerformActivity extends Activity {
 //    //============================================================================================== 初始状态
 //    public void refreashLayout(){
 //
-//            hinttext.setText(R.string.draw_your_pattern);
+//            hintText.setText(R.string.draw_your_pattern);
 //            mButtonClose.setVisibility(View.VISIBLE);
 //
 //    }
@@ -344,11 +337,11 @@ public class GesturePerformActivity extends Activity {
 
     @Override
     protected void onPause() {
-//        Msg("Killed");
+//        msg("Killed");
 
 //        if (!this.isFinishing()){
 //            //TODODONE find the problem caused which after user click the home button, the launching speed will be slow(Possible solution: swipe to open)
-////            Msg("This action would take longer to load next time, please use cancel button instead.");
+////            msg("This action would take longer to load next time, please use cancel button instead.");
 //            Intent intent = new Intent(getApplicationContext(),GesturePerformActivity.class);
 //
 //                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -369,27 +362,20 @@ public class GesturePerformActivity extends Activity {
 //    {
 //        if(keyCode == KeyEvent.KEYCODE_BACK)
 //        {
-//            Msg("back");
+//            msg("back");
 //            Log.d("Test", "Back button pressed!");
 //        }
 //        else if(keyCode == KeyEvent.KEYCODE_HOME)
 //        {
-//            Msg("home");
+//            msg("home");
 //            Log.d("Test", "Home button pressed!");
 //        }
 //        return super.onKeyDown(keyCode, event);
 //    }
 //----------------------------------------------------------------------------------------------------------------
 
-
-
-    public void Msg(String message){
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
-        Log.v(TAG,message);
+    public void msg(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        Log.v(tag, message);
     }
-
-
-
-
-
 }

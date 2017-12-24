@@ -1,14 +1,10 @@
 package com.format.gesturelauncher;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.service.carrier.CarrierMessagingService;
-import android.support.annotation.NonNull;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.ConfirmationOverlay;
@@ -17,18 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.wearable.CapabilityApi;
-import com.google.android.gms.wearable.CapabilityInfo;
-import com.google.android.gms.wearable.Wearable;
 import com.google.android.wearable.intent.RemoteIntent;
 import com.google.android.wearable.playstore.PlayStoreAvailability;
 
 import static com.format.gesturelauncher.FloaterService.frameLayoutfloater;
-import static com.format.gesturelauncher.MainActivity.wearconnect;
 import static com.format.gesturelauncher.WearConnectService.MOBILE_VERSION;
 import static com.format.gesturelauncher.WearConnectService.WEAR_VERSION;
-import static com.format.gesturelauncher.WearConnectService.reload;
 
 public class Help extends WearableActivity {
 

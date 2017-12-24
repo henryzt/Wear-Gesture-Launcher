@@ -2,23 +2,12 @@ package com.format.gesturelauncher;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.gesture.Gesture;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.AlarmClock;
-import android.provider.ContactsContract;
-import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.WatchViewStub;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
 
@@ -33,8 +22,8 @@ import static com.format.gesturelauncher.WearConnectService.packNameList;
 
 public class AppSelector extends Activity {
 
-    ArrayList<String> packagename= new ArrayList<String>(); //用于存放应用包名
-    String MethodNameForReturn;
+    ArrayList<String> packageName = new ArrayList<String>(); //用于存放应用包名
+    String methodNameForReturn;
     ListView mainListView;
 
     @Override
@@ -51,10 +40,10 @@ public class AppSelector extends Activity {
 
                 switch (getIntent().getStringExtra("method")){
                     case "wearapp":
-                        LoadWearApps();
+                        loadWearApps();
                         break;
                     case "timer":
-                        LoadTimers();
+                        loadTimers();
                         break;
                     case "call":
 //                        selectContact();
@@ -82,11 +71,7 @@ public class AppSelector extends Activity {
         }
 
 
-
-
-    public void LoadWearApps(){
-
-
+    public void loadWearApps(){
         //------------------------------------------Message
 //        Toast t = Toast.makeText(this,"\n\n\n\nPlease select an App you would like to create a gesture with",Toast.LENGTH_SHORT);
 //        t.setGravity(Gravity.FILL_HORIZONTAL|Gravity.FILL_VERTICAL, 0, 0);
@@ -109,16 +94,16 @@ public class AppSelector extends Activity {
 //            try {
 //                String appLabel = (String)getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(wearPacks[i],PackageManager.GET_META_DATA));
 //                listAdapter.add(appLabel); //列表加入程序名
-//                packagename.add(wearPacks[i]); //包名加入当前包名
+//                packageName.add(wearPacks[i]); //包名加入当前包名
 //            } catch (PackageManager.NameNotFoundException e) {
 //                listAdapter.add(wearPacks[i]); //列表加入程序名！！！
-//                packagename.add(wearPacks[i]); //包名加入当前包名！！！
-//                Log.v(MainActivity.TAG,e+ ", " + wearPacks[i]+ " Not Found");
+//                packageName.add(wearPacks[i]); //包名加入当前包名！！！
+//                Log.v(MainActivity.tag,e+ ", " + wearPacks[i]+ " Not Found");
 //                e.printStackTrace();
 //            }
 
             listAdapter.add(wearPacksAppName[i]); //列表加入程序名
-            packagename.add(wearPacks[i]); //包名加入当前包名
+            packageName.add(wearPacks[i]); //包名加入当前包名
         }
 //
 //        //----------------------------------------------------------------------
@@ -134,9 +119,9 @@ public class AppSelector extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 //               String packName = mainListView.getItemAtPosition(position).toString();//Get the item user clicked
-                String packName = packagename.get(position);
+                String packName = packageName.get(position);
 
-                GenerateMethod("wearapp",packName,mainListView.getItemAtPosition(position).toString());
+                generateMethod("wearapp",packName,mainListView.getItemAtPosition(position).toString());
             }
 
         });
@@ -145,11 +130,7 @@ public class AppSelector extends Activity {
     }
 
 
-
-    public void LoadTimers(){
-
-
-
+    public void loadTimers(){
         //------------------------------------------List Adapter
 
         ArrayList<String> listItems=new ArrayList<String>();
@@ -166,17 +147,14 @@ public class AppSelector extends Activity {
 
         final ArrayList<String> nonExistMethods=new ArrayList<>();
 
-
-
         for (int i=0;i < methods.length;  i++) {
 
-            if (!TimerCheckExist(methods[i])) { //If not exist then add
+            if (!timerCheckExist(methods[i])) { //If not exist then add
                 listAdapter.add(methodsIndicator[i]); //列表加入程序名
                 nonExistMethods.add(methods[i]);
 
             }
         }
-
 
 
         mainListView.setAdapter( listAdapter );
@@ -191,19 +169,16 @@ public class AppSelector extends Activity {
 
                 String packName = nonExistMethods.get(position);
 
-                GenerateMethod("timer", packName, mainListView.getItemAtPosition(position).toString());
+                generateMethod("timer", packName, mainListView.getItemAtPosition(position).toString());
 
 
             }
 
         });
-
-
     }
 
 
-
-    public boolean TimerCheckExist(String method){
+    public boolean timerCheckExist(String method){
         for(String name : lib.getGestureEntries()){
             NameFilter filter= new NameFilter(name);
             if(filter.getMethod().equals("timer")&&filter.getPackName().equals(method)){
@@ -213,8 +188,6 @@ public class AppSelector extends Activity {
         return false;
 
     }
-
-
 
 
 //    static final int REQUEST_SELECT_PHONE_NUMBER = 1;
@@ -243,55 +216,37 @@ public class AppSelector extends Activity {
 ////                String peoplename = cursor.getString
 //                // Do something with the phone number
 ////            ...
-//                GenerateMethod("call",number,"Call "+number );
+//                generateMethod("call",number,"Call "+number );
 //            }
 //        }
 //    }
 
 
-
-
-    public void GenerateMethod(String runType,String runMethod, String Label ){
+    public void generateMethod(String runType, String runMethod, String Label ){
         try {
 
 
-            MethodNameForReturn = Label + "##"+runType+"##"+ runMethod;  //eg: Shazam##wearapp##com.shazam.shazam
+            methodNameForReturn = Label + "##"+runType+"##"+ runMethod;  //eg: Shazam##wearapp##com.shazam.shazam
 
             Intent addgesture = new Intent(this,AddGesture.class);
-            addgesture.putExtra("method",MethodNameForReturn);
-            addgesture.putExtra("name",new NameFilter(MethodNameForReturn).GetfiltedName());
+            addgesture.putExtra("method", methodNameForReturn);
+            addgesture.putExtra("name",new NameFilter(methodNameForReturn).getFilteredName());
             startActivity(addgesture);
 
-
-//            String method = "Open " +  MethodNameForReturn;
+//            String method = "Open " +  methodNameForReturn;
 
 //            String[] spilt =method.split("##");
 
+            //TODO dialog_confirm.setActivity(methodNameForReturn);
 
-            //TODO dialog_confirm.setActivity(MethodNameForReturn);
-
-//            Toast.makeText(getApplicationContext(),MethodNameForReturn,Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(),methodNameForReturn,Toast.LENGTH_LONG).show();
 
 //            finish();
 
-
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Fail to run " + runMethod+ "\n Error message: " +e.toString(),Toast.LENGTH_LONG).show();
-//            Log.v(MainActivity.TAG,e+ ", Fail to run " + packageName);
+//            Log.v(MainActivity.tag,e+ ", Fail to run " + packageName);
         }
-
-
-
-
     }//启动指定的应用程序
-
-//
-
-
-
-
-
-
-
 }
 

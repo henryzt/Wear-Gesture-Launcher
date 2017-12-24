@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Wear Gesture</string>
+    <string name="app_name">Wear Gesture Launcher</string>
     <string name="title_activity_app_select">Select Action</string>
     <string name="choose_action_below">Choose an Action below</string>
     <string name="intro_text">Thank you for installing! \n\nLets get started by connecting to your wearable!</string>

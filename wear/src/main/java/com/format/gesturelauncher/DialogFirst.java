@@ -12,13 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import static com.format.gesturelauncher.MainActivity.wearconnect;
-import static com.format.gesturelauncher.WearConnectService.ShowQuickLauncher;
+import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
 
 public class DialogFirst extends Activity {
 
     Button button;
-    Button buttonskip;
+    Button buttonSkip;
     TextView text;
 
 
@@ -31,7 +30,7 @@ public class DialogFirst extends Activity {
 
 
         button=findViewById(R.id.buttonsure);
-        buttonskip=findViewById(R.id.buttonskip);
+        buttonSkip =findViewById(R.id.buttonskip);
         text=findViewById(R.id.textwelcome);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +83,7 @@ public class DialogFirst extends Activity {
 
 
 
-        buttonskip.setOnClickListener(new View.OnClickListener() {
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -104,11 +103,11 @@ public class DialogFirst extends Activity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putBoolean("show",false);
                     editor.apply();
-                    ShowQuickLauncher=false;
+                    showQuickLauncher =false;
 
                     button.setVisibility(View.GONE);
-                    buttonskip.setText("Got it");
-                    buttonskip.setTextColor(Color.WHITE);
+                    buttonSkip.setText("Got it");
+                    buttonSkip.setTextColor(Color.WHITE);
 
                     skipped=true;
 
