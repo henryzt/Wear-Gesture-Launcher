@@ -28,7 +28,7 @@ import static com.format.gesturelauncher.MobileConnectService.lib;
 
 public class dialog_confirm extends AppCompatActivity {
 
-//    GestureLibrary lib; //手势库
+//    GestureLibrary lib;
     static TextView nameEd;
 //    static NameFilter action;
     Button next;
@@ -132,7 +132,7 @@ public class dialog_confirm extends AppCompatActivity {
     public void collisionCheck(Gesture gesture){
         TextView text = (TextView) findViewById(R.id.textViewCollision);
 
-        ArrayList<Prediction> predictionArrayList = lib.recognize(gesture);  //手势识别到列表
+        ArrayList<Prediction> predictionArrayList = lib.recognize(gesture);  //gesture recognized
 
         double maxfound = 0.0;
         String maxName = "";
@@ -166,10 +166,6 @@ public class dialog_confirm extends AppCompatActivity {
     }
 
 
-//    public static void setActivity(String activity){
-//        action= new NameFilter(activity); //设置一个新的Namefilter（自建）
-//        nameEd.setText(action.GetfiltedName());
-//    }//用于外部访问，设置activity to use
 
 
 

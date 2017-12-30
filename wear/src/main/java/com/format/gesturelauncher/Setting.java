@@ -41,7 +41,7 @@ public class Setting extends Activity {
         String loca=sharedPref.getString("location","r");
         accuracy=sharedPref.getInt("accuracy",2);
         boolean smallQ=sharedPref.getBoolean("small",false);
-        boolean b_longpress = sharedPref.getBoolean("longPress",true);
+        boolean b_longpress = sharedPref.getBoolean("longpress",true);
         boolean b_wider = sharedPref.getBoolean("wider",false);
 
         //------------------------------------------------------change
@@ -190,7 +190,7 @@ public class Setting extends Activity {
         editor.putBoolean("show", showQuick.isChecked());
         editor.putBoolean("vibrate", vibrate.isChecked());
         editor.putBoolean("small", small.isChecked());
-        editor.putBoolean("longPress", longPress.isChecked());
+        editor.putBoolean("longpress", longPress.isChecked());
         editor.putBoolean("wider", wider.isChecked());
 
 
