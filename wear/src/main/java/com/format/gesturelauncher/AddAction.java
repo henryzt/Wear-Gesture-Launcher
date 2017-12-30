@@ -18,20 +18,7 @@ public class AddAction extends Activity {
 
 
 
-        //------------------EACH TIME after create a gesture, AddConfirm will call back to here to start the main screen
-//        if(getIntent().hasExtra("main")) {
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//
-////            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-////                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.putExtra("message", "Gesture saved");
-//            intent.putExtra("extra", "notini");
-//            startActivity(intent);
-//
-//
-//            finish();
-//        }
-        //------------------------------
+
 
         findViewById(R.id.buttonApp).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +96,6 @@ public class AddAction extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
-//        startActivity(new Intent(getApplicationContext(), MainActivity.class));
         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
         intent.putExtra("extra","notini");
         startActivity(intent);

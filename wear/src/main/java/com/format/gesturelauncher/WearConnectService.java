@@ -48,25 +48,24 @@ public class WearConnectService extends Service implements
     String mobile_received = "/receive";
 
 
-//    GestureLibrary libfromFile; //手势库
-    GestureLibrary libInitial; //初始手势库
+//    GestureLibrary libfromFile; //glib
+    GestureLibrary libInitial; //ini glib
 
 
-    public static GestureLibrary lib; //定义手势库
+    public static GestureLibrary lib; //glib
 
     static boolean alreadyCreated ;
 
 
     static final String TAG ="fzg";
     byte[] fileInBytes;
-    static String[] packNameList;//包名
-    static String[] appNameList;//包对应程序名
+    static String[] packNameList;//package name
+    static String[] appNameList;//package name corresponding app label
 
     static int WEAR_VERSION;
     static int MOBILE_VERSION;
 
 
-    static boolean compatibleMode=false;
 
 
     static boolean showQuickLauncher;
@@ -89,7 +88,7 @@ public class WearConnectService extends Service implements
         super.onCreate();
 
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)  //创建谷歌事件
+        mGoogleApiClient = new GoogleApiClient.Builder(this)  //Google api
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -113,7 +112,7 @@ public class WearConnectService extends Service implements
 
     //=====================================================================================================================================================================================
 
-    //---------------------------------------------------加载lib
+    //---------------------------------------------------load lib
     public void loadLibrary(){
         final File mStoreFile = new File(getFilesDir(), "gestureNew");
         lib= GestureLibraries.fromFile(mStoreFile);
@@ -131,7 +130,7 @@ public class WearConnectService extends Service implements
 
     }
 
-    //---------------------------------------------------加载preference
+    //---------------------------------------------------load preference
     public void loadPref() {
         SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
         showQuickLauncher = sharedPref.getBoolean("show", true);
@@ -146,13 +145,13 @@ public class WearConnectService extends Service implements
 
         connect.firstInitiate();
 
-        connect.sendDataMapToDataLayerForMobile("/receive");//发送给手机接收确认
+        connect.sendDataMapToDataLayerForMobile("/receive");//send confirm to mobile
 
     }
 
 
     public void firstInitiate(){
-        //-------------------------------------------手势
+        //-------------------------------------------gesture
 
         final File mStoreFile = new File(getFilesDir(), "gestureNew");
 
@@ -170,31 +169,31 @@ public class WearConnectService extends Service implements
         }
 
 
-        lib = GestureLibraries.fromFile(mStoreFile);//从文件导入手势
-//        if (!libfromFile.load()) {    //如果加载不成功（文件为空）
+        lib = GestureLibraries.fromFile(mStoreFile);//load gestures from file
 
-        libInitial= GestureLibraries.fromRawResource(this,R.raw.gestureini );//从raw文件导入预录的手势
 
-        if(!libInitial.load()){ //如果预录手势加载不成功
+        libInitial= GestureLibraries.fromRawResource(this,R.raw.gestureini );//load preloaded gestures from raw
+
+        if(!libInitial.load()){ //load preloaded gestures fail
             Toast.makeText(this,"Fatal error (Initial gesture not found). Please contact the developer.",Toast.LENGTH_LONG).show();
-//            finish();
+
         }
 
 
         //-------------------------------------------------------------------------------------------------------
-        Set<String> gestureNameSet = libInitial.getGestureEntries(); //获得所有手势的名称
-        for (String gestureName : gestureNameSet) { //每一个名称，做
+        Set<String> gestureNameSet = libInitial.getGestureEntries();
+        for (String gestureName : gestureNameSet) {
 
-            ArrayList<Gesture> gesturesList = libInitial.getGestures(gestureName);//获得这个名称里的手势（可能会有多个）
+            ArrayList<Gesture> gesturesList = libInitial.getGestures(gestureName);
 
             Log.d(TAG, gestureName);
 
-            NameFilter filter = new NameFilter(gestureName);//自己声明的，用于去掉##后的内容
+            NameFilter filter = new NameFilter(gestureName);
 
-            for (Gesture gesture : gesturesList) { //意义不明，可能有多个手势
+            for (Gesture gesture : gesturesList) {
 
                 if(packExists(filter.getPackName())){
-            //        lib.addGesture(gestureName,gesture); //加入lib
+
 
 
                     //TODO-------------------------------------to reload app name (based on the language), only apps are allowed
@@ -210,7 +209,7 @@ public class WearConnectService extends Service implements
                     //--------------------------
 
 
-                    lib.addGesture(finalName,gesture); //加入lib
+                    lib.addGesture(finalName,gesture); //add to lib
 //                    packNameWhichExists = packNameWhichExists + filter.getFilteredName() +", ";
                 }
 
@@ -218,7 +217,7 @@ public class WearConnectService extends Service implements
         }
 
 
-        if(lib.save()){  //当手势文件导入成功后（初始化完成），改变界面
+        if(lib.save()){
             msg("Gesture Library initiated!");
 
         }else{
@@ -226,7 +225,7 @@ public class WearConnectService extends Service implements
 //            finish();
         }
 
-        if(!lib.load()){   //再确定是否已经成功添加
+        if(!lib.load()){   //to make sure loaded again
             msg("No gestures found, failsafe gesture is added.");
             lib.addGesture("Test",libInitial.getGestures("WearTest##wearapp##com.format.weartest").get(0));
             lib.save();
@@ -250,7 +249,7 @@ public class WearConnectService extends Service implements
     }
 
 
-    //============================================================================================== RECEIVE 接收文件
+    //============================================================================================== RECEIVE from mobile
 
     public void byteToFile(){
         String strFilePath = getFilesDir()+"/gestureNew";
@@ -301,44 +300,24 @@ public class WearConnectService extends Service implements
                 DataItem item = event.getDataItem();
                 path =item.getUri().getPath();
 
-                if(path.equals("/gestures")) { //1.确保收到的是手机发送的数据，覆盖手表的lib
+                if(path.equals("/gestures")) { //1.make sure it is from mobile, to overwrote lib
                     // DataItem changed
 
 
                     DataMap map = putDataMapRequest.getDataMap();
 
 
-                    //----------------------------------------------------------------------------------------------------------------版本检查
+                    //----------------------------------------------------------------------------------------------------------------Version check
 
                     MOBILE_VERSION=map.getInt("version");
 
                     if(MOBILE_VERSION!=WEAR_VERSION-1000){ //如果版本不同则提醒更新
                         if(map.getInt("version")<1012){ //如果版本过小
-//                            final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                            builder.setTitle(R.string.app_name);
-//                            builder.setMessage("Warning: your mobile app is running an old version, which is trying to overwrote your gestures on the watch using the gestures in your phone.\nDo you wish to overwrote?");
-//
-//                            builder.setPositiveButton("Overwrote - use mobile's", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//
-//                                    dialog.cancel();
-//                                }
-//                            });
-//                            builder.setNegativeButton("Cancel - keep watch's", new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//
-//                                    dialog.cancel();
-//                                }
-//                            });
-//
-//                            builder.show();
+
                             Toast t = Toast.makeText(this,  "\n\n\nWarning: Gestures overwrote from phone, Mobile app version too old, please update the app on your phone.", Toast.LENGTH_LONG);
                             t.setGravity(Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL, 0, 0);
                             t.show();
 
-                                compatibleMode=true;
-
-//                            break;
                         }else {
                             Toast t = Toast.makeText(this, "\n\nWear gesture launcher\nMobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG);
                             t.setGravity(Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL, 0, 0);
@@ -346,7 +325,7 @@ public class WearConnectService extends Service implements
 
                         }
                     }else {
-                        compatibleMode=false;
+
                     }
                     //----------------------------------------------------------------------------------------------------------------
 
@@ -406,9 +385,9 @@ public class WearConnectService extends Service implements
 
 
 
-                    sendDataMapToDataLayerForMobile("/receive");//发送给手机接收确认
+                    sendDataMapToDataLayerForMobile("/receive");//send confirm to mobile
 
-                    //以下用于测试。可有可无
+                    //(for ref)
 //                    byte[] data = item.getData();
 //                    msg(data.toString());
 //                    msg(path);
@@ -419,11 +398,11 @@ public class WearConnectService extends Service implements
 
                     //---------------------------------------
 
-                }else if(path.equals("/initiate")){  //如果PATH等于启动
-                    sendDataMapToDataLayerForMobile("/receive");//发送给手机接收确认!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                }else if(path.equals("/initiate")){
+                    sendDataMapToDataLayerForMobile("/receive");//send confirm to mobile!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     msg("Connection Initiated!");
 
-                }else if(path.equals("/needupdate")) {  //如果PATH等于需要刷新则提供刷新的手势库
+                }else if(path.equals("/needupdate")) {
                     sendDataMapToDataLayerForMobile("/update");
 //                    msg("Library updated to mobile");
                 }

@@ -97,7 +97,7 @@ public class AddConfirmGesture extends WearableActivity {
     public void collisionCheck(Gesture gesture){
         TextView text = (TextView) findViewById(R.id.textCollision);
 
-        ArrayList<Prediction> predictionArrayList = lib.recognize(gesture);  //手势识别到列表
+        ArrayList<Prediction> predictionArrayList = lib.recognize(gesture);
 
         double maxfound = 0.0;
         String maxName = "";

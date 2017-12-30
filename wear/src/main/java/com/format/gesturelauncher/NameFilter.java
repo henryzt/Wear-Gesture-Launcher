@@ -1,8 +1,8 @@
 package com.format.gesturelauncher;
 
 /**
- * Created by 子恒 on 2017/10/10.
- * //自己声明的，用于去掉包名字##后的内容
+ * Created by Henry on 2017/10/10.
+ * //To delete and filter between ##
  * Copied from mobile
  */
 
@@ -28,7 +28,7 @@ public class NameFilter {
         }
     }
 
-    public String getFilteredName(){ return filteredName; } //过滤掉名字里多余的信息
+    public String getFilteredName(){ return filteredName; }
 
     public String getMethod(){
         return method;
@@ -40,7 +40,7 @@ public class NameFilter {
 
     public String getOriginalName(){
         return originalName;
-    } //返回原名称
+    }
 
     public String changeFilteredName(String newName){
         return newName+"##"+method+"##"+executionName;

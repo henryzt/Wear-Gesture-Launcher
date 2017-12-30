@@ -22,7 +22,7 @@ import static com.format.gesturelauncher.WearConnectService.packNameList;
 
 public class AppSelector extends Activity {
 
-    ArrayList<String> packageName = new ArrayList<String>(); //用于存放应用包名
+    ArrayList<String> packageName = new ArrayList<String>();
     String methodNameForReturn;
     ListView mainListView;
 
@@ -102,8 +102,8 @@ public class AppSelector extends Activity {
 //                e.printStackTrace();
 //            }
 
-            listAdapter.add(wearPacksAppName[i]); //列表加入程序名
-            packageName.add(wearPacks[i]); //包名加入当前包名
+            listAdapter.add(wearPacksAppName[i]);
+            packageName.add(wearPacks[i]);
         }
 //
 //        //----------------------------------------------------------------------
@@ -150,7 +150,7 @@ public class AppSelector extends Activity {
         for (int i=0;i < methods.length;  i++) {
 
             if (!timerCheckExist(methods[i])) { //If not exist then add
-                listAdapter.add(methodsIndicator[i]); //列表加入程序名
+                listAdapter.add(methodsIndicator[i]);
                 nonExistMethods.add(methods[i]);
 
             }
@@ -233,20 +233,11 @@ public class AppSelector extends Activity {
             addgesture.putExtra("name",new NameFilter(methodNameForReturn).getFilteredName());
             startActivity(addgesture);
 
-//            String method = "Open " +  methodNameForReturn;
-
-//            String[] spilt =method.split("##");
-
-            //TODO dialog_confirm.setActivity(methodNameForReturn);
-
-//            Toast.makeText(getApplicationContext(),methodNameForReturn,Toast.LENGTH_LONG).show();
-
-//            finish();
 
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Fail to run " + runMethod+ "\n Error message: " +e.toString(),Toast.LENGTH_LONG).show();
 //            Log.v(MainActivity.tag,e+ ", Fail to run " + packageName);
         }
-    }//启动指定的应用程序
+    }
 }
 

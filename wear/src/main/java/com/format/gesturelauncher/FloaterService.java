@@ -195,10 +195,7 @@ public class FloaterService extends Service {
 
 
 
-//        ImageView sideOpen = new ImageView(this);  //用程序建立一个图片框，用于点击打开
-//        sideOpen.setLayoutParams( new FrameLayout.LayoutParams(30,FrameLayout.LayoutParams.MATCH_PARENT));
-//        sideOpen.setBackgroundColor(Color.BLUE);
-//        frameLayout.addView(sideOpen);
+
 
         try {
 

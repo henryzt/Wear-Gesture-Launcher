@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.google.android.wearable.intent.RemoteIntent;
 
 import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
-import static com.format.gesturelauncher.WearConnectService.compatibleMode;
+
 
 
 public class MainActivity extends Activity {
@@ -246,9 +246,7 @@ public class MainActivity extends Activity {
 
         }
 
-        if(compatibleMode){
-            warningDialog();
-        }
+
 
 
         if(apiCompatibleMode){
@@ -293,7 +291,7 @@ public class MainActivity extends Activity {
                     apiCompatibleMode =true;
 
                 }
-//            Toast.makeText(getApplicationContext(),"You are using Android wear 1.5 or lower, which currently isn't fully supported to show the edge quick launcher.",Toast.LENGTH_LONG).show();
+
             }//else {
                 Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
                 startActivity(intent);
@@ -354,22 +352,7 @@ public class MainActivity extends Activity {
 
 
 
-    public void warningDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.app_name);
-        builder.setMessage("All gesture library changes on your watch might be lost when you sync from phone. This is because your mobile app is running an old version, it might because you just updated the wearable app. Normally you only need to wait for the auto-update on your phone. Please make sure you are using the same version to ensure sync running properly.")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        if (!MainActivity.this.isFinishing()){
-            alert.show();
-        }
 
-    }//Version Warning
 
 
 

@@ -357,21 +357,7 @@ public class GesturePerformActivity extends Activity {
 
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event)
-//    {
-//        if(keyCode == KeyEvent.KEYCODE_BACK)
-//        {
-//            msg("back");
-//            Log.d("Test", "Back button pressed!");
-//        }
-//        else if(keyCode == KeyEvent.KEYCODE_HOME)
-//        {
-//            msg("home");
-//            Log.d("Test", "Home button pressed!");
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+
 //----------------------------------------------------------------------------------------------------------------
 
     public void msg(String message) {

@@ -40,7 +40,7 @@ public class AddGesture extends WearableActivity {
         indicator.setText("Draw to set the pattern of action '"+ filteredName +"'");
 
 
-        //=---------------------------------------------手势
+        //=---------------------------------------------Gesture
         GestureOverlayView gesturer = (GestureOverlayView) findViewById(R.id.gestureDraw);
 
         gesturer.cancelClearAnimation();
@@ -53,7 +53,7 @@ public class AddGesture extends WearableActivity {
             }
         });
 
-        //---------------------------------------------按钮
+        //---------------------------------------------Buttons
         findViewById(R.id.buttonBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

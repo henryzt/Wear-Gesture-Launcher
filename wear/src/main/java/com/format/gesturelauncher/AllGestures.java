@@ -27,9 +27,9 @@ public class AllGestures extends WearableActivity {
 
 
     private BoxInsetLayout mContainerView;
-    ArrayList<String> titles = new ArrayList<String>(); //用于列表,原标题
-    ArrayList<String> shortenTitles = new ArrayList<String>(); //用于列表,用于显示的
-    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //用于列表
+    ArrayList<String> titles = new ArrayList<String>(); //for listview,original title
+    ArrayList<String> shortenTitles = new ArrayList<String>(); //for listview,shorten title
+    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //for listview
 
     Boolean openMain=false;
 
@@ -59,26 +59,14 @@ public class AllGestures extends WearableActivity {
 
     public void refreshList() {
 
-        //-------------------------------------------手势
 
-//        final File mStoreFile = new File(getFilesDir(), "gesturesNew");
-//
-//        lib = GestureLibraries.fromFile(mStoreFile);//导入手势
-//
-//        //        lib= GestureLibraries.fromRawResource(this,R.raw.gesturesm);//导入手势
-//        if (!lib.load()) {          //必须要这个
-////            MsgT("Warning: Library unload, initiating first time welcome screen");
-//            startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
-////            finish();
-//
-//        }
         titles.clear();
         bitmaps.clear();
         shortenTitles.clear();
-        //----------------------------------------------------------------------------手势
+        //----------------------------------------------------------------------------gesture
 
 
-        Set<String> gestureNameSet = lib.getGestureEntries(); //获得所有手势的名称(lib是在wearConnectService里的）
+        Set<String> gestureNameSet = lib.getGestureEntries(); //get all gesture's orig name(lib is in wearConnectService）
 
         if(gestureNameSet.size()<=0){
 
@@ -89,19 +77,19 @@ public class AllGestures extends WearableActivity {
         }
 
 
-        for (String gestureName : gestureNameSet) { //每一个名称，做
+        for (String gestureName : gestureNameSet) { //for each name
 
-            ArrayList<Gesture> gesturesList = lib.getGestures(gestureName);//获得这个名称里的手势（可能会有多个）
+            ArrayList<Gesture> gesturesList = lib.getGestures(gestureName);//for each gesture in each name
 
 //            Log.d(tag, gestureName);
 
-            NameFilter filter = new NameFilter(gestureName);//自己声明的，用于去掉##后的内容
+            NameFilter filter = new NameFilter(gestureName);//NameFilter
 
 
             for (Gesture gesture : gesturesList) {
                 titles.add(gestureName);
-                bitmaps.add(gesture.toBitmap(125, 125, 30, Color.YELLOW));//生成bitmap并添加到列表
-                shortenTitles.add(filter.getFilteredName());//用于去掉##后的内容
+                bitmaps.add(gesture.toBitmap(125, 125, 30, Color.YELLOW));//generate bitmap and add to listView
+                shortenTitles.add(filter.getFilteredName());
 
 //                        setImageBitmap(gesture.toBitmap(100,100,10,defColor));
             }
@@ -110,15 +98,15 @@ public class AllGestures extends WearableActivity {
         //--------------------------------------------------------------------------Grid View
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        final ImageAdapter adapter = new ImageAdapter(getApplicationContext(), shortenTitles, bitmaps); //建立继承，adaper，放入bitmap和标题
-        listview.setAdapter(adapter);//采用adaper
+        final ImageAdapter adapter = new ImageAdapter(getApplicationContext(), shortenTitles, bitmaps); //adaper，put bitmap&title in
+        listview.setAdapter(adapter);//use adaper
 
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) { //当点击项目
-//
-//                delete(position);
-//            }
-//        });
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {//when click
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                delete(position);
+            }
+        });
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -128,9 +116,9 @@ public class AllGestures extends WearableActivity {
             }
         });
 
-//        Sync();//尝试同步
 
-    } //刷新listView,采用adapter以展示图片和文本,this code is copy from mobile
+
+    } //this code is copy from mobile
 
     public void delete( final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -170,7 +158,7 @@ public class AllGestures extends WearableActivity {
 
 //        Sync();
 
-    }  //------------------------------------删除项目，需要添加确认
+    }
 
     @Override
     protected void onPause() {
