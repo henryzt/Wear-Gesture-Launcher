@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
 import android.support.wearable.view.ConfirmationOverlay;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -137,15 +139,32 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                Intent intentAndroid =
-                        new Intent(Intent.ACTION_VIEW)
-                                .addCategory(Intent.CATEGORY_BROWSABLE)
-                                .setData(getPackageManager().getLaunchIntentForPackage("com.android.browser").getData());
+//                Intent intentAndroid =
+//                        new Intent(Intent.ACTION_VIEW)
+//                                .addCategory(Intent.CATEGORY_BROWSABLE)
+//                                .setData(getPackageManager().getLaunchIntentForPackage("com.android.browser").getData());
+//
+//                RemoteIntent.startRemoteActivity(
+//                        getApplicationContext(),
+//                        intentAndroid,
+//                        mResultReceiver);
 
-                RemoteIntent.startRemoteActivity(
-                        getApplicationContext(),
-                        intentAndroid,
-                        mResultReceiver);
+                //-----------------------------------------
+
+
+
+//                Uri uri = Uri.parse("smsto:123456789");
+//                Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+//                it.putExtra("sms_body", "The SMS text");
+//                startActivity(it);
+
+
+                //-----------------------------------------
+//                SmsManager smsManager = SmsManager.getDefault();
+//                smsManager.sendTextMessage("PhoneNumber-example:+989147375410", null, "SMS Message Body", null, null);
+
+
+
             }
         });
 
