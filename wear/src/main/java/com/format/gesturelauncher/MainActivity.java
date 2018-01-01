@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
         }
 
 //----------------------check whether enter gesture perform directly or not
-        SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
+        final SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
         show = sharedPref.getBoolean("show", true);
 
         if(!show && doInitiate){
@@ -159,10 +159,15 @@ public class MainActivity extends Activity {
 //                startActivity(it);
 
 
-                //-----------------------------------------
+                //-----------------------------------------TODO SMS doesn't work
 //                SmsManager smsManager = SmsManager.getDefault();
 //                smsManager.sendTextMessage("PhoneNumber-example:+989147375410", null, "SMS Message Body", null, null);
 
+
+                //---------------------------------------------
+                Intent intent = new Intent(getApplicationContext(),AppSelector.class);
+                intent.putExtra("method","test");
+                startActivity(intent);
 
 
             }
@@ -214,6 +219,23 @@ public class MainActivity extends Activity {
             });
         }
 
+
+        //-------------------------------------Check oreo
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && show){
+            if(!sharedPref.getBoolean("oreoWarned", false)){
+                findViewById(R.id.oreoWarn).setVisibility(View.VISIBLE);
+            }
+        }
+
+        findViewById(R.id.buttonOreo).setOnClickListener(new View.OnClickListener() { //按钮事件
+            @Override
+            public void onClick(View view) {
+                sharedPref.edit().putBoolean("oreoWarned", true).apply();
+                findViewById(R.id.oreoWarn).setVisibility(View.GONE);
+
+            }
+        });
 
     }
 

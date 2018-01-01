@@ -218,7 +218,7 @@ public class WearConnectService extends Service implements
 
 
         if(lib.save()){
-            msg("Gesture Library initiated!");
+//            msg("Gesture Library initiated!");
 
         }else{
             msg("Error: fail to save gesture library");

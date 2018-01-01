@@ -122,7 +122,7 @@ public class AllGestures extends WearableActivity {
 
     public void delete( final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete gesture");
+//        builder.setTitle("Delete gesture");
         builder.setMessage("Do you want to delete Gesture '" + shortenTitles.get(position)+"' ?");
 
 

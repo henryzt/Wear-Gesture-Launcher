@@ -40,5 +40,8 @@
     <string name="settings_restore_to_default">Zur��ck zu Werkeinstellungen</string>
     <string name="settings_clear_gestures">Klare Gesten</string>
     <string name="settings_reload_gestures">Gesten neu laden</string>
+    <string name="manage_gestures">Manage gestures</string>
+    <string name="main_oreo_content">Having a notification about overlay floater? You can long press on the notification and turn it off!</string>
+    <string name="main_overlay_notif_title">Overlay Notification</string>
 
 </resources>

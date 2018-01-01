@@ -39,5 +39,9 @@
     <string name="settings_restore_to_default">Restore to default</string>
     <string name="settings_clear_gestures">Clear gestures</string>
     <string name="settings_reload_gestures">Reload gestures</string>
+    <string name="manage_gestures">Manage gestures</string>
+
+    <string name="main_oreo_content">Having a notification about overlay floater? You can long press on the notification and turn it off!</string>
+    <string name="main_overlay_notif_title">Overlay Notification</string>
 
 </resources>

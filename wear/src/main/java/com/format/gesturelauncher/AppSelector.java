@@ -2,6 +2,7 @@ package com.format.gesturelauncher;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.format.gesturelauncher.WearConnectService.appNameList;
 import static com.format.gesturelauncher.WearConnectService.lib;
@@ -48,6 +50,9 @@ public class AppSelector extends Activity {
                     case "call":
 //                        selectContact();
 //                         finish();
+                        break;
+                    case "test":
+                        loadTest();
                         break;
 
                 }
@@ -220,6 +225,60 @@ public class AppSelector extends Activity {
 //            }
 //        }
 //    }
+
+
+
+
+
+
+
+
+
+
+
+    public void loadTest(){
+        Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
+        List<ResolveInfo> shortcuts = getPackageManager().queryIntentActivities(shortcutsIntent, 0);
+
+
+
+        ArrayList<String> listItems=new ArrayList<String>();
+        ArrayAdapter<String> listAdapter;
+        // Create ArrayAdapter
+        listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
+
+        //----------------------------------------------------------------------
+
+
+        for (int i=0;i < shortcuts.size();  i++) {
+
+            listAdapter.add(shortcuts.get(i).resolvePackageName);
+            packageName.add(shortcuts.get(i).resolvePackageName);
+        }
+
+
+       //----------------------------------------------------------------------
+
+        mainListView.setAdapter( listAdapter );
+
+        //------------------------------------------Listener
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+//               String packName = mainListView.getItemAtPosition(position).toString();//Get the item user clicked
+                String packName = packageName.get(position);
+
+                generateMethod("wearapp",packName,mainListView.getItemAtPosition(position).toString());
+            }
+
+        });
+
+    }
+
+
 
 
     public void generateMethod(String runType, String runMethod, String Label ){
