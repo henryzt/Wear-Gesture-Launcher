@@ -28,7 +28,14 @@ public class NameFilter {
         }
     }
 
-    public String getFilteredName(){ return filteredName; }
+    public String getFilteredName(){
+        if(method.equals("mapp")){
+            String mobilePhonePrefix="\uD83D\uDCF1";
+            return mobilePhonePrefix+filteredName;
+        }
+
+        return filteredName;
+    }
 
     public String getMethod(){
         return method;

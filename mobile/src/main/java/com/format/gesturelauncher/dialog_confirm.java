@@ -2,12 +2,8 @@ package com.format.gesturelauncher;
 
 import android.content.Intent;
 import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
 import android.gesture.Prediction;
 import android.os.CountDownTimer;
-import android.provider.AlarmClock;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.main;
@@ -152,7 +147,7 @@ public class dialog_confirm extends AppCompatActivity {
 
         if(maxfound > 2.0){
 
-            String gesturename=new NameFilter(maxName).GetfiltedName();
+            String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/4)*100);
 
             text.setText("Possible gesture collision:\n"+ gesturename +" - Similarity "+smilarity +"%");

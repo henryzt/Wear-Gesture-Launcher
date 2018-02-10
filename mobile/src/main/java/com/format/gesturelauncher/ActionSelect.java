@@ -43,12 +43,12 @@ public class ActionSelect extends AppCompatActivity {
         findViewById(R.id.buttonAppMobile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                openAppSelect("mobile");
-                Intent localIntent2 = new Intent("android.intent.action.PICK_ACTIVITY");
-                Intent localIntent3 = new Intent("android.intent.action.MAIN",null);
-                localIntent3.addCategory("android.intent.category.LAUNCHER");
-                localIntent2.putExtra("android.intent.extra.INTENT",localIntent3);
-                startActivityForResult(localIntent2, 2);
+                openAppSelect("mobile");
+//                Intent localIntent2 = new Intent("android.intent.action.PICK_ACTIVITY");
+//                Intent localIntent3 = new Intent("android.intent.action.MAIN",null);
+//                localIntent3.addCategory("android.intent.category.LAUNCHER");
+//                localIntent2.putExtra("android.intent.extra.INTENT",localIntent3);
+//                startActivityForResult(localIntent2, 2);
             }
         });
 

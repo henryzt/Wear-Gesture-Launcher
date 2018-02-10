@@ -165,8 +165,9 @@ public class MainActivity extends Activity {
 
 
                 //---------------------------------------------
-                Intent intent = new Intent(getApplicationContext(),AppSelector.class);
-                intent.putExtra("method","test");
+                Intent intent = new Intent(getApplicationContext(),AddGesture.class);
+                intent.putExtra("method","Spotify phone##mapp##com.spotify.music");
+                intent.putExtra("name","Spotify on phone");
                 startActivity(intent);
 
 

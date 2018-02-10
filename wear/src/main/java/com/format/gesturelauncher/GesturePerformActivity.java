@@ -20,6 +20,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
+import static com.format.gesturelauncher.MainActivity.wearConnect;
+import static com.format.gesturelauncher.WearConnectService.sendMobile;
+import static com.format.gesturelauncher.WearConnectService.sendMobileAction;
 import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
 import static com.format.gesturelauncher.WearConnectService.accuracy;
 import static com.format.gesturelauncher.WearConnectService.lib;
@@ -256,6 +259,12 @@ public class GesturePerformActivity extends Activity {
                     hintText.setText(name.getFilteredName());
                     break;
 
+
+                case "mapp":
+                    hintText.setText("Openning "+name.getFilteredName()+" on your phone...");
+                    mobileOpen(name.getOriginalName());
+                    break;
+
             }
 
         }catch (Exception e){
@@ -304,6 +313,9 @@ public class GesturePerformActivity extends Activity {
     }
 
 
+    public void mobileOpen(String action){
+        sendMobileAction(wearConnect,action);
+    }
 
 
     //==============================================================================================

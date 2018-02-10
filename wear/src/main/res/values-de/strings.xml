@@ -43,5 +43,6 @@
     <string name="manage_gestures">Manage gestures</string>
     <string name="main_oreo_content">Having a notification about overlay floater? You can long press on the notification and turn it off!</string>
     <string name="main_overlay_notif_title">Overlay Notification</string>
+    <string name="add_indicator_drawtoset">Draw to set the pattern of action \'%s\'</string>
 
 </resources>

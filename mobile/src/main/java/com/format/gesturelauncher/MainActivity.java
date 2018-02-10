@@ -6,14 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,28 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataItem;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 import static com.format.gesturelauncher.MobileConnectService.MOBILE_VERSION;
 import static com.format.gesturelauncher.MobileConnectService.Sync;
@@ -449,7 +425,7 @@ public class MainActivity extends AppCompatActivity{
             for (Gesture gesture : gesturesList) {
                 titles.add(gestureName);
                 bitmaps.add(gesture.toBitmap(125, 125, 30, defColor));//generate bitmap and add to the list
-                shortentitles.add(filter.GetfiltedName());//To delete things after ##
+                shortentitles.add(filter.getFilteredName());//To delete things after ##
 
 //                        setImageBitmap(gesture.toBitmap(100,100,10,defColor));
             }
@@ -585,21 +561,7 @@ public class MainActivity extends AppCompatActivity{
         alert.show();
     }
 
-
-    public static void warningdialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(main);
-        builder.setTitle("Warning");
-        builder.setMessage("Your wearable app is running an old version, this might because you just updated the mobile app. Normally you only need to wait for the auto-update on your watch. Please make sure you are using the same version to ensure sync running properly.")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }//Version Warning
-
+    
 
     public static void versionNote(){
 
@@ -610,8 +572,8 @@ public class MainActivity extends AppCompatActivity{
         }else {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(main);
-            builder.setTitle("Update warning");
-            builder.setMessage("Mobile app " + (MOBILE_VERSION -1000)+ "\nWear app " + (WEAR_VERSION -2000)+ "\nVersion not consistent, please wait for play store auto-update or update manually to make sure sync running properly.\n\nIf you are having trouble updating wearable app, please use the backup feature before and after reinstalling the new version to save your gestures. Please contact me if you have any problem.");
+            builder.setTitle(R.string.main_update_warning_title);
+            builder.setMessage(String.format("Mobile app %d\nWear app %d\nVersion not consistent, please wait for play store auto-update or update manually to make sure sync running properly.", MOBILE_VERSION - 1000, WEAR_VERSION - 2000));
             builder.setCancelable(true);
 
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

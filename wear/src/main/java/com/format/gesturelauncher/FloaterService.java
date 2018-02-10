@@ -1,7 +1,10 @@
 package com.format.gesturelauncher;
 
+import android.app.ActivityManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +22,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
 
@@ -230,6 +235,10 @@ public class FloaterService extends Service {
 //                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 //
 //                }
+
+
+                    //TODO put a layer detection here to detect current running activity
+
 
                     Intent intent = new Intent(context, GesturePerformActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//TODO Clear top so won't wake any previously launched activities up |Intent.FLAG_ACTIVITY_CLEAR_TASK

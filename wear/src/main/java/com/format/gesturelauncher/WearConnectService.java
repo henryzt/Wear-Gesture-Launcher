@@ -34,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -65,6 +66,8 @@ public class WearConnectService extends Service implements
     static int WEAR_VERSION;
     static int MOBILE_VERSION;
 
+
+    public static String locationAction = "/action";
 
 
 
@@ -424,6 +427,11 @@ public class WearConnectService extends Service implements
     //==============================================================================================
 
 
+    public static void sendMobileAction(WearConnectService connect,String action){
+//        connect.sendDataMapToDataLayerForMobile(locationAction);
+        connect.sendMobileActionDatamap(action);
+    }
+
 
     public static void  sendMobile(WearConnectService connect){
 
@@ -439,6 +447,8 @@ public class WearConnectService extends Service implements
         //---------------------------------------------------------------------取程序列表
         final PackageManager pm = getPackageManager(); //packge manager
         final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA); // get list of installed program package
+        Collections.sort(packages, new ApplicationInfo.DisplayNameComparator(pm));//sort alphabetically
+
         for (ApplicationInfo packageInfo : packages) {
 
             if(checkForLaunchIntent(packageInfo)==true && checkForAlreadyExist(packageInfo)==false) { //如果这个包是可以运行的且不存在相应手势
@@ -510,7 +520,16 @@ public class WearConnectService extends Service implements
     }   //将要update的文件转化成byte以发送到手机
 
 
-    private DataMap createDatamap(){
+
+    public void sendDataMapToDataLayerForMobile(String location){
+        mobile_received = location;
+        if(mGoogleApiClient.isConnected()){
+            DataMap dataMap = createSyncDatamap();
+            new SendDataMapToDataLayer(mobile_received,dataMap).start();
+        }
+    } //发送
+
+    private DataMap createSyncDatamap(){
         DataMap dataMap = new DataMap();
         dataMap.putString("Received!","From wear");
         dataMap.putString("Time", Long.toString(System.currentTimeMillis()) );
@@ -539,13 +558,18 @@ public class WearConnectService extends Service implements
         return dataMap;
     } //建立数据包准备发送
 
-    public void sendDataMapToDataLayerForMobile(String location){
-        mobile_received = location;
+    private void sendMobileActionDatamap(String action){
+        DataMap dataMap = new DataMap();
+        dataMap.putString("action",action);
+        dataMap.putString("Time", Long.toString(System.currentTimeMillis()) );
+
+        Toast.makeText(getApplicationContext(), "Sent", Toast.LENGTH_SHORT).show();
+        mobile_received = locationAction;
         if(mGoogleApiClient.isConnected()){
-            DataMap dataMap = createDatamap();
             new SendDataMapToDataLayer(mobile_received,dataMap).start();
         }
-    } //发送
+    }//datamap for mobile action
+
 
 
 

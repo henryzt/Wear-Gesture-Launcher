@@ -37,7 +37,7 @@ public class AddGesture extends WearableActivity {
         filteredName =getIntent().getStringExtra("name");
 
         indicator=(TextView) findViewById(R.id.textDraw);
-        indicator.setText("Draw to set the pattern of action '"+ filteredName +"'");
+        indicator.setText(String.format(getString(R.string.add_indicator_drawtoset), filteredName));
 
 
         //=---------------------------------------------Gesture

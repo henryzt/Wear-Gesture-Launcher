@@ -1,30 +1,25 @@
 package com.format.gesturelauncher;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageItemInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.gesture.Gesture;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import static android.provider.ContactsContract.Directory.DISPLAY_NAME;
 import static com.format.gesturelauncher.MobileConnectService.lib;
 import static com.format.gesturelauncher.MobileConnectService.wearAppList;
 import static com.format.gesturelauncher.MobileConnectService.wearPackList;
@@ -87,10 +82,10 @@ public class AppSelect extends AppCompatActivity {
 
     public void LoadMobileApps(Context context){
 
-        Toast.makeText(getApplicationContext(),"This section is under development, stay tuned!",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),"This section is under development, stay tuned!",Toast.LENGTH_SHORT).show();
 
         ArrayList<String> listItems=new ArrayList<String>();
-        ArrayAdapter<String>  listAdapter;
+        final ArrayAdapter<String>  listAdapter;
 
 
         // Create ArrayAdapter
@@ -100,6 +95,10 @@ public class AppSelect extends AppCompatActivity {
         //---------------------------------------------------------------------get application list
         final PackageManager pm = getPackageManager(); //packge manager
         final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA); // get list of installed program package
+
+        Collections.sort(packages, new ApplicationInfo.DisplayNameComparator(pm));//sort alphabetically
+
+
         for (ApplicationInfo packageInfo : packages) {
 
             if(checkForLaunchIntent(packageInfo)==true && checkAlreadyExist(packageInfo)==false){ //if this package is runnable
@@ -125,9 +124,9 @@ public class AppSelect extends AppCompatActivity {
 
                 String packName = packagename.get(position);
 
-                Toast.makeText(getApplicationContext(),"This section is under development, currently is not available to add. Stay tuned!",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"This section is under development, currently is not available to add. Stay tuned!",Toast.LENGTH_SHORT).show();
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//                GenerateMethod("mobileapp",packName,position);
+                GenerateMethod("mapp",packName,listAdapter.getItem(position));
             }
 
         });
@@ -154,7 +153,7 @@ public class AppSelect extends AppCompatActivity {
 
           for(String methodName : lib.getGestureEntries()){
               NameFilter filter =new NameFilter(methodName);
-              if(filter.getMethod().equals("mobileapp") && filter.getPackName().equals(info.packageName)){
+              if(filter.getMethod().equals("mapp") && filter.getPackName().equals(info.packageName)){
                   return true;
               }
           }
@@ -300,7 +299,7 @@ public void GenerateMethod(String runType,String runMethod, String Label ){
 
         Intent addgesture = new Intent(this,GestureActivity.class);
         addgesture.putExtra("method",MethodNameForReturn);
-        addgesture.putExtra("name",new NameFilter(MethodNameForReturn).GetfiltedName());
+        addgesture.putExtra("name",new NameFilter(MethodNameForReturn).getFilteredName());
         startActivity(addgesture);
         finish();
 

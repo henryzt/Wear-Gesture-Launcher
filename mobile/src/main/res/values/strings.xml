@@ -28,7 +28,7 @@
     <string name="dialog_title_delete">Delete gesture</string>
     <string name="dialog_delete_msg">Do you want to delete Gesture \'</string>
     <string name="main_howto">How to?</string>
-    <string name="main_howto_msg">To add a gesture, tap the add button  To delete a gesture, tap on it  To find out more and help, tap the three dot menu at the top right corner</string>
+    <string name="main_howto_msg">To add a gesture, tap the add button  \nTo delete a gesture, tap on it  \nTo find out more and help, tap the three dot menu at the top right corner</string>
     <string name="main_faildelete">Fail to delete, wearable no respond</string>
     <string name="action_launch_wearable_app">Launch Wearable App</string>
     <string name="action_timer_actions">Timer Actions</string>
@@ -37,4 +37,5 @@
     <string name="cancel">Cancel</string>
     <string name="choose_an_action">Choose an action that you would like to create gesture with</string>
     <string name="delete">Delete</string>
+    <string name="main_update_warning_title">Update warning</string>
 </resources>

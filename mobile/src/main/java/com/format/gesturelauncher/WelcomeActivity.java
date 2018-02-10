@@ -216,7 +216,7 @@ public class WelcomeActivity extends AppCompatActivity {
 //
 //                    if(packExists(filter.getPackName())){
 //                        libfromFile.addGesture(gestureName,gesture); //加入lib
-//                        packNameWhichExists = packNameWhichExists + filter.GetfiltedName() +", ";
+//                        packNameWhichExists = packNameWhichExists + filter.getFilteredName() +", ";
 //                    }
 //
 //                }

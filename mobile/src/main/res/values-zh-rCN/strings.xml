@@ -18,7 +18,7 @@
     <string name="settings_sync">同步</string>
     <string name="settings_settings">設置</string>
     <string name="help">幫助</string>
-    <string name="backup_and_restore"></string>
+    <string name="backup_and_restore">备份与还原</string>
     <string name="rate_the_app">評價這個應用</string>
     <string name="about">關於</string>
     <string name="main_rate_message">這個應用完全免費，如果您可以在 Google Play Store 留下您的評價，將會對我們幫助甚多！</string>
@@ -38,4 +38,5 @@
     <string name="cancel">取消</string>
     <string name="choose_an_action">選擇一個與該手勢相關的操作以繼續</string>
     <string name="delete">刪除</string>
+    <string name="main_update_warning_title">Update warning</string>
 </resources>
