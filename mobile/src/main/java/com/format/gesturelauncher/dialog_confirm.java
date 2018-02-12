@@ -74,7 +74,7 @@ public class dialog_confirm extends AppCompatActivity {
                  mTracker = application.getDefaultTracker();
 
                 if(MethodNameForReturn != null){
-                    Toast.makeText(getApplicationContext(),"Saving...",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.gesture_saving,Toast.LENGTH_SHORT).show();
                     next.setEnabled(false);
                     Sync(mobileconnect,false);
 
@@ -92,7 +92,7 @@ public class dialog_confirm extends AppCompatActivity {
                                 //-----------------------
 
 
-                                Toast.makeText(getApplicationContext(),"Saved!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), R.string.gesture_saved,Toast.LENGTH_SHORT).show();
                                 lib.addGesture(MethodNameForReturn,gesture);
                                 lib.save();
                                 Sync(mobileconnect,true);
@@ -114,7 +114,7 @@ public class dialog_confirm extends AppCompatActivity {
                                     .setLabel(MethodNameForReturn)
                                     .build());
 
-                            Toast.makeText(getApplicationContext(),"Gesture didn't save, wearable sync failed, please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.confirm_gesture_save_fail,Toast.LENGTH_SHORT).show();
                             next.setEnabled(true);
 
                         }
@@ -125,7 +125,7 @@ public class dialog_confirm extends AppCompatActivity {
 
 
                 }else {
-                    Toast.makeText(getApplicationContext(),"You must choose an action",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.confirm_must_choose,Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -176,11 +176,11 @@ public class dialog_confirm extends AppCompatActivity {
             String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/4)*100);
 
-            text.setText("Possible gesture collision:\n"+ gesturename +" - Similarity "+smilarity +"%");
+            text.setText(String.format(getString(R.string.confirm_collision_similar), gesturename, smilarity));
 
 
         }else {
-            text.setText("Possible gesture collision:\nGreat! No similar gestures found");
+            text.setText(R.string.confirm_collision_clear);
 
 
         }

@@ -26,11 +26,11 @@
 
         <activity
             android:name=".GestureActivity"
-            android:label="Create a Gesture"
+            android:label="@string/title_create_gesture"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".dialog_confirm"
-            android:label="Confirm"
+            android:label="@string/title_confirm_gesture"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" /> <!-- 使其变成对话框 -->
 
         <activity
@@ -60,11 +60,12 @@
         <activity android:name=".WelcomeActivity" />
         <activity
             android:name=".HelpActivity"
-            android:label="Wear Gesture Launcher"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:label="@string/title_help"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActionSelect"
-            android:label="Choose an Action"
+            android:label="@string/title_choose_action"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
             android:name=".Settings"
@@ -72,7 +73,7 @@
             android:theme="@style/AppTheme" />
 
         <activity android:name=".BackUp"
-            android:label="Backup &amp; Restore"
+            android:label="@string/backup_and_restore"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
     </application>
 

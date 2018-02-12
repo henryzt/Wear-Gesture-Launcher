@@ -351,7 +351,7 @@ public class WearConnectService extends Service implements
                             t.show();
 
                         }else {
-                            Toast t = Toast.makeText(this, "\n\nWear gesture launcher\nMobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG);
+                            Toast t = Toast.makeText(this, String.format(getString(R.string.version_warn), MOBILE_VERSION, WEAR_VERSION), Toast.LENGTH_LONG);
                             t.setGravity(Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL, 0, 0);
                             t.show();
 
@@ -366,7 +366,7 @@ public class WearConnectService extends Service implements
                         fileInBytes = map.getByteArray("File"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         byteToFile();//保存
                         loadLibrary();
-                        msg("Gesture Library Synced!");
+                        msg(getString(R.string.lib_synced));
                     }
 
 
@@ -432,7 +432,7 @@ public class WearConnectService extends Service implements
 
                 }else if(path.equals("/initiate")){
                     sendDataMapToDataLayerForMobile("/receive");//send confirm to mobile!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    msg("Connection Initiated!");
+                    msg(getString(R.string.connection_ini));
 
                 }else if(path.equals("/needupdate")) {
                     sendDataMapToDataLayerForMobile("/update");
@@ -475,7 +475,7 @@ public class WearConnectService extends Service implements
 
                             if (!sendMessageResult.getStatus().isSuccess()) {
                                 Log.e("TAG", "Failed to send message with status code: " + sendMessageResult.getStatus().getStatusCode());
-                                msg("Failed to send action: " + sendMessageResult.getStatus().getStatusMessage());
+                                msg(getString(R.string.connect_fail_code) + sendMessageResult.getStatus().getStatusMessage());
                                 sendMobileActionDatamap(action);
 
 
@@ -484,7 +484,7 @@ public class WearConnectService extends Service implements
 
                             }else {
                                 sendMobileActionDatamap(action);
-                                msg("Action Sent!");
+                                msg(getString(R.string.connect_action_sent));
 
                                 //Analytics
                                 mTracker.send(new HitBuilders.EventBuilder().setCategory("MobileConnection").setAction("actionSent").setLabel( action).build());
@@ -493,7 +493,7 @@ public class WearConnectService extends Service implements
                     }
             );
         }else{
-            msg("Connection failed");
+            msg(getString(R.string.connect_connection_failed));
 
             sendMobileActionDatamap(action);
 

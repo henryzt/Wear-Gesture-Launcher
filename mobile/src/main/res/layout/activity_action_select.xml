@@ -111,7 +111,7 @@
             android:drawableLeft="@drawable/ic_flash_on_white_24dp"
             android:elevation="0dp"
             android:enabled="true"
-            android:text="Tasker"
+            android:text="@string/action_tasker"
             android:textColor="@color/cast_expanded_controller_text_color"
             android:theme="@style/PrimaryButtonTasker"
             android:visibility="visible" />

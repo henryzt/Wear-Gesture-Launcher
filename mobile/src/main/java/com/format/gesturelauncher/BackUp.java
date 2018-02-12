@@ -57,17 +57,17 @@ public class BackUp extends AppCompatActivity {
             public void onClick(View view) {
                 if(sharedPref.contains("lastdate")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(BackUp.this);
-                    builder.setTitle("Backup");
-                    builder.setMessage("You are going to overwrite an existing backup, with current gesture library containing "+lib.getGestureEntries().size()+" gestures. Continue?");
+                    builder.setTitle(getString(R.string.backup));
+                    builder.setMessage(String.format(getString(R.string.backup_notice), lib.getGestureEntries().size()));
                     builder.setCancelable(false);
 
-                    builder.setPositiveButton("Backup", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(getString(R.string.backup), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             backup();
                             dialog.cancel();
                         }
                     });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -86,11 +86,11 @@ public class BackUp extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BackUp.this);
-                builder.setTitle("Restore");
-                builder.setMessage("You are going to overwrite all the current gestures, and restore the backup gesture library copy on "+sharedPref.getString("lastdate","unknown")+". The wearable gesture library will also be overwrote. Continue?");
+                builder.setTitle(getString(R.string.restore));
+                builder.setMessage(String.format(getString(R.string.backup_restore_notice), sharedPref.getString("lastdate", "unknown")));
                 builder.setCancelable(false);
 
-                builder.setPositiveButton("Restore", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.restore), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         if(wearPackList==null){ //if not synced
@@ -102,7 +102,7 @@ public class BackUp extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -132,7 +132,7 @@ public class BackUp extends AppCompatActivity {
 //            text.setText("Time: " + sharedPref.getString("lastdate","Not found")+
 //                    "\nQuantity: " + sharedPref.getInt("quantity",0));
 
-            text.setText(String.format("Time: %1$s\nQuantity: %2$s",  sharedPref.getString("lastdate","Not found"),sharedPref.getInt("quantity",0)));
+            text.setText(String.format(getString(R.string.backup_detail),  sharedPref.getString("lastdate","Not found"),Integer.toString(sharedPref.getInt("quantity",0))));
 
         }else{
             findViewById(R.id.LastBackup).setVisibility(View.GONE);

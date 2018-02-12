@@ -158,15 +158,11 @@ public class MainActivity extends AppCompatActivity{
             case R.id.action_about:
                 // User chose the "Settings" item, show the app settings UI...
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("About");
-                builder.setMessage("Thank you for using!\n" +
-                        "If you have any issues or suggestions, please email me at\n" +
-                        "henryzhang9802@gmail.com\n\n"
-                        +"Special thanks to Thomas and Joerg Dietz\n\n"
-                        +"Mobile version code: "+MOBILE_VERSION+"\nVersion name: "+ BuildConfig.VERSION_NAME+"\nWear version code: "+WEAR_VERSION
+                builder.setTitle(R.string.about);
+                builder.setMessage(String.format(getString(R.string.main_about_content), MOBILE_VERSION, BuildConfig.VERSION_NAME, WEAR_VERSION)
                         );//"\n\nWelcome to join our beta testing to discuss any ideas and problems you may have!"
 
-                builder.setPositiveButton("Email", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.email, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         sendEmail();
 
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
-                builder.setNeutralButton("Join beta testing", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(R.string.main_join_testing, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/communities/111134307417897593116"));
@@ -184,7 +180,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -352,18 +348,18 @@ public class MainActivity extends AppCompatActivity{
 
     private void rateAppEmail(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Send feedback");
-        builder.setMessage("If you have any issues or suggestions, you can click the button to send an email for feedback. We will reply and adapt the change as soon as possible!");
+        builder.setTitle(R.string.send_feedback);
+        builder.setMessage(R.string.send_feedback_content);
         builder.setCancelable(false);
 
-        builder.setPositiveButton("Send Email", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.email, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 //                startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
                 sendEmail();
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.action_no_thanks, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -519,9 +515,10 @@ public class MainActivity extends AppCompatActivity{
 
                     public void onTick(long l) {
                         if(notsync.getVisibility()!=View.VISIBLE){
-                            deleteItem(position);
                             //Analytics
                             mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("deletedGesture").setLabel(shortentitles.get(position)).build());
+                            deleteItem(position);
+
 
                             cancel();
                         }
@@ -565,7 +562,7 @@ public class MainActivity extends AppCompatActivity{
 
         lib.removeEntry(titles.get(position));
         lib.save();
-        MsgS("Item deleted",Snackbar.LENGTH_SHORT);
+        MsgS(getString(R.string.main_deleted),Snackbar.LENGTH_SHORT);
         refreshGrid();
         Sync(mobileconnect,true);
 
@@ -625,18 +622,18 @@ public class MainActivity extends AppCompatActivity{
 
             AlertDialog.Builder builder = new AlertDialog.Builder(main);
             builder.setTitle(R.string.main_update_warning_title);
-            builder.setMessage(String.format("Mobile app %d\nWear app %d\nVersion not consistent, please wait for play store auto-update or update manually to make sure sync running properly.", MOBILE_VERSION - 1000, WEAR_VERSION - 2000));
+            builder.setMessage(String.format(mobileconnect.getString(R.string.main_version_content), MOBILE_VERSION - 1000, WEAR_VERSION - 2000));
             builder.setCancelable(true);
 
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.cast_tracks_chooser_dialog_ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
             });
-            builder.setNegativeButton("Ignore", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.ignore, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Pref.edit().putInt("ignore", MOBILE_VERSION).apply();
-                    Toast.makeText(main, "Ignored for this version", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(main, R.string.ignored_notice, Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                 }
             });

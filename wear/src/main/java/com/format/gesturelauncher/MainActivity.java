@@ -207,22 +207,25 @@ public class MainActivity extends Activity {
             String side = "right";
             switch (location) {
                 case "r":
-                    side = "right";
+                    side = getString(R.string.settings_right_edge);
                     break;
                 case "l":
-                    side = "left";
+                    side = getString(R.string.settings_left_edge);
                     break;
                 case "t":
-                    side = "top";
+                    side = getString(R.string.settings_top_edge);
                     break;
                 case "b":
-                    side = "bottom";
+                    side = getString(R.string.settings_bottom_edge);
                     break;
 
             }
 
 
             text.setText(String.format(getResources().getString(R.string.settings_open_instruction), side));
+
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityIniWithFloater").setLabel(side).build());
 
         }else {
             text.setText(R.string.main_quicklauncher_disabled_notice);
@@ -232,6 +235,8 @@ public class MainActivity extends Activity {
                     if(!showQuickLauncher) {
                         Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
                         startActivity(intent);
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityIniWithoutFloaterToPerform").build());
                     }
                 }
             });
@@ -251,6 +256,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 sharedPref.edit().putBoolean("oreoWarned", true).apply();
                 findViewById(R.id.oreoWarn).setVisibility(View.GONE);
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("Oreo Gone").build());
 
             }
         });
@@ -309,6 +316,8 @@ public class MainActivity extends Activity {
 
 
         if(apiCompatibleMode){
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityCompatibleMode").build());
             TextView text=findViewById(R.id.textViewIns);
 //            text.setText("Compatible mode");
 //            text.setVisibility(View.GONE);
@@ -344,6 +353,8 @@ public class MainActivity extends Activity {
                     if(sharedPref.getBoolean("NEWINSTALL", true)) {
                         versionAlert();
                         sharedPref.edit().putBoolean("NEWINSTALL", false).apply();
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("AW1.5Warned").build());
                     }
 
 

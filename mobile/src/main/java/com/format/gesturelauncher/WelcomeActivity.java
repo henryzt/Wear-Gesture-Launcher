@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -77,12 +79,16 @@ public class WelcomeActivity extends AppCompatActivity {
 
     boolean finished=false;
 
+    public Tracker mTracker;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
 
         buttonStart=(Button)findViewById(R.id.buttonGetStart);
@@ -111,6 +117,8 @@ public class WelcomeActivity extends AppCompatActivity {
                      ;
 //                    help.putExtra("image","help");
 //                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    //Analytics
+                    mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Welcome").setAction("initialConnected").build());
                     welcomedialog();
                     finish();
                 }
@@ -124,6 +132,9 @@ public class WelcomeActivity extends AppCompatActivity {
         buttonCant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Welcome").setAction("howToConnectClicked").build());
+
                 Intent help = new Intent(getApplicationContext(),HelpActivity.class);
                 help.putExtra("image","connect");
                 startActivity(help);
@@ -159,6 +170,8 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onFinish() {
 //                MsgS("Wearable no respond, please try again",Snackbar.LENGTH_SHORT);
                 faildialog();
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Welcome").setAction("initialConnectionFailed").build());
                 dialog.dismiss();
 
             }
@@ -237,12 +250,12 @@ public class WelcomeActivity extends AppCompatActivity {
 //                buttonStart.setBackgroundColor(Color.rgb(255,145,0));
 //                mLayout.setBackgroundColor(Color.rgb(204,255,144));
 
-                buttonStart.setText("Go!");
+                buttonStart.setText(R.string.welcome_go);
                 buttonCant.setVisibility(View.GONE);
                 logo.setImageDrawable(getResources().getDrawable(R.drawable.ok));
 
                 finished = true;
-                MsgS("Connected!",Snackbar.LENGTH_LONG);//"Connecting... Please make sure the app is opened on the watch"
+                MsgS(getString(R.string.welcome_connected),Snackbar.LENGTH_LONG);//"Connecting... Please make sure the app is opened on the watch"
             }
 //            }else{
 //                MsgT("Error: fail to save gesture library");
@@ -263,20 +276,23 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void faildialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
-        builder.setTitle("No respond");
-        builder.setMessage("Wearable no respond, please make sure the wearable app is installed and opened on your watch, and try again.")
+        builder.setTitle(R.string.welcome_no_respond_t);
+        builder.setMessage(R.string.welcome_no_respond)
 //                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.cast_tracks_chooser_dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //do things
                     }
                 })
-                .setNeutralButton("Install now", new DialogInterface.OnClickListener() {
+                .setNeutralButton(R.string.welcome_b_install, new DialogInterface.OnClickListener() {
+                    @SuppressWarnings("HardCodedStringLiteral")
                     public void onClick(DialogInterface dialog, int id) {
                         Intent help = new Intent(getApplicationContext(),HelpActivity.class);
                         help.putExtra("image","connect");
                         startActivity(help);
-                        //do things
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Welcome").setAction("howToConnectClicked").build());
+
                     }
                 });
         AlertDialog alert = builder.create();

@@ -1,5 +1,6 @@
 package com.format.gesturelauncher;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -48,7 +49,11 @@ public class ActionSelect extends AppCompatActivity {
         findViewById(R.id.buttonAppMobile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                 ProgressDialog dialog = ProgressDialog.show(ActionSelect.this, "",
+//                        "Loading...", false); //DIALOG
+//                dialog.show();
                 openAppSelect("mobile");
+//                dialog.dismiss();
 //                Intent localIntent2 = new Intent("android.intent.action.PICK_ACTIVITY");
 //                Intent localIntent3 = new Intent("android.intent.action.MAIN",null);
 //                localIntent3.addCategory("android.intent.category.LAUNCHER");
@@ -122,11 +127,11 @@ public class ActionSelect extends AppCompatActivity {
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
 
             if(problem.equals(TaskerIntent.Status.NotInstalled)){
-                builder.setMessage("It looks like Tasker is not installed. With Tasker, you can control much more operations and connect with other apps. You can use this function once Tasker is installed!");
+                builder.setMessage(R.string.action_tasker_not_installed);
             }else if(problem.equals(TaskerIntent.Status.AccessBlocked)){
-                builder.setMessage("Access to Tasker is denied, please make sure you Enabled External Access from Tasker -> Preference -> Misc.");
+                builder.setMessage(R.string.action_tasker_access_block);
             }else{
-                builder.setMessage("There was a problem while connecting to Tasker: "+problem.toString()+"\n\nIf this problem continue to occur, please try reinstall Wear Gesture Launcher on this device after installing Tasker, your gesture library will be saved on your wearable.");
+                builder.setMessage(String.format(getString(R.string.action_tasker_problem), problem.toString()));
             }
 
             builder.setTitle("Tasker");
@@ -198,28 +203,26 @@ public class ActionSelect extends AppCompatActivity {
 
 
             }else {
-                Toast.makeText(getApplicationContext(), "Action canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.action_action_canceled, Toast.LENGTH_SHORT).show();
 //                finish();
             }
-        }
 
 
 
 
-        if (requestCode == REQUEST_CODE_SELECT_APP && resultCode == RESULT_OK){
+        }else if (requestCode == REQUEST_CODE_SELECT_APP && resultCode == RESULT_OK){
             Toast.makeText(getApplicationContext(), "This function is still under development, keep in tune!", Toast.LENGTH_LONG).show();
-        }
 
 
 
+        }else if (requestCode == REQUEST_CODE_TASKER && resultCode == RESULT_OK){
 
-        if (requestCode == REQUEST_CODE_TASKER && resultCode == RESULT_OK){
-//            Toast.makeText(getApplicationContext(), data.getDataString(), Toast.LENGTH_LONG).show();
-//           runTakser(data.getDataString());
-            Intent intent = new Intent(getApplicationContext(),AppSelect.class);
-            intent.putExtra("type","tasker");
-            intent.putExtra("task",data.getDataString());
-            startActivity(intent);
+                Intent intent2 = new Intent(getApplicationContext(),AppSelect.class);
+                intent2.putExtra("type","tasker");
+                intent2.putExtra("task",data.getDataString());
+                startActivity(intent2);
+
+
         }
 
 
@@ -229,7 +232,7 @@ public class ActionSelect extends AppCompatActivity {
 
     public void getName(final String number){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter action name for calling number "+ number);
+        builder.setTitle(getString(R.string.action_enter_name)+ number);
 
         builder.setCancelable(false);
         // Set up the input

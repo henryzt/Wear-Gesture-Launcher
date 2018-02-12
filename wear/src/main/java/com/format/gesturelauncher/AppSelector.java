@@ -72,7 +72,7 @@ public class AppSelector extends Activity {
 
         try {
             if (mainListView.getAdapter().getCount() <= 0) {
-                Toast.makeText(getApplicationContext(), "You have created all items in this section!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.app_select_all_item), Toast.LENGTH_SHORT).show();
                 finish();
 
             }
@@ -155,7 +155,7 @@ public class AppSelector extends Activity {
 
         //----------------------------------------------------------------------
         final String[] methods = {"Alarm","Alarm List","Timer","Stopwatch"};
-        final String[] methodsIndicator = {"New Alarm","Manage Alarms","Open Timer","Open Stopwatch"};
+        final String[] methodsIndicator = {getString(R.string.timer_new_alarm),getString(R.string.timer_manage_alarms),getString(R.string.timer_open_timer),getString(R.string.timer_open_stopwatch)};
 
 
         final ArrayList<String> nonExistMethods=new ArrayList<>();

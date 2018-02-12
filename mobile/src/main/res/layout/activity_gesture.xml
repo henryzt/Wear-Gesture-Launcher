@@ -27,7 +27,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            android:text="Please draw the new pattern that you would like to create" />
+            android:text="@string/gesture_notice" />
 
         <android.gesture.GestureOverlayView
             android:id="@+id/gestureOverlayView"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingTop="10dp"
-            android:text="Back"
+            android:text="@string/back"
             android:theme="@style/PrimaryFlatButton" />
 
 

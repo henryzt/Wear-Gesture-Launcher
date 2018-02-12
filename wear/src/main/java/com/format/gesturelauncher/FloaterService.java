@@ -318,7 +318,7 @@ public class FloaterService extends Service {
     }
 
     public void stopMe(){
-        msg("Quick Launcher disabled");
+        msg(getString(R.string.floater_disabled));
         frameLayoutfloater.removeAllViews();
         frameLayoutfloater=null;
         stopSelf();

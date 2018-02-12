@@ -123,16 +123,16 @@ public class AllGestures extends WearableActivity {
     public void delete( final int position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        builder.setTitle("Delete gesture");
-        builder.setMessage("Do you want to delete Gesture '" + shortenTitles.get(position)+"' ?");
+        builder.setMessage(getString(R.string.dialog_delete_msg) + shortenTitles.get(position)+"' ?");
 
 
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteItem(position);
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -151,7 +151,7 @@ public class AllGestures extends WearableActivity {
         refreshList();
         sendMobile(wearConnect);//TODO A static method cannot call a non-static method, but we can use a reference, which include a non-static method to the static method. https://stackoverflow.com/questions/31661110/calling-a-non-static-method-in-an-android-onpreferenceclicklistener
         new ConfirmationOverlay()
-                .setMessage("Item deleted")
+                .setMessage(getString(R.string.main_deleted))
                 .setType(ConfirmationOverlay.SUCCESS_ANIMATION)
                 .showOn(AllGestures.this);
 

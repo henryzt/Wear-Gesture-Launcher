@@ -90,7 +90,7 @@ public class AddConfirmGesture extends WearableActivity {
 
                     }
                 })
-                        .setMessage("Gesture saved")
+                        .setMessage(getString(R.string.gesture_saved))
                         .setType(ConfirmationOverlay.SUCCESS_ANIMATION)
                         .showOn(AddConfirmGesture.this);
 
@@ -134,11 +134,11 @@ public class AddConfirmGesture extends WearableActivity {
             String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/5)*100);
 
-            text.setText(" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
+            text.setText(getString(R.string.confirm_collision_similar));//" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
 
 
         }else {
-            text.setText(" - Collision check - \nGreat! No similar gestures found");
+            text.setText(getString(R.string.confirm_collision_clear));
 
 
         }

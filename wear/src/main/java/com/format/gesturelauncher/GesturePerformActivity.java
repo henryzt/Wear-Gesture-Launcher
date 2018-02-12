@@ -1,5 +1,6 @@
 package com.format.gesturelauncher;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.gesture.Gesture;
@@ -123,7 +124,7 @@ public class GesturePerformActivity extends Activity {
             @Override
             public void onGestureEnded(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
                 hintText.setVisibility(View.VISIBLE);
-                hintText.setText("Matching...");
+                hintText.setText(R.string.gesture_matching);
                 mButtonClose.setVisibility(View.VISIBLE);
 
             }
@@ -171,7 +172,7 @@ public class GesturePerformActivity extends Activity {
                 }
 
                 if(maxfound > accuracy){//2.0
-                    hintText.setText(maxName +" performed!");
+                    hintText.setText(String.format(getString(R.string.gesture_sth_performed), maxName));
                     //msg(prediction.toString());
                     matched=true;
                     if(vibratorOn){v.vibrate(right,-1);}
@@ -182,7 +183,7 @@ public class GesturePerformActivity extends Activity {
                     //break;
 
                 }else {
-                    hintText.setText("No match");
+                    hintText.setText(R.string.gesture_no_match);
 
 
                 }
@@ -254,6 +255,7 @@ public class GesturePerformActivity extends Activity {
 
 
     //============================================================================================== 打开应用
+    @SuppressLint("SetTextI18n")
     public void matchOpen(String activity){
 
         NameFilter name = new NameFilter(activity);
@@ -262,7 +264,7 @@ public class GesturePerformActivity extends Activity {
                 case "wearapp":
 
                     if(name.getPackName().equals(getApplicationContext().getPackageName())) {
-                        hintText.setText("Opening Main screen");
+                        hintText.setText(R.string.gesture_open_main);
 
                         Intent intent = new Intent(GesturePerformActivity.this,MainActivity.class); //spilt 2 是pakagename
                         finish();
@@ -273,7 +275,7 @@ public class GesturePerformActivity extends Activity {
                         Intent intent = getPackageManager().getLaunchIntentForPackage(name.getPackName()); //spilt 2 是pakagename
                         startActivity(intent);
                         //            msg("Opening " + spilt[0]);
-                        hintText.setText("Opening " + name.getFilteredName());
+                        hintText.setText(String.format(getString(R.string.gesture_opening), name.getFilteredName()));
                     }
 
 
@@ -293,12 +295,12 @@ public class GesturePerformActivity extends Activity {
 
 
                 case "mapp":
-                    hintText.setText("Openning "+name.getFilteredName()+" on your phone...");
+                    hintText.setText(String.format(getString(R.string.gesture_open_phone), name.getFilteredName()));
                     mobileOpen(name.getOriginalName());
                     break;
 
                 case "tasker":
-                    hintText.setText("Openning "+name.getFilteredName()+" on your phone...");
+                    hintText.setText(String.format(getString(R.string.gesture_open_phone), name.getFilteredName()));
                     mobileOpen(name.getOriginalName());
                     break;
 
@@ -306,7 +308,7 @@ public class GesturePerformActivity extends Activity {
             }
 
         }catch (Exception e){
-            msg("Fail to open "+name.getFilteredName());
+            msg(getString(R.string.gesture_failed)+name.getFilteredName());
             //Analytics
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("PerformActivity")

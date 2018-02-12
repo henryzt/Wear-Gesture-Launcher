@@ -4,8 +4,8 @@
     <string name="draw_your_pattern">Draw your pattern</string>
     <string name="title_activity_main">Gesture Launcher</string>
     <string name="empty_lib">Gesture library is empty, please sync from mobile!</string>
-    <string name="welcome_msg1">Welcome!  To start using Wear Gesture Launcher, you need to grant draw over permission in next page.</string>
-    <string name="settings_open_instruction">To open Gesture Launcher, simply tap the %1$s edge of the screen, anywhere on the watch.</string>
+    <string name="welcome_msg1">Welcome! \nTo start using Wear Gesture Launcher, you need to grant draw over permission in next page.</string>
+    <string name="settings_open_instruction">To open Gesture Launcher, simply tap the %1$s of the screen, anywhere on the watch.</string>
     <string name="welcome_sure">Sure!</string>
     <string name="settings_show">Quick Launcher</string>
     <string name="title_activity_all_gestures">AllGestures</string>
@@ -44,5 +44,61 @@
     <string name="main_oreo_content">Having a notification about overlay floater? You can long press on the notification and turn it off!</string>
     <string name="main_overlay_notif_title">Oreo overlay Notification</string>
     <string name="add_indicator_drawtoset">Draw to set the pattern of action \'%s\'</string>
+
+
+    <string name="confirm_collision_clear">- Collision check - \n Great! No similar gestures found</string>
+    <string name="confirm_collision_similar">- Collision check - \n %1$s - Similarity %2$d%%</string>
+    <string name="timer_new_alarm">New Alarm</string>
+    <string name="timer_manage_alarms">Manage Alarms</string>
+    <string name="timer_open_timer">Open Timer</string>
+    <string name="timer_open_stopwatch">Open Stopwatch</string>
+
+    <string name="main_deleted">Item deleted</string>
+    <string name="dialog_delete_msg">Do you want to delete Gesture \'</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="back">Back</string>
+    <string name="confirm">Confirm</string>
+    <string name="action_launch_app">Launch App</string>
+    <string name="action_timer_actions">Timer Actions</string>
+    <string name="choose_an_action">Choose an action to continue</string>
+    <string name="confirm_cofirm_notice">Confirm to add this gesture?</string>
+    <string name="gesture_saved">Gesture Saved!</string>
+    <string name="settings_changes_saved">Changes saved</string>
+    <string name="action_mobile_notice">You can use mobile app to add Tasker and mobile app actions</string>
+    <string name="skip">Skip</string>
+    <string name="help_t_how_to_uese">How to use?</string>
+    <string name="help_part1">Anytime on the watch screen:</string>
+    <string name="help_part2">· Tap the edge to open gesture launcher \n· Long press to disable \n· Open from system launcher to re-enable</string>
+    <string name="help_t_accuracy">How to improve gesture recognition accuracy?</string>
+    <string name="help_part3">Gesture recognition is based on strokes and turns, while matching, draw it with the same order will help to recognize. Avoid using too simplfied gestures (e.g. a curve)</string>
+    <string name="help_use_mobile">Use the mobile app</string>
+    <string name="help_part4">Use the mobile app to get more gesture options! (Android Only)</string>
+    <string name="help_b_get_on_phone">Get it on your phone</string>
+    <string name="help_t_about">About</string>
+    <string name="help_part5">Thank you for using! \nIf you have any issue or suggestion, please email me at \nhenryzhang9802@gmail.com \n\nSpecial thanks to Thomas and Joerg Dietz</string>
+    <string name="help_t_rate_us">Rate us</string>
+    <string name="help_part6">This app is totally free, it is the best support to us if you could take a moment to rate it on Google Play Store!</string>
+    <string name="help_b_rate">Rate the App!</string>
+    <string name="app_select_all_item">You have created all items in this section!</string>
+    <string name="welcome_begin">Done? Let\'s begin! To get you started, we\'ve added some popular gestures, you can see them in next page.</string>
+    <string name="welcome_not_grant">You have not granted the permission, the quick launcher will not be available. You can change it later in the settings. To get you started, we\'ve added some popular gestures, you can see them in next page!</string>
+    <string name="floater_disabled">Quick Launcher disabled</string>
+    <string name="gesture_matching">Matching...</string>
+    <string name="gesture_sth_performed">%s performed!</string>
+    <string name="gesture_no_match">No match</string>
+    <string name="gesture_open_main">Opening Main screen</string>
+    <string name="gesture_opening">Opening %s</string>
+    <string name="gesture_open_phone">Openning %s on your phone...</string>
+    <string name="gesture_failed">Fail to open</string>
+    <string name="help_phone_disc">Phone disconnected</string>
+    <string name="settings_reload_warn">This will reload the initial gestures based on what apps you have installed. All of your current gestures *will* be overwrote. Continue?</string>
+    <string name="version_warn">\n\nWear gesture launcher\nMobile app %1$d\nWear app %2$%d\nVersion not consistent, please update your apps to make sure sync running properly.</string>
+    <string name="lib_synced">Gesture Library Synced!</string>
+    <string name="connection_ini">Connection Initiated!</string>
+    <string name="connect_fail_code">Failed to send action:</string>
+    <string name="connect_action_sent">Action Sent!</string>
+    <string name="connect_connection_failed">Connection failed</string>
+
 
 </resources>

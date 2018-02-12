@@ -25,7 +25,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
 //            Toast.makeText(getApplicationContext(), "Connection", Toast.LENGTH_LONG).show();
             if (MobileConnectService.alreadyCreated == false) {
                 startService(new Intent(getApplicationContext(), MobileConnectService.class));
-                Toast.makeText(getApplicationContext(), "WGL Service Re-initiated, please send the action again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.receiver_notice, Toast.LENGTH_LONG).show();
             }
         }
 

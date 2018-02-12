@@ -28,7 +28,7 @@ public class GestureActivity extends AppCompatActivity {
 
         MethodNameForReturn=getIntent().getStringExtra("method");
         filteredName=getIntent().getStringExtra("name");
-        indicator.setText("Please draw the gesture for action '"+filteredName+"'");
+        indicator.setText(String.format(getString(R.string.gesture_draw_notice), filteredName));
 
 
 

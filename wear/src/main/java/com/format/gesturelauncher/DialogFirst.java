@@ -48,10 +48,10 @@ public class DialogFirst extends Activity {
 //           startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
                         try {
                             startActivity(intent);
-                            text.setText("Done? Let's begin!\nTo get you started, we've added some popular gestures, you can see them in next page.");
+                            text.setText(R.string.welcome_begin);
 
                         }catch (Exception e){
-                            text.setText("Sorry, fail to grant permission, your build version is "+Build.VERSION.SDK_INT +" , please contact developer at henryzhang9802@gmail.com and attach the build version. Thank you!");
+                            text.setText(String.format("Sorry, fail to grant permission, your build version is %d , please contact developer at henryzhang9802@gmail.com and attach the build version. Thank you!", Build.VERSION.SDK_INT));
 
                         }
 
@@ -98,7 +98,7 @@ public class DialogFirst extends Activity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&!Settings.canDrawOverlays(getApplicationContext())) {
 
 
-                    text.setText("You have not granted the permission, the quick launcher will not be available. You can change it later in the settings. To get you started, we've added some popular gestures, you can see them in next page!");
+                    text.setText(R.string.welcome_not_grant);
                     SharedPreferences sharedPref =getSharedPreferences("main",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putBoolean("show",false);

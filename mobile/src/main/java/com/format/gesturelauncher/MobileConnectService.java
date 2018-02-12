@@ -375,16 +375,16 @@ public class MobileConnectService extends Service implements
             Log.v("mapp",filter.getPackName());
             try {
                 startActivity(LaunchIntent);
-                MsgT("Opening "+filter.getFilteredName()+" ...");
+                MsgT(String.format(getString(R.string.receiver_open_m_app), filter.getFilteredName()));
             }catch (Exception e){
-                MsgT("There is no way to run "+filter.getFilteredName()+" :(");
+                MsgT(String.format(getString(R.string.receiver_open_app_failed), filter.getFilteredName()));
                 e.printStackTrace();
             }
 
 
         }else if(filter.getMethod().equals("tasker")){
             runTakser(filter.getPackName());
-            MsgT("Running Tasker task "+filter.getFilteredName()+" ...");
+            MsgT(String.format(getString(R.string.receiver_tasker_task), filter.getFilteredName()));
         }
 
         //Analytics
@@ -401,7 +401,7 @@ public class MobileConnectService extends Service implements
             TaskerIntent i = new TaskerIntent( taskName);
             sendBroadcast( i );
         }else {
-            Toast.makeText(getApplicationContext(),"Tasker error: "+TaskerIntent.testStatus( getApplicationContext() ).toString() , Toast.LENGTH_LONG).show();//"Sorry, please check your Tasker preference to open external access"
+            Toast.makeText(getApplicationContext(),getString(R.string.receiver_tasker_error)+TaskerIntent.testStatus( getApplicationContext() ).toString() , Toast.LENGTH_LONG).show();//"Sorry, please check your Tasker preference to open external access"
             //Analytics
             mTracker.send(new HitBuilders.EventBuilder()
                     .setCategory("Mobile Tasker")
@@ -447,7 +447,7 @@ public class MobileConnectService extends Service implements
 
     @Override
     public void onConnectionSuspended(int i) {
-        MsgT("Connection suspended");
+        MsgT(getString(R.string.receiver_connection_suspend));
     }
 
 

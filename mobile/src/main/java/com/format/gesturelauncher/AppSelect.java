@@ -1,5 +1,6 @@
 package com.format.gesturelauncher;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -62,6 +63,7 @@ public class AppSelect extends AppCompatActivity {
                 break;
             case "call":
                 GenerateMethod("call",intent.getStringExtra("number"),intent.getStringExtra("name"));
+                break;
             case "tasker":
                 GenerateMethod("tasker",intent.getStringExtra("task"),intent.getStringExtra("task"));
 //                finish();
@@ -71,7 +73,7 @@ public class AppSelect extends AppCompatActivity {
 
     try {
         if (mainListView.getAdapter().getCount() <= 0) {
-            Toast.makeText(getApplicationContext(), "You have created all items in this section!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.app_select_all_item, Toast.LENGTH_SHORT).show();
             finish();
 
         }
@@ -85,6 +87,7 @@ public class AppSelect extends AppCompatActivity {
 
 
     public void LoadMobileApps(Context context){
+
 
 //        Toast.makeText(getApplicationContext(),"This section is under development, stay tuned!",Toast.LENGTH_SHORT).show();
 
@@ -135,7 +138,15 @@ public class AppSelect extends AppCompatActivity {
 
         });
 
+
+
+
+//        dialog.dismiss();
     }
+
+
+
+
     private boolean checkForLaunchIntent(ApplicationInfo info) {
         //filter system apps
 //load launchable list    src：https://github.com/StackTipsLab/Advance-Android-Tutorials/blob/master/ListInstalledApps/src/com/javatechig/listapps/AllAppsActivity.java
@@ -241,7 +252,7 @@ public class AppSelect extends AppCompatActivity {
 
         //----------------------------------------------------------------------
         final String[] methods = {"Alarm","Alarm List","Timer","Stopwatch"};
-        final String[] methodsIndicator = {"New Alarm","Manage Alarms","Open Timer","Open Stopwatch"};
+        final String[] methodsIndicator = {getString(R.string.timer_new_alarm),getString(R.string.timer_manage_alarms),getString(R.string.timer_open_timer),getString(R.string.timer_open_stopwatch)};
 
 
         final ArrayList<String> nonExistMethods=new ArrayList<>();

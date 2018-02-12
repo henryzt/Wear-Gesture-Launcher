@@ -112,16 +112,16 @@ public class Setting extends Activity {
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Setting.this);
 //                builder.setTitle("Reload popular gestures");
-                builder.setMessage("This will reload the initial gestures based on what apps you have installed. All of your current gestures *will* be overwrote. Continue?");
+                builder.setMessage(R.string.settings_reload_warn);
 
 
-                builder.setPositiveButton("Reload", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.settings_reload_gestures), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         reload(wearConnect);
                         dialog.cancel();
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -247,7 +247,7 @@ public class Setting extends Activity {
         Intent intent=new Intent(getApplicationContext(), MainActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("extra","notini");
-        intent.putExtra("message","Changes saved");
+        intent.putExtra("message",getString(R.string.settings_changes_saved));
         startActivity(intent);
         sendMobile(wearConnect);
 //        MobileConnectService.Sync(MainActivity.mobileconnect,true);
