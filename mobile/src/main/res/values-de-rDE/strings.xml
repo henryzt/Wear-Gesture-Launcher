@@ -39,4 +39,5 @@
     <string name="choose_an_action">W?hlen Sie eine Aktion, mit der Sie eine Geste erstellen m?chten</string>
     <string name="delete">L?schen</string>
     <string name="main_update_warning_title">Update warning</string>
+    <string name="main_deleting">Deleting...</string>
 </resources>

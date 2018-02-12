@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.wearConnect;
@@ -56,6 +59,17 @@ public class AddConfirmGesture extends WearableActivity {
 
                 lib.addGesture(methodNameForReturn,gesture);
                 lib.save();
+
+
+                //Analytics
+                Tracker mTracker;
+                AnalyticsApplication application = (AnalyticsApplication) getApplication();
+                mTracker = application.getDefaultTracker();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Wearable Action")
+                        .setAction("newGestureAdded")
+                        .setLabel(methodNameForReturn)
+                        .build());
 
 //                Toast.makeText(getApplicationContext(),"Gesture saved!",Toast.LENGTH_SHORT).show();
 

@@ -15,6 +15,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,7 +62,8 @@ public class AppSelect extends AppCompatActivity {
                 break;
             case "call":
                 GenerateMethod("call",intent.getStringExtra("number"),intent.getStringExtra("name"));
-
+            case "tasker":
+                GenerateMethod("tasker",intent.getStringExtra("task"),intent.getStringExtra("task"));
 //                finish();
                 break;
 
@@ -291,7 +295,13 @@ public class AppSelect extends AppCompatActivity {
 
 
 
+
 public void GenerateMethod(String runType,String runMethod, String Label ){
+    // Obtain the shared Tracker instance.
+
+
+
+
     try {
 
 
@@ -300,6 +310,19 @@ public void GenerateMethod(String runType,String runMethod, String Label ){
         Intent addgesture = new Intent(this,GestureActivity.class);
         addgesture.putExtra("method",MethodNameForReturn);
         addgesture.putExtra("name",new NameFilter(MethodNameForReturn).getFilteredName());
+
+        //Analytics
+        Tracker mTracker;
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Mobile")
+                .setAction("newGestureToDraw")
+                .setLabel(MethodNameForReturn)
+                .build());
+        //-----------------------
+
         startActivity(addgesture);
         finish();
 

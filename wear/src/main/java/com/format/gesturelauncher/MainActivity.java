@@ -16,6 +16,8 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.wearable.intent.RemoteIntent;
 
 import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
@@ -31,13 +33,23 @@ public class MainActivity extends Activity {
 
     boolean show;
 
+    public Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+        final SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
+        show = sharedPref.getBoolean("show", true);
 
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();;
+        mTracker.setScreenName("Wearable Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
 
 
@@ -46,6 +58,8 @@ public class MainActivity extends Activity {
 
             if(getIntent().getStringExtra("extra").equals("first")){ //startup
 //                Toast.makeText(getApplicationContext(),"Booted up",Toast.LENGTH_SHORT).show();
+                initiateConnection();
+                if(show){initiateFloater();}
                 finish();
             }
 
@@ -69,8 +83,7 @@ public class MainActivity extends Activity {
         }
 
 //----------------------check whether enter gesture perform directly or not
-        final SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-        show = sharedPref.getBoolean("show", true);
+
 
         if(!show && doInitiate){
 
@@ -165,11 +178,15 @@ public class MainActivity extends Activity {
 
 
                 //---------------------------------------------
-                Intent intent = new Intent(getApplicationContext(),AddGesture.class);
-                intent.putExtra("method","Spotify phone##mapp##com.spotify.music");
-                intent.putExtra("name","Spotify on phone");
-                startActivity(intent);
-
+//                Intent intent = new Intent(getApplicationContext(),AddGesture.class);
+//                intent.putExtra("method","Spotify phone##mapp##com.spotify.music");
+//                intent.putExtra("name","Spotify on phone");
+//                startActivity(intent);
+                Intent localIntent2 = new Intent("android.intent.action.PICK_ACTIVITY");
+//                Intent localIntent3 = new Intent("android.intent.action.MAIN",null);
+//                localIntent3.addCategory("android.intent.category.LAUNCHER");
+//                localIntent2.putExtra("android.intent.extra.INTENT",localIntent3);
+                startActivityForResult(localIntent2, 2);
 
             }
         });

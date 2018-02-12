@@ -39,4 +39,5 @@
     <string name="choose_an_action">選擇一個與該手勢相關的操作以繼續</string>
     <string name="delete">刪除</string>
     <string name="main_update_warning_title">Update warning</string>
+    <string name="main_deleting">Deleting...</string>
 </resources>

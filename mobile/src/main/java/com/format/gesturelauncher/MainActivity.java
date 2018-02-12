@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.gesture.Gesture;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -25,7 +26,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static com.format.gesturelauncher.MobileConnectService.MOBILE_VERSION;
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity{
 
     int defColor = Color.BLACK;
 
+    public Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +81,11 @@ public class MainActivity extends AppCompatActivity{
         //-------------------------------------------load grid
 //        refreshGrid();
 
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Mobile Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         //-------------------------------------------fab activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -149,13 +162,25 @@ public class MainActivity extends AppCompatActivity{
                 builder.setMessage("Thank you for using!\n" +
                         "If you have any issues or suggestions, please email me at\n" +
                         "henryzhang9802@gmail.com\n\n"
-                        +"Special thanks to Thomas\n\n"+"Mobile version code: "+MOBILE_VERSION+"\nVersion name: "+ BuildConfig.VERSION_NAME+"\nWear version code: "+WEAR_VERSION);
+                        +"Special thanks to Thomas and Joerg Dietz\n\n"
+                        +"Mobile version code: "+MOBILE_VERSION+"\nVersion name: "+ BuildConfig.VERSION_NAME+"\nWear version code: "+WEAR_VERSION
+                        );//"\n\nWelcome to join our beta testing to discuss any ideas and problems you may have!"
 
-                builder.setPositiveButton("Email Me", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Email", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         sendEmail();
 
 //                        dialog.cancel();
+                    }
+                });
+
+                builder.setNeutralButton("Join beta testing", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/communities/111134307417897593116"));
+                        startActivity(browserIntent);
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("joinBetaTestingClicked").build());
                     }
                 });
 
@@ -226,6 +251,8 @@ public class MainActivity extends AppCompatActivity{
 //                rateApp();
 
                 rateAppGoogle();
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("rateDialogClicked").build());
                 return true;
 
 
@@ -282,6 +309,8 @@ public class MainActivity extends AppCompatActivity{
 //            MsgT("Choose an Email app to continue");
             startActivity(intent);
         }
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("sendEmailClicked").build());
     }
 
 
@@ -295,6 +324,8 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int id) {
 //                startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.format.gesturelauncher")));
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("rateSureClicked").build());
                 dialog.cancel();
             }
         });
@@ -382,6 +413,8 @@ public class MainActivity extends AppCompatActivity{
 //                notsyncIndicator.show();
                 text.setText(R.string.main_not_sync);
                 findViewById(R.id.progressBar2).setVisibility(View.GONE);
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("gestureLibNotSynced").build());
             }
         }.start();
     }
@@ -411,7 +444,13 @@ public class MainActivity extends AppCompatActivity{
 
         if(gestureNameSet.size()<=0){
             MsgS("Gesture library is empty, add one now!",Snackbar.LENGTH_INDEFINITE);
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("emptyLibrary").build());
         }
+
+        //TODO sort the set
+//        List sortedList = new ArrayList(gestureNameSet);
+//        Collections.sort(sortedList);//sort alphabetically
 
         for (String gestureName : gestureNameSet) { //for each name
 
@@ -461,7 +500,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void delete( final int position) {
 //        MsgS("Updating gestures...",Snackbar.LENGTH_SHORT);
-        startSync();
+//        startSync();
 //        notsync.setVisibility(View.VISIBLE);
 
 
@@ -473,11 +512,17 @@ public class MainActivity extends AppCompatActivity{
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
+                startSync();
+                MsgS(getString(R.string.main_deleting),Snackbar.LENGTH_LONG);
+
                 new CountDownTimer(4000,100){
 
                     public void onTick(long l) {
                         if(notsync.getVisibility()!=View.VISIBLE){
                             deleteItem(position);
+                            //Analytics
+                            mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("deletedGesture").setLabel(shortentitles.get(position)).build());
+
                             cancel();
                         }
 //                        Log.v(TAG,notsync.getVisibility());
@@ -485,7 +530,8 @@ public class MainActivity extends AppCompatActivity{
 
                     public void onFinish() {
                         MsgS(getString(R.string.main_faildelete),Snackbar.LENGTH_SHORT);
-
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("failToDeleteGesture").build());
                     }
                 }.start();
 
@@ -570,6 +616,12 @@ public class MainActivity extends AppCompatActivity{
         if(Pref.getInt("ignore",0)==MOBILE_VERSION){
 
         }else {
+
+            main.mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Version")
+                    .setAction("versionNotMatch")
+                    .setLabel("Mobile "+MOBILE_VERSION+", Wearable "+WEAR_VERSION)
+                    .build());
 
             AlertDialog.Builder builder = new AlertDialog.Builder(main);
             builder.setTitle(R.string.main_update_warning_title);

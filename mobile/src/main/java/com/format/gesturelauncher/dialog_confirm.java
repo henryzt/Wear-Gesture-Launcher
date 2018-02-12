@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.main;
@@ -64,6 +67,12 @@ public class dialog_confirm extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Analytics
+                final Tracker mTracker;
+                AnalyticsApplication application = (AnalyticsApplication) getApplication();
+                 mTracker = application.getDefaultTracker();
+
                 if(MethodNameForReturn != null){
                     Toast.makeText(getApplicationContext(),"Saving...",Toast.LENGTH_SHORT).show();
                     next.setEnabled(false);
@@ -73,6 +82,16 @@ public class dialog_confirm extends AppCompatActivity {
 
                         public void onTick(long l) {
                             if(main.notsync.getVisibility()!=View.VISIBLE){
+
+
+                                mTracker.send(new HitBuilders.EventBuilder()
+                                        .setCategory("Mobile Action")
+                                        .setAction("newGestureAdded")
+                                        .setLabel(MethodNameForReturn)
+                                        .build());
+                                //-----------------------
+
+
                                 Toast.makeText(getApplicationContext(),"Saved!",Toast.LENGTH_SHORT).show();
                                 lib.addGesture(MethodNameForReturn,gesture);
                                 lib.save();
@@ -88,6 +107,13 @@ public class dialog_confirm extends AppCompatActivity {
                         }
 
                         public void onFinish() {
+                            //Analytics
+                            mTracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("Mobile Error")
+                                    .setAction("gestureAddFail")
+                                    .setLabel(MethodNameForReturn)
+                                    .build());
+
                             Toast.makeText(getApplicationContext(),"Gesture didn't save, wearable sync failed, please try again",Toast.LENGTH_SHORT).show();
                             next.setEnabled(true);
 

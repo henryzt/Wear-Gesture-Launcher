@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:paddingBottom="5dp"
 
             android:paddingLeft="10dp"
@@ -33,7 +33,7 @@
             android:id="@+id/buttonApps"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:drawableLeft="@drawable/ic_watch_white_24dp"
             android:elevation="0dp"
             android:text="@string/action_launch_wearable_app"
@@ -41,10 +41,22 @@
             android:theme="@style/PrimaryButton" />
 
         <Button
+            android:id="@+id/buttonAppMobile"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:drawableLeft="@drawable/ic_smartphone_white_24dp"
+            android:elevation="0dp"
+            android:enabled="true"
+            android:text="@string/action_launch_mobile_apps"
+            android:theme="@style/PrimaryButton"
+            android:visibility="visible" />
+
+        <Button
             android:id="@+id/buttonTimer"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:drawableLeft="@drawable/ic_timer_white_18dp"
             android:elevation="0dp"
             android:text="@string/action_timer_actions"
@@ -56,7 +68,7 @@
             android:id="@+id/buttonToggles"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:drawableLeft="@drawable/ic_settings_applications_white_18dp"
             android:elevation="0dp"
             android:enabled="false"
@@ -69,7 +81,7 @@
             android:id="@+id/buttonPhone"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:drawableLeft="@drawable/ic_phone_white_18dp"
             android:elevation="0dp"
 
@@ -80,15 +92,28 @@
 
 
         <Button
-            android:id="@+id/buttonAppMobile"
+            android:id="@+id/buttonIntent"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:drawableLeft="@drawable/ic_smartphone_white_24dp"
             android:elevation="0dp"
             android:enabled="true"
-            android:text="@string/action_launch_mobile_apps"
+            android:text="Shortcuts DEV"
             android:theme="@style/PrimaryButton"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonTasker"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:drawableLeft="@drawable/ic_flash_on_white_24dp"
+            android:elevation="0dp"
+            android:enabled="true"
+            android:text="Tasker"
+            android:textColor="@color/cast_expanded_controller_text_color"
+            android:theme="@style/PrimaryButtonTasker"
             android:visibility="visible" />
 
         <Button

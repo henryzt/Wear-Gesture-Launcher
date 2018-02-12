@@ -23,6 +23,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.List;
 
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
@@ -30,7 +33,7 @@ import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
 public class FloaterService extends Service {
 
     static FrameLayout frameLayoutfloater;
-
+    public Tracker mTracker;
     public FloaterService() {
     }
 
@@ -43,6 +46,10 @@ public class FloaterService extends Service {
 
     @Override
     public void onCreate() {
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
         super.onCreate();
 //        MainActivity.floaterService=this;
         if(!apiCompatibleMode) {
@@ -238,7 +245,13 @@ public class FloaterService extends Service {
 
 
                     //TODO put a layer detection here to detect current running activity
-
+                    //Analytics
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Floater")
+                            .setAction("floaterClicked")
+                            .setLabel("floater action")
+                            .build());
+                    //-----------------------
 
                     Intent intent = new Intent(context, GesturePerformActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//TODO Clear top so won't wake any previously launched activities up |Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -265,6 +278,13 @@ public class FloaterService extends Service {
                     boolean longpress=sharedPref.getBoolean("longPress",true);
                     if(longpress) {
                         stopMe();
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Floater").setAction("floaterLongpressedStopped").setLabel("floater action").build());
+                        //-----------------------
+                    }else {
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Floater").setAction("floaterLongpressed").setLabel("floater action").build());
+                        //-----------------------
                     }
                     return true;
                 }

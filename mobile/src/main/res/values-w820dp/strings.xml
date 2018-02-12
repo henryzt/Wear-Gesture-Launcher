@@ -28,4 +28,5 @@
     <string name="choose_an_action">Choose an action that you would like to create gesture with</string>
     <string name="delete">Delete</string>
     <string name="main_update_warning_title">Update warning</string>
+    <string name="main_deleting">Deleting...</string>
 </resources>

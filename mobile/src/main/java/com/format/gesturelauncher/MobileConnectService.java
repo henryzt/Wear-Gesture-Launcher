@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -69,6 +71,8 @@ public class MobileConnectService extends Service implements
 
     boolean updateInfoShowed =false;
 
+    public Tracker mTracker;
+
     public MobileConnectService() {
     }
 
@@ -96,6 +100,11 @@ public class MobileConnectService extends Service implements
 
     public void onCreate() {
         super.onCreate();
+
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         //-----------------------------------------------------Connect to Wearable
 
@@ -268,6 +277,14 @@ public class MobileConnectService extends Service implements
 
                 PATH=item.getUri().getPath();
 
+
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Mobile Sync")
+                        .setAction("mobileSyncDataChanged")
+                        .setLabel(PATH)
+                        .build());
+
                 if(PATH.equals(MOBILE_RECEIVE)){   //If the path equals 'receive'（To make sure the receved data isn't send by mobile itself but by wear）
                                 //----------------------------------------------------------------------------------------------------------------Version check
 
@@ -365,10 +382,34 @@ public class MobileConnectService extends Service implements
             }
 
 
+        }else if(filter.getMethod().equals("tasker")){
+            runTakser(filter.getPackName());
+            MsgT("Running Tasker task "+filter.getFilteredName()+" ...");
         }
+
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Mobile Sync")
+                .setAction("mobileAction")
+                .setLabel(action)
+                .build());
 
     }
 
+    public void runTakser(String taskName){
+        if ( TaskerIntent.testStatus( getApplicationContext() ).equals( TaskerIntent.Status.OK ) ) {
+            TaskerIntent i = new TaskerIntent( taskName);
+            sendBroadcast( i );
+        }else {
+            Toast.makeText(getApplicationContext(),"Tasker error: "+TaskerIntent.testStatus( getApplicationContext() ).toString() , Toast.LENGTH_LONG).show();//"Sorry, please check your Tasker preference to open external access"
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Mobile Tasker")
+                    .setAction("taskerError")
+                    .setLabel(TaskerIntent.testStatus( getApplicationContext() ).toString())
+                    .build());
+        }
+    }
 
     //===============================================================
 

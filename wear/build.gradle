@@ -9,8 +9,10 @@ android {
         applicationId "com.format.gesturelauncher"
         minSdkVersion 21
         targetSdkVersion 26//26
-        versionCode 2171//2(wear)-010
-        versionName "1.7.1 WearBeta"
+        versionCode 2172//2(wear)-010
+        versionName "1.7.2 WearBeta"
+//        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -21,9 +23,21 @@ android {
     sourceSets {
         main { res.srcDirs = ['src/main/res', 'src/main/res/gesturelib', 'src/main/res/raw'] }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
 }
 
+
 dependencies {
+
+//    compile 'com.android.support:multidex:1.0.1'
+
+
+    compile 'com.google.android.gms:play-services-analytics:11.0.2'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
 //    compile fileTree(dir: 'libs', include: ['*.jar'])

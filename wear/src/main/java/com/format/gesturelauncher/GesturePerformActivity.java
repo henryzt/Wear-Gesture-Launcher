@@ -17,6 +17,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
@@ -35,7 +38,7 @@ public class GesturePerformActivity extends Activity {
     private TextView mClockView;
 //TODO 换mainactivity
 
-
+    public Tracker mTracker;
 
     TextView hintText;
     Button mButtonClose;
@@ -53,6 +56,18 @@ public class GesturePerformActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gesture_main);
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Gesture Perform Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("PerformActivity")
+                .setAction("openPerformActivity")
+                .setLabel("perform")
+                .build());
+        //-----------------------
 
 
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -162,6 +177,8 @@ public class GesturePerformActivity extends Activity {
                     if(vibratorOn){v.vibrate(right,-1);}
                     matchOpen(maxName);//尝试打开app
 
+
+
                     //break;
 
                 }else {
@@ -179,6 +196,15 @@ public class GesturePerformActivity extends Activity {
 //                    msg("Please try again");
                 }
 
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("PerformActivity")
+                        .setAction("gestureMatched")
+                        .setLabel(maxName)
+                        .setValue(Math.round(maxfound))
+                        .build());
+                //-----------------------
+
             }
         });
 
@@ -190,6 +216,12 @@ public class GesturePerformActivity extends Activity {
             public void onClick(View view) {
 //                this.setVisibility(View.GONE);
 //                moveTaskToBack(true);
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("PerformActivity")
+                        .setAction("userCanceledPerform")
+                        .build());
+                //-----------------------
                 finish();
             }
         });
@@ -265,10 +297,23 @@ public class GesturePerformActivity extends Activity {
                     mobileOpen(name.getOriginalName());
                     break;
 
+                case "tasker":
+                    hintText.setText("Openning "+name.getFilteredName()+" on your phone...");
+                    mobileOpen(name.getOriginalName());
+                    break;
+
+
             }
 
         }catch (Exception e){
             msg("Fail to open "+name.getFilteredName());
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("PerformActivity")
+                    .setAction("failToOpenMatch")
+                    .setLabel(activity)
+                    .build());
+            //-----------------------
             return;
         }
 
