@@ -77,8 +77,8 @@
     <string name="app_select_all_item">You have created all items in this section!</string>
     <string name="confirm_gesture_save_fail">Gesture didn\'t save, wearable sync failed, please try again</string>
     <string name="confirm_must_choose">You must choose an action</string>
-    <string name="confirm_collision_clear">Possible gesture collision: \\nGreat! No similar gestures found</string>
-    <string name="confirm_collision_similar">Possible gesture collision: \\n%1$s - Similarity %2$d%%</string>
+    <string name="confirm_collision_clear">Possible gesture collision: \nGreat! No similar gestures found</string>
+    <string name="confirm_collision_similar">Possible gesture collision: \n%1$s - Similarity %2$d%%</string>
     <string name="timer_new_alarm">New Alarm</string>
     <string name="timer_manage_alarms">Manage Alarms</string>
     <string name="timer_open_timer">Open Timer</string>
@@ -110,11 +110,12 @@
     <string name="settings_changes_saved">Changes saved</string>
     <string name="gesture_saved">Saved!</string>
     <string name="gesture_saving">Saving...</string>
-    <string name="main_about_content">Thank you for using! \nIf you have any issues or suggestions, please email me at \nhenryzhang9802@gmail.com \n\nSpecial thanks to Thomas and Joerg Dietz \n\nMobile version code: %1$d \nVersion name: %2$s \nWear version code: %3$d</string>
+    <string name="main_about_content">Thank you for using! \nIf you have any issues or suggestions, please email me at \nhenryzhang9802@gmail.com \n\nSpecial thanks to Thomas, Joerg Dietz and Natalia \n\nMobile version code: %1$d \nVersion name: %2$s \nWear version code: %3$d</string>
     <string name="main_version_content">Mobile app Version %1$d \nWear app Version %2$d \nVersion not consistent, please wait for play store auto-update or update manually to make sure sync running properly.</string>
     <string name="welcome_no_respond">Wearable no respond, please make sure the wearable app is installed and opened on your watch, and try again.</string>
     <string name="welcome_no_respond_t">No respond</string>
     <string name="welcome_b_install">Install now</string>
     <string name="welcome_connected">Connected!</string>
     <string name="welcome_go">Go!</string>
+    <string name="welcome_fail_connect_button">Unable to connect?</string>
 </resources>

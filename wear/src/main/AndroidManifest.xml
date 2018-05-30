@@ -59,6 +59,7 @@
             android:name=".FloaterService"
             android:enabled="true"
             android:exported="true" />
+
         <service
             android:name=".WearConnectService"
             android:enabled="true"

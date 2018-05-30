@@ -77,8 +77,8 @@
     <string name="app_select_all_item">你已经创建了这个选项下的所有选项！</string>
     <string name="confirm_gesture_save_fail">手势保存失败，同步失败，请重试</string>
     <string name="confirm_must_choose">你必须要选择一个选项</string>
-    <string name="confirm_collision_clear">可能的冲突手势:\\n太好了，并没有会冲突的手势</string>
-    <string name="confirm_collision_similar">可能的冲突手势: \\n\n%1$s - 相似度 %2$d%%</string>
+    <string name="confirm_collision_clear">可能的冲突手势:\n太好了，并没有会冲突的手势</string>
+    <string name="confirm_collision_similar">可能的冲突手势: \n%1$s - 相似度 %2$d%%</string>
     <string name="timer_new_alarm">新闹钟</string>
     <string name="timer_manage_alarms">管理闹钟</string>
     <string name="timer_open_timer">打开计时器</string>
@@ -117,4 +117,5 @@
     <string name="welcome_go">Go!</string>
     <string name="welcome_no_respond_t">连接失败</string>
     <string name="welcome_b_install">现在安装</string>
+    <string name="welcome_fail_connect_button">无法连接？</string>
 </resources>

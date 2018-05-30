@@ -134,7 +134,7 @@ public class AddConfirmGesture extends WearableActivity {
             String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/5)*100);
 
-            text.setText(getString(R.string.confirm_collision_similar));//" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
+            text.setText(String.format(getString(R.string.confirm_collision_similar), gesturename, smilarity));//" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
 
 
         }else {

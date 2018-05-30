@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">Gesture Launcher</string>
     <string name="title_gesture_main">Gesture Launcher</string>
     <string name="draw_your_pattern">Draw your pattern</string>
@@ -40,19 +40,15 @@
     <string name="settings_clear_gestures">Clear gestures</string>
     <string name="settings_reload_gestures">Reload gestures</string>
     <string name="manage_gestures">Manage gestures</string>
-
     <string name="main_oreo_content">Having a notification about overlay floater? You can long press on the notification and turn it off!</string>
     <string name="main_overlay_notif_title">Oreo overlay Notification</string>
     <string name="add_indicator_drawtoset">Draw to set the pattern of action \'%s\'</string>
-
-
     <string name="confirm_collision_clear">- Collision check - \n Great! No similar gestures found</string>
     <string name="confirm_collision_similar">- Collision check - \n %1$s - Similarity %2$d%%</string>
     <string name="timer_new_alarm">New Alarm</string>
     <string name="timer_manage_alarms">Manage Alarms</string>
     <string name="timer_open_timer">Open Timer</string>
     <string name="timer_open_stopwatch">Open Stopwatch</string>
-
     <string name="main_deleted">Item deleted</string>
     <string name="dialog_delete_msg">Do you want to delete Gesture \'</string>
     <string name="delete">Delete</string>
@@ -76,7 +72,7 @@
     <string name="help_part4">Use the mobile app to get more gesture options! (Android Only)</string>
     <string name="help_b_get_on_phone">Get it on your phone</string>
     <string name="help_t_about">About</string>
-    <string name="help_part5">Thank you for using! \nIf you have any issue or suggestion, please email me at \nhenryzhang9802@gmail.com \n\nSpecial thanks to Thomas and Joerg Dietz</string>
+    <string name="help_part5">Thank you for using! \nIf you have any issue or suggestion, please email me at \nhenryzhang9802@gmail.com \n\nSpecial thanks to Thomas,  Joerg Dietz and Natalia</string>
     <string name="help_t_rate_us">Rate us</string>
     <string name="help_part6">This app is totally free, it is the best support to us if you could take a moment to rate it on Google Play Store!</string>
     <string name="help_b_rate">Rate the App!</string>
@@ -93,12 +89,10 @@
     <string name="gesture_failed">Fail to open</string>
     <string name="help_phone_disc">Phone disconnected</string>
     <string name="settings_reload_warn">This will reload the initial gestures based on what apps you have installed. All of your current gestures *will* be overwrote. Continue?</string>
-    <string name="version_warn">\n\nWear gesture launcher\nMobile app %1$d\nWear app %2$%d\nVersion not consistent, please update your apps to make sure sync running properly.</string>
+    <string name="version_warn">\n\nWear gesture launcher\nMobile app %1$d\nWear app %2$d\nVersion not consistent, please update your apps to make sure sync running properly.</string>
     <string name="lib_synced">Gesture Library Synced!</string>
     <string name="connection_ini">Connection Initiated!</string>
     <string name="connect_fail_code">Failed to send action:</string>
     <string name="connect_action_sent">Action Sent!</string>
     <string name="connect_connection_failed">Connection failed</string>
-
-
 </resources>
