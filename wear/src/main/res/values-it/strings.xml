@@ -95,4 +95,6 @@
     <string name="connection_ini">Connessione avviata!</string>
     <string name="connect_fail_code">Impossibile inviare l\'azione:</string>
     <string name="connect_action_sent">Azione inviata!</string>
-    <string name="connect_connection_failed">Connessione fallita</string></resources>
+    <string name="connect_connection_failed">Connessione fallita</string>
+    <string name="settings_delay">ritardare l\'azione</string>
+</resources>

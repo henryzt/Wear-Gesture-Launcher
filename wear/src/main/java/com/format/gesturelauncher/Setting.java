@@ -12,6 +12,9 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
 import static com.format.gesturelauncher.MainActivity.wearConnect;
 import static com.format.gesturelauncher.WearConnectService.reload;
@@ -23,15 +26,22 @@ public class Setting extends Activity {
     Switch vibrate;
     Switch small;
     Switch wider;
+    Switch delay;
     Switch longPress;
     RadioGroup location;
     int accuracy;
+
+    public Tracker mTracker;
+
 //    private TextViewew mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
 
         //------------------------------------------------------Get pref
@@ -43,6 +53,7 @@ public class Setting extends Activity {
         boolean smallQ=sharedPref.getBoolean("small",false);
         boolean b_longpress = sharedPref.getBoolean("longpress",true);
         boolean b_wider = sharedPref.getBoolean("wider",false);
+        boolean wait = sharedPref.getBoolean("wait",false);
 
         //------------------------------------------------------change
         showQuick =(Switch) findViewById(R.id.switch1);
@@ -53,6 +64,10 @@ public class Setting extends Activity {
 
         small =(Switch) findViewById(R.id.switchNarrow);
         small.setChecked(smallQ);
+
+        delay =(Switch) findViewById(R.id.switchDelay);
+        delay.setChecked(wait);
+
 
         longPress =(Switch) findViewById(R.id.switchLongpress);
         longPress.setChecked(b_longpress);
@@ -183,6 +198,22 @@ public class Setting extends Activity {
     }
 
 
+    public void Analytics(String action,boolean status){
+        //Analytics
+        String label;
+        if(status){
+            label="_true";
+        }else{
+            label="_false";
+        }
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("WearSettings")
+                .setAction("optionLoaded")
+                .setLabel(action+label)
+                .build());
+        //-----------------------
+    }
+
 
     public void savePref() {
         SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
@@ -192,12 +223,20 @@ public class Setting extends Activity {
         editor.putBoolean("small", small.isChecked());
         editor.putBoolean("longpress", longPress.isChecked());
         editor.putBoolean("wider", wider.isChecked());
-
+        editor.putBoolean("wait", delay.isChecked());
 
         editor.putString("location", getLocationSelected());
         editor.putInt("accuracy", accuracy);
         editor.apply();
 //        Toast.makeText(getApplicationContext(), "Changes saved", Toast.LENGTH_SHORT).show();
+
+        //Analytics
+        Analytics("showFloater", showQuick.isChecked());
+        Analytics("vibrate", vibrate.isChecked());
+        Analytics("smallFloater", small.isChecked());
+        Analytics("longPressOff", longPress.isChecked());
+        Analytics("widerFloater", wider.isChecked());
+        Analytics("delayAction", delay.isChecked());
 
 
 
@@ -238,6 +277,7 @@ public class Setting extends Activity {
         wearConnect.vibratorOn = sharedPref.getBoolean("vibrate", true);
         wearConnect.location = sharedPref.getString("location", "r");
         wearConnect.accuracy = sharedPref.getInt("accuracy", 2);
+        wearConnect.wait = sharedPref.getBoolean("wait", false);
     }
 
 

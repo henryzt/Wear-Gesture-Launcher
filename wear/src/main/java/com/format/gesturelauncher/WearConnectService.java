@@ -39,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,6 +85,7 @@ public class WearConnectService extends Service implements
     static boolean vibratorOn;
     static String location ;
     static int accuracy ;
+    static boolean wait;
 
 
     public Tracker mTracker;
@@ -154,6 +156,7 @@ public class WearConnectService extends Service implements
         vibratorOn = sharedPref.getBoolean("vibrate", true);
         location = sharedPref.getString("location", "r");
         accuracy = sharedPref.getInt("accuracy", 2);
+        wait = sharedPref.getBoolean("wait", false);//wait for the confirmation
     }
 
 
@@ -465,9 +468,13 @@ public class WearConnectService extends Service implements
 
     private void sendMobileMessage(final String action) {
 
+        byte[] bytes = action.getBytes(Charset.forName("UTF-8"));
+
+
+
         if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), "/sync", null).setResultCallback(
+                    mGoogleApiClient, mNode.getId(), "/sync", bytes).setResultCallback(//TODO !!! "/sync" replaced by action
 
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
@@ -483,7 +490,8 @@ public class WearConnectService extends Service implements
                                 mTracker.send(new HitBuilders.EventBuilder().setCategory("MobileConnection").setAction("failToSendAction").setLabel( sendMessageResult.getStatus().getStatusMessage()).build());
 
                             }else {
-                                sendMobileActionDatamap(action);
+                                //sendMobileActionDatamap(action);
+
                                 msg(getString(R.string.connect_action_sent));
 
                                 //Analytics

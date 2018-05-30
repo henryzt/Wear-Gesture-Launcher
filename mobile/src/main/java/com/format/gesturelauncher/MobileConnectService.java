@@ -294,8 +294,12 @@ public class MobileConnectService extends Service implements
 
 //                                        Toast.makeText(this, "Mobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG).show();
                                         if(!updateInfoShowed){
-                                            versionNote();
-                                            updateInfoShowed=true;
+                                            try{
+                                                versionNote();
+                                                updateInfoShowed=true;
+                                            }catch (NullPointerException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
 
                                         Sync(mobileconnect,false);//overwrite from wear

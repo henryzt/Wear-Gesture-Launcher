@@ -9,15 +9,35 @@
     tools:context="com.format.gesturelauncher.GesturePerformActivity"
     tools:deviceIds="wear">
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="top|center"
+        app:layout_box="all">
 
-        android:text="@string/draw_your_pattern"
-        android:textColor="@color/white"
-        app:layout_box="all" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:indeterminateDuration="10"
+            android:paddingBottom="10dp"
+            android:paddingTop="25dp"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center"
+
+            android:text="@string/draw_your_pattern"
+            android:textColor="@color/white"
+            app:layout_box="all" />
+
+    </LinearLayout>
 
     <android.gesture.GestureOverlayView
         android:id="@+id/gesture"
@@ -60,6 +80,9 @@
             android:textColor="#c3606060" />
 
     </LinearLayout>
+
+
+
 
 
 </android.support.wearable.view.BoxInsetLayout>

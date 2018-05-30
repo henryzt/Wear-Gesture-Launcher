@@ -9,8 +9,8 @@ android {
         applicationId "com.format.gesturelauncher"
         minSdkVersion 21
         targetSdkVersion 26//26
-        versionCode 2176//2(wear)-010
-        versionName "1.7.6 WearBeta"
+        versionCode 2180//2(wear)-010
+        versionName "1.8.0 WearBeta"
 //        multiDexEnabled true
 
     }
@@ -48,4 +48,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:26.+'
     provided 'com.google.android.wearable:wearable:1.0.0'
+
 }

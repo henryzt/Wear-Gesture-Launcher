@@ -1,5 +1,6 @@
 package com.format.gesturelauncher;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.gesture.Gesture;
 import android.gesture.Prediction;
@@ -74,7 +75,9 @@ public class dialog_confirm extends AppCompatActivity {
                  mTracker = application.getDefaultTracker();
 
                 if(MethodNameForReturn != null){
-                    Toast.makeText(getApplicationContext(), R.string.gesture_saving,Toast.LENGTH_SHORT).show();
+                    final ProgressDialog dialog = ProgressDialog.show(dialog_confirm.this, "",
+                            getString(R.string.gesture_saving), true); //DIALOG saving...
+
                     next.setEnabled(false);
                     Sync(mobileconnect,false);
 
@@ -91,7 +94,7 @@ public class dialog_confirm extends AppCompatActivity {
                                         .build());
                                 //-----------------------
 
-
+                                dialog.dismiss();
                                 Toast.makeText(getApplicationContext(), R.string.gesture_saved,Toast.LENGTH_SHORT).show();
                                 lib.addGesture(MethodNameForReturn,gesture);
                                 lib.save();
@@ -114,6 +117,7 @@ public class dialog_confirm extends AppCompatActivity {
                                     .setLabel(MethodNameForReturn)
                                     .build());
 
+                            dialog.dismiss();
                             Toast.makeText(getApplicationContext(), R.string.confirm_gesture_save_fail,Toast.LENGTH_SHORT).show();
                             next.setEnabled(true);
 

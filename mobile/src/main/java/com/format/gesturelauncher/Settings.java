@@ -18,6 +18,7 @@ public class Settings extends AppCompatActivity {
 
     Switch showQuick;
     Switch vibrate;
+
     RadioGroup location;
     SeekBar seek;
 
@@ -40,12 +41,14 @@ public class Settings extends AppCompatActivity {
         String loca=sharedPref.getString("location","r");
         int accuracy=sharedPref.getInt("accuracy",2);
 
+
         //------------------------------------------------------change
         showQuick =(Switch) findViewById(R.id.switch1);
         showQuick.setChecked(showq);
 
         vibrate =(Switch) findViewById(R.id.switchVib);
         vibrate.setChecked(vib);
+
 
         location=(RadioGroup)findViewById(R.id.radio);
 

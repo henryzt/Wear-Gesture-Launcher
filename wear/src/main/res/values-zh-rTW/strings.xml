@@ -95,4 +95,5 @@
     <string name="connect_fail_code">發送請求失敗：</string>
     <string name="connect_action_sent">請求已發送！</string>
     <string name="connect_connection_failed">鏈接失敗</string>
+    <string name="settings_delay">延時執行</string>
 </resources>

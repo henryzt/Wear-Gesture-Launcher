@@ -95,4 +95,5 @@
     <string name="connect_fail_code">Failed to send action:</string>
     <string name="connect_action_sent">Action Sent!</string>
     <string name="connect_connection_failed">Connection failed</string>
+    <string name="settings_delay">Delay action</string>
 </resources>
