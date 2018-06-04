@@ -9,8 +9,8 @@ android {
         applicationId "com.format.gesturelauncher"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 1180  //1(mobile)-010
-        versionName "1.8.0 MobileBeta"
+        versionCode 1181  //1(mobile)-010
+        versionName "1.8.1 MobileBeta"
         multiDexEnabled true
     }
     buildTypes {

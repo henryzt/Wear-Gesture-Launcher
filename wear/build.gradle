@@ -9,8 +9,8 @@ android {
         applicationId "com.format.gesturelauncher"
         minSdkVersion 21
         targetSdkVersion 26//26
-        versionCode 2180//2(wear)-010
-        versionName "1.8.0 WearBeta"
+        versionCode 2181//2(wear)-010
+        versionName "1.8.1 WearBeta"
 //        multiDexEnabled true
 
     }

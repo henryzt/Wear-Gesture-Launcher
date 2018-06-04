@@ -275,7 +275,8 @@ public class FloaterService extends Service {
                 public boolean onLongClick(View view) {
 
                     SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-                    boolean longpress=sharedPref.getBoolean("longPress",true);
+                    boolean longpress=sharedPref.getBoolean("longpress",true);
+
                     if(longpress) {
                         stopMe();
                         //Analytics
