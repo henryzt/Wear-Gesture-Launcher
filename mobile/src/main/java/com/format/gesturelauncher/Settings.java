@@ -18,6 +18,7 @@ public class Settings extends AppCompatActivity {
 
     Switch showQuick;
     Switch vibrate;
+
     RadioGroup location;
     SeekBar seek;
 
@@ -40,12 +41,14 @@ public class Settings extends AppCompatActivity {
         String loca=sharedPref.getString("location","r");
         int accuracy=sharedPref.getInt("accuracy",2);
 
+
         //------------------------------------------------------change
         showQuick =(Switch) findViewById(R.id.switch1);
         showQuick.setChecked(showq);
 
         vibrate =(Switch) findViewById(R.id.switchVib);
         vibrate.setChecked(vib);
+
 
         location=(RadioGroup)findViewById(R.id.radio);
 
@@ -55,13 +58,13 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if(i>=3){
-                    Toast.makeText(getApplicationContext(),"High accuracy could cause gestures too hard to be recognized",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.settings_high_notice,Toast.LENGTH_LONG).show();
                 }
                 if(i==1){
-                    Toast.makeText(getApplicationContext(),"Low accuracy could cause gestures too easy to be recognized",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.settings_low_notice,Toast.LENGTH_LONG).show();
                 }
                 if(i==0){
-                    Toast.makeText(getApplicationContext(),"Warning: This will skip the filtering, allow every best match gesture to be executed!!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), R.string.settings_zero_notice,Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -138,7 +141,7 @@ public class Settings extends AppCompatActivity {
         editor.putString("location",getLocationSelected());
         editor.putInt("accuracy",seek.getProgress());
         editor.apply();
-        Toast.makeText(getApplicationContext(),"Changes saved",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.settings_changes_saved,Toast.LENGTH_SHORT).show();
 
 
     }

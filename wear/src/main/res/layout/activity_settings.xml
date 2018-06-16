@@ -53,6 +53,15 @@
                 android:padding="10dp"
                 android:text="@string/settings_vibration" />
 
+            <Switch
+                android:id="@+id/switchDelay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:padding="10dp"
+                android:text="@string/settings_delay" />
+
             <LinearLayout
                 android:id="@+id/settings_quicklauncher"
                 android:layout_width="match_parent"

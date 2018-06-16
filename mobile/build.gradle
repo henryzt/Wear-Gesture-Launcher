@@ -3,15 +3,15 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.format.gesturelauncher"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 1171  //1(mobile)-010
-        versionName "1.7.1 MobileBeta"
-//        multiDexEnabled true
+        versionCode 1181  //1(mobile)-010
+        versionName "1.8.1 MobileBeta"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -24,9 +24,18 @@ android {
             res.srcDirs = ['src/main/res', 'src/main/res/raw', 'src/main/res/menu', 'src/main/res/menus']
         }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
 }
 
+
 dependencies {
+    compile 'com.google.android.gms:play-services-analytics:11.0.2'
+
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
 
@@ -35,6 +44,10 @@ dependencies {
     wearApp project(':wear')
     //进度条
 //    compile 'com.google.android.support:wearable:2.0.3'
+
+//    compile 'com.android.support:multidex:1.0.1'
+
+
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.google.android.gms:play-services:11.0.2'
     compile 'com.android.support:design:26.0.0-alpha1'

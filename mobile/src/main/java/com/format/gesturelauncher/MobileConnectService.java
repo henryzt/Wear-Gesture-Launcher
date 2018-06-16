@@ -1,27 +1,19 @@
 package com.format.gesturelauncher;
 
-import android.app.AlertDialog;
 import android.app.Service;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -40,13 +32,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.finishedSync;
 import static com.format.gesturelauncher.MainActivity.main;
 import static com.format.gesturelauncher.MainActivity.mobileconnect;
 import static com.format.gesturelauncher.MainActivity.versionNote;
-import static com.format.gesturelauncher.MainActivity.warningdialog;
 
 public class MobileConnectService extends Service implements
         DataApi.DataListener,
@@ -81,6 +71,8 @@ public class MobileConnectService extends Service implements
 
     boolean updateInfoShowed =false;
 
+    public Tracker mTracker;
+
     public MobileConnectService() {
     }
 
@@ -108,6 +100,11 @@ public class MobileConnectService extends Service implements
 
     public void onCreate() {
         super.onCreate();
+
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
 
         //-----------------------------------------------------Connect to Wearable
 
@@ -274,18 +271,19 @@ public class MobileConnectService extends Service implements
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 // DataItem changed
                 DataItem item = event.getDataItem();
-//                if (item.getUri().getPath().compareTo("/count") == 0) {
-//                    DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
-//
-//                }
-//                byte[] data = item.getData();
-//                MsgT(data.toString());
 
-//                MsgS(PATH);
 
                 DataMap map = putDataMapRequest.getDataMap();
 
                 PATH=item.getUri().getPath();
+
+
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Mobile Sync")
+                        .setAction("mobileSyncDataChanged")
+                        .setLabel(PATH)
+                        .build());
 
                 if(PATH.equals(MOBILE_RECEIVE)){   //If the path equals 'receive'（To make sure the receved data isn't send by mobile itself but by wear）
                                 //----------------------------------------------------------------------------------------------------------------Version check
@@ -296,8 +294,12 @@ public class MobileConnectService extends Service implements
 
 //                                        Toast.makeText(this, "Mobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG).show();
                                         if(!updateInfoShowed){
-                                            versionNote();
-                                            updateInfoShowed=true;
+                                            try{
+                                                versionNote();
+                                                updateInfoShowed=true;
+                                            }catch (NullPointerException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
 
                                         Sync(mobileconnect,false);//overwrite from wear
@@ -314,7 +316,7 @@ public class MobileConnectService extends Service implements
 
 
 
-                }else if(PATH.equals("/update")){ //如果路径等于update，则覆盖手机的gestures
+                }else if(PATH.equals("/update")){ //if path = update, overwrite phone gestures from wear
                     MsgS(getString(R.string.sync_success), Snackbar.LENGTH_LONG);
                     byte2FileAndWrite(map.getByteArray("updatedlib")); //从手表得到手表的最新的library然后覆盖
                     finishedSync(true);//刷新列表
@@ -346,6 +348,10 @@ public class MobileConnectService extends Service implements
 //                    LoadPref();
                     //--------------------------------------------------------------
 
+                }else if(PATH.equals("/action")){
+
+
+                    openRequest(map.getString("action"));
                 }
 
 
@@ -362,19 +368,55 @@ public class MobileConnectService extends Service implements
     //----------------------------------------------------Version notice
 
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        mGoogleApiClient.connect();
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        Wearable.DataApi.removeListener(mGoogleApiClient, this);
-//        mGoogleApiClient.disconnect();
-//    }
+
+    //-------------------------------------------------------------------------------Open apps and Tasker
+
+    public void openRequest(String action){
+        NameFilter filter= new NameFilter(action);
+        if(filter.getMethod().equals("mapp")){
+            Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage(filter.getPackName());
+
+            Log.v("mapp",filter.getPackName());
+            try {
+                startActivity(LaunchIntent);
+                MsgT(String.format(getString(R.string.receiver_open_m_app), filter.getFilteredName()));
+            }catch (Exception e){
+                MsgT(String.format(getString(R.string.receiver_open_app_failed), filter.getFilteredName()));
+                e.printStackTrace();
+            }
+
+
+        }else if(filter.getMethod().equals("tasker")){
+            runTakser(filter.getPackName());
+            MsgT(String.format(getString(R.string.receiver_tasker_task), filter.getFilteredName()));
+        }
+
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Mobile Sync")
+                .setAction("mobileAction")
+                .setLabel(action)
+                .build());
+
+    }
+
+    public void runTakser(String taskName){
+        if ( TaskerIntent.testStatus( getApplicationContext() ).equals( TaskerIntent.Status.OK ) ) {
+            TaskerIntent i = new TaskerIntent( taskName);
+            sendBroadcast( i );
+        }else {
+            Toast.makeText(getApplicationContext(),getString(R.string.receiver_tasker_error)+TaskerIntent.testStatus( getApplicationContext() ).toString() , Toast.LENGTH_LONG).show();//"Sorry, please check your Tasker preference to open external access"
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Mobile Tasker")
+                    .setAction("taskerError")
+                    .setLabel(TaskerIntent.testStatus( getApplicationContext() ).toString())
+                    .build());
+        }
+    }
+
+    //===============================================================
+
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -409,7 +451,7 @@ public class MobileConnectService extends Service implements
 
     @Override
     public void onConnectionSuspended(int i) {
-        MsgT("Connection suspended");
+        MsgT(getString(R.string.receiver_connection_suspend));
     }
 
 

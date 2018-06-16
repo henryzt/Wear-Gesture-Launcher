@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.wearConnect;
@@ -57,6 +60,17 @@ public class AddConfirmGesture extends WearableActivity {
                 lib.addGesture(methodNameForReturn,gesture);
                 lib.save();
 
+
+                //Analytics
+                Tracker mTracker;
+                AnalyticsApplication application = (AnalyticsApplication) getApplication();
+                mTracker = application.getDefaultTracker();
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Wearable Action")
+                        .setAction("newGestureAdded")
+                        .setLabel(methodNameForReturn)
+                        .build());
+
 //                Toast.makeText(getApplicationContext(),"Gesture saved!",Toast.LENGTH_SHORT).show();
 
 
@@ -76,7 +90,7 @@ public class AddConfirmGesture extends WearableActivity {
 
                     }
                 })
-                        .setMessage("Gesture saved")
+                        .setMessage(getString(R.string.gesture_saved))
                         .setType(ConfirmationOverlay.SUCCESS_ANIMATION)
                         .showOn(AddConfirmGesture.this);
 
@@ -120,11 +134,11 @@ public class AddConfirmGesture extends WearableActivity {
             String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/5)*100);
 
-            text.setText(" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
+            text.setText(String.format(getString(R.string.confirm_collision_similar), gesturename, smilarity));//" - Collision check - \n"+ gesturename +" - Similarity "+smilarity +"%");
 
 
         }else {
-            text.setText(" - Collision check - \nGreat! No similar gestures found");
+            text.setText(getString(R.string.confirm_collision_clear));
 
 
         }

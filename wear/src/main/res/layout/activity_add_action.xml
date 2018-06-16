@@ -31,7 +31,7 @@
 
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="Choose an action to continue"
+                android:text="@string/choose_an_action"
                 app:layout_box="all"
                 android:paddingLeft="5dp"/>
 
@@ -44,7 +44,7 @@
                 android:layout_gravity="center|bottom"
                 android:drawableLeft="@drawable/ic_watch_white_24dp"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Launch app"
+                android:text="@string/action_launch_app"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_blue_bright" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Timer action"
+                android:text="@string/action_timer_actions"
                 android:drawableLeft="@drawable/ic_timer_white_24dp"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_blue_bright" />
@@ -97,8 +97,32 @@
                 android:text="Phone call"
                 android:textAlignment="center"
                 android:textColor="@color/light_grey"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
+            <Button
+                android:id="@+id/buttonTasker"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:drawableLeft="@drawable/ic_flash_on_white_24dp"
+
+                android:fontFamily="sans-serif-condensed"
+                android:text="Tasker"
+                android:textAlignment="center"
+                android:textColor="@color/light_grey"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textViewIns3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:text="@string/action_mobile_notice"
+                app:layout_box="all" />
 
 
         </LinearLayout>

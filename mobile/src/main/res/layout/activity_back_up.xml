@@ -24,7 +24,7 @@
             android:paddingBottom="10dp"
 
             android:paddingLeft="10dp"
-            android:text="You can backup a copy of all the current gestures in your phone, so the changes after that won't affect this copy, even if you uninstall the wearable app. After backup, You can restore the copy to overwrite all current gestures." />
+            android:text="@string/backup_help" />
 
         <LinearLayout
             android:id="@+id/LastBackup"
@@ -40,7 +40,7 @@
                 android:paddingBottom="5dp"
 
                 android:paddingLeft="10dp"
-                android:text="Last backup details"
+                android:text="@string/backup_last_backup_details"
                 android:textAlignment="viewStart"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
                 android:textColor="@color/colorPrimary" />
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
 
-                android:text="Restore"
+                android:text="@string/restore"
 
                 android:theme="@style/PrimaryButton"
                 android:visibility="visible" />
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
 
-            android:text="Backup"
+            android:text="@string/backup"
 
             android:theme="@style/PrimaryButton" />
 
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="Close"
+            android:text="@string/close"
 
             android:theme="@style/PrimaryFlatButton" />
 

@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="General"
+                android:text="@string/settings_general"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@color/colorPrimary"
                 android:visibility="visible" />
@@ -39,7 +39,7 @@
                 android:checked="true"
                 android:padding="15dp"
                 android:paddingStart="10dp"
-                android:text="Show quick launcher" />
+                android:text="@string/settings_show_quick_launcher" />
 
             <Switch
                 android:id="@+id/switchVib"
@@ -48,7 +48,7 @@
                 android:checked="true"
                 android:padding="15dp"
                 android:paddingStart="10dp"
-                android:text="Vibration" />
+                android:text="@string/settings_vibration" />
 
             <TextView
                 android:id="@+id/textView"
@@ -57,7 +57,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="Quick Launcher Location"
+                android:text="@string/settings_quick_launcher_location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@color/colorPrimary"
                 android:visibility="visible" />
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:text="Right edge" />
+                    android:text="@string/settings_right_edge" />
 
                 <RadioButton
                     android:id="@+id/radioLeft"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:text="Left edge" />
+                    android:text="@string/settings_left_edge" />
 
                 <RadioButton
                     android:id="@+id/radioTop"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:text="Top edge" />
+                    android:text="@string/settings_top_edge" />
 
                 <RadioButton
                     android:id="@+id/radioBottom"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="1"
-                    android:text="Bottom edge" />
+                    android:text="@string/settings_bottom_edge" />
 
             </RadioGroup>
 
@@ -110,7 +110,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="Backup &amp; Restore"
+                android:text="@string/backup_and_restore"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@color/colorPrimary"
                 android:visibility="visible" />
@@ -120,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Go to backup &amp; restore" />
+                android:text="@string/backup_and_restore" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="Gesture recognition accuracy"
+                android:text="@string/settings_recognition_accuracy"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
                 android:textColor="@color/colorPrimary"
                 android:visibility="visible" />
@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingStart="10dp"
-                android:text="Please only change this when there is a problem with recognition of your gestures" />
+                android:text="@string/settings_recognition_accuracy_notice" />
 
             <SeekBar
                 android:id="@+id/seekBar2"
@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Low accuracy" />
+                    android:text="@string/settings_low_accuracy" />
 
                 <TextView
                     android:id="@+id/textView7"
@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="High accuracy" />
+                    android:text="@string/settings_high_accuracy" />
             </LinearLayout>
 
             <TextView
@@ -186,7 +186,7 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="40dp"
-                android:text="Go back to main screen to save settings"
+                android:text="@string/settings_notice"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
         </LinearLayout>
     </ScrollView>

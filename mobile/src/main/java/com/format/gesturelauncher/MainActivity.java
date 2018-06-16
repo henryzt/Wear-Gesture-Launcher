@@ -5,15 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,28 +26,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataItem;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
-import com.google.android.gms.wearable.Wearable;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
 
 import static com.format.gesturelauncher.MobileConnectService.MOBILE_VERSION;
 import static com.format.gesturelauncher.MobileConnectService.Sync;
@@ -76,6 +58,8 @@ public class MainActivity extends AppCompatActivity{
 
     int defColor = Color.BLACK;
 
+    public Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +81,11 @@ public class MainActivity extends AppCompatActivity{
         //-------------------------------------------load grid
 //        refreshGrid();
 
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Mobile Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         //-------------------------------------------fab activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -169,13 +158,11 @@ public class MainActivity extends AppCompatActivity{
             case R.id.action_about:
                 // User chose the "Settings" item, show the app settings UI...
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("About");
-                builder.setMessage("Thank you for using!\n" +
-                        "If you have any issues or suggestions, please email me at\n" +
-                        "henryzhang9802@gmail.com\n\n"
-                        +"Special thanks to Thomas\n\n"+"Mobile version code: "+MOBILE_VERSION+"\nVersion name: "+ BuildConfig.VERSION_NAME+"\nWear version code: "+WEAR_VERSION);
+                builder.setTitle(R.string.about);
+                builder.setMessage(String.format(getString(R.string.main_about_content), MOBILE_VERSION, BuildConfig.VERSION_NAME, WEAR_VERSION)
+                        );//"\n\nWelcome to join our beta testing to discuss any ideas and problems you may have!"
 
-                builder.setPositiveButton("Email Me", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.email, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         sendEmail();
 
@@ -183,7 +170,17 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
 
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(R.string.main_join_testing, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/communities/111134307417897593116"));
+                        startActivity(browserIntent);
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("joinBetaTestingClicked").build());
+                    }
+                });
+
+                builder.setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -250,6 +247,8 @@ public class MainActivity extends AppCompatActivity{
 //                rateApp();
 
                 rateAppGoogle();
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("rateDialogClicked").build());
                 return true;
 
 
@@ -306,6 +305,8 @@ public class MainActivity extends AppCompatActivity{
 //            MsgT("Choose an Email app to continue");
             startActivity(intent);
         }
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("sendEmailClicked").build());
     }
 
 
@@ -319,6 +320,8 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int id) {
 //                startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.format.gesturelauncher")));
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("rateSureClicked").build());
                 dialog.cancel();
             }
         });
@@ -345,18 +348,18 @@ public class MainActivity extends AppCompatActivity{
 
     private void rateAppEmail(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Send feedback");
-        builder.setMessage("If you have any issues or suggestions, you can click the button to send an email for feedback. We will reply and adapt the change as soon as possible!");
+        builder.setTitle(R.string.send_feedback);
+        builder.setMessage(R.string.send_feedback_content);
         builder.setCancelable(false);
 
-        builder.setPositiveButton("Send Email", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.email, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 //                startActivity(new Intent(getApplicationContext(),WelcomeActivity.class));
                 sendEmail();
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("No, thanks", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.action_no_thanks, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
@@ -406,6 +409,8 @@ public class MainActivity extends AppCompatActivity{
 //                notsyncIndicator.show();
                 text.setText(R.string.main_not_sync);
                 findViewById(R.id.progressBar2).setVisibility(View.GONE);
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("gestureLibNotSynced").build());
             }
         }.start();
     }
@@ -435,7 +440,13 @@ public class MainActivity extends AppCompatActivity{
 
         if(gestureNameSet.size()<=0){
             MsgS("Gesture library is empty, add one now!",Snackbar.LENGTH_INDEFINITE);
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("emptyLibrary").build());
         }
+
+        //TODO sort the set
+//        List sortedList = new ArrayList(gestureNameSet);
+//        Collections.sort(sortedList);//sort alphabetically
 
         for (String gestureName : gestureNameSet) { //for each name
 
@@ -449,7 +460,7 @@ public class MainActivity extends AppCompatActivity{
             for (Gesture gesture : gesturesList) {
                 titles.add(gestureName);
                 bitmaps.add(gesture.toBitmap(125, 125, 30, defColor));//generate bitmap and add to the list
-                shortentitles.add(filter.GetfiltedName());//To delete things after ##
+                shortentitles.add(filter.getFilteredName());//To delete things after ##
 
 //                        setImageBitmap(gesture.toBitmap(100,100,10,defColor));
             }
@@ -485,7 +496,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void delete( final int position) {
 //        MsgS("Updating gestures...",Snackbar.LENGTH_SHORT);
-        startSync();
+//        startSync();
 //        notsync.setVisibility(View.VISIBLE);
 
 
@@ -497,11 +508,18 @@ public class MainActivity extends AppCompatActivity{
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
+                startSync();
+                MsgS(getString(R.string.main_deleting),Snackbar.LENGTH_LONG);
+
                 new CountDownTimer(4000,100){
 
                     public void onTick(long l) {
                         if(notsync.getVisibility()!=View.VISIBLE){
+                            //Analytics
+                            mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Action").setAction("deletedGesture").setLabel(shortentitles.get(position)).build());
                             deleteItem(position);
+
+
                             cancel();
                         }
 //                        Log.v(TAG,notsync.getVisibility());
@@ -509,7 +527,8 @@ public class MainActivity extends AppCompatActivity{
 
                     public void onFinish() {
                         MsgS(getString(R.string.main_faildelete),Snackbar.LENGTH_SHORT);
-
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Mobile Error").setAction("failToDeleteGesture").build());
                     }
                 }.start();
 
@@ -543,7 +562,7 @@ public class MainActivity extends AppCompatActivity{
 
         lib.removeEntry(titles.get(position));
         lib.save();
-        MsgS("Item deleted",Snackbar.LENGTH_SHORT);
+        MsgS(getString(R.string.main_deleted),Snackbar.LENGTH_SHORT);
         refreshGrid();
         Sync(mobileconnect,true);
 
@@ -585,21 +604,7 @@ public class MainActivity extends AppCompatActivity{
         alert.show();
     }
 
-
-    public static void warningdialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(main);
-        builder.setTitle("Warning");
-        builder.setMessage("Your wearable app is running an old version, this might because you just updated the mobile app. Normally you only need to wait for the auto-update on your watch. Please make sure you are using the same version to ensure sync running properly.")
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }//Version Warning
-
+    
 
     public static void versionNote(){
 
@@ -609,20 +614,26 @@ public class MainActivity extends AppCompatActivity{
 
         }else {
 
+            main.mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Version")
+                    .setAction("versionNotMatch")
+                    .setLabel("Mobile "+MOBILE_VERSION+", Wearable "+WEAR_VERSION)
+                    .build());
+
             AlertDialog.Builder builder = new AlertDialog.Builder(main);
-            builder.setTitle("Update warning");
-            builder.setMessage("Mobile app " + (MOBILE_VERSION -1000)+ "\nWear app " + (WEAR_VERSION -2000)+ "\nVersion not consistent, please wait for play store auto-update or update manually to make sure sync running properly.\n\nIf you are having trouble updating wearable app, please use the backup feature before and after reinstalling the new version to save your gestures. Please contact me if you have any problem.");
+            builder.setTitle(R.string.main_update_warning_title);
+            builder.setMessage(String.format(mobileconnect.getString(R.string.main_version_content), MOBILE_VERSION - 1000, WEAR_VERSION - 2000));
             builder.setCancelable(true);
 
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.cast_tracks_chooser_dialog_ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
             });
-            builder.setNegativeButton("Ignore", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.ignore, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Pref.edit().putInt("ignore", MOBILE_VERSION).apply();
-                    Toast.makeText(main, "Ignored for this version", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(main, R.string.ignored_notice, Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                 }
             });

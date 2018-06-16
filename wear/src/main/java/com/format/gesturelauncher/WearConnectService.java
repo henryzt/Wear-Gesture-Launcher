@@ -15,15 +15,21 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -33,7 +39,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +50,9 @@ public class WearConnectService extends Service implements
         DataApi.DataListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
+
+
+    Node mNode; // the connected device to send the message to
 
     private GoogleApiClient mGoogleApiClient;
     String path;
@@ -66,13 +77,18 @@ public class WearConnectService extends Service implements
     static int MOBILE_VERSION;
 
 
+    public static String locationAction = "/action";
+
 
 
     static boolean showQuickLauncher;
     static boolean vibratorOn;
     static String location ;
     static int accuracy ;
+    static boolean wait;
 
+
+    public Tracker mTracker;
 
 
     public WearConnectService() {
@@ -107,6 +123,9 @@ public class WearConnectService extends Service implements
         loadLibrary();
 
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();;
+
     }
 
 
@@ -137,6 +156,7 @@ public class WearConnectService extends Service implements
         vibratorOn = sharedPref.getBoolean("vibrate", true);
         location = sharedPref.getString("location", "r");
         accuracy = sharedPref.getInt("accuracy", 2);
+        wait = sharedPref.getBoolean("wait", false);//wait for the confirmation
     }
 
 
@@ -218,7 +238,7 @@ public class WearConnectService extends Service implements
 
 
         if(lib.save()){
-            msg("Gesture Library initiated!");
+//            msg("Gesture Library initiated!");
 
         }else{
             msg("Error: fail to save gesture library");
@@ -274,6 +294,7 @@ public class WearConnectService extends Service implements
     @Override
     public void onConnected(Bundle bundle) {
         Wearable.DataApi.addListener(mGoogleApiClient, this);
+        resolveNode();
 //        msg("Phone connected");
     }
 
@@ -283,7 +304,21 @@ public class WearConnectService extends Service implements
     }
 
 
+    /*
+       * Resolve the node = the connected device to send the message to
+       */
+    private void resolveNode() {
 
+        Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+            @Override
+            public void onResult(NodeApi.GetConnectedNodesResult nodes) {
+                for (Node node : nodes.getNodes()) {
+                    Log.v(TAG,node.toString());
+                    mNode = node;
+                }
+            }
+        });
+    }
 
 
 
@@ -319,7 +354,7 @@ public class WearConnectService extends Service implements
                             t.show();
 
                         }else {
-                            Toast t = Toast.makeText(this, "\n\nWear gesture launcher\nMobile app " + MOBILE_VERSION + "\nWear app " + WEAR_VERSION + "\nVersion not consistent, please update your apps to make sure sync running properly.", Toast.LENGTH_LONG);
+                            Toast t = Toast.makeText(this, String.format(getString(R.string.version_warn), MOBILE_VERSION, WEAR_VERSION), Toast.LENGTH_LONG);
                             t.setGravity(Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL, 0, 0);
                             t.show();
 
@@ -334,7 +369,7 @@ public class WearConnectService extends Service implements
                         fileInBytes = map.getByteArray("File"); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         byteToFile();//保存
                         loadLibrary();
-                        msg("Gesture Library Synced!");
+                        msg(getString(R.string.lib_synced));
                     }
 
 
@@ -400,7 +435,7 @@ public class WearConnectService extends Service implements
 
                 }else if(path.equals("/initiate")){
                     sendDataMapToDataLayerForMobile("/receive");//send confirm to mobile!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    msg("Connection Initiated!");
+                    msg(getString(R.string.connection_ini));
 
                 }else if(path.equals("/needupdate")) {
                     sendDataMapToDataLayerForMobile("/update");
@@ -424,6 +459,59 @@ public class WearConnectService extends Service implements
     //==============================================================================================
 
 
+    public static void sendMobileAction(WearConnectService connect,String action){
+//        connect.sendDataMapToDataLayerForMobile(locationAction);
+        connect.resolveNode();
+        connect.sendMobileMessage(action);
+
+    }
+
+    private void sendMobileMessage(final String action) {
+
+        byte[] bytes = action.getBytes(Charset.forName("UTF-8"));
+
+
+
+        if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
+            Wearable.MessageApi.sendMessage(
+                    mGoogleApiClient, mNode.getId(), "/sync", bytes).setResultCallback(//TODO !!! "/sync" replaced by action
+
+                    new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+
+                            if (!sendMessageResult.getStatus().isSuccess()) {
+                                Log.e("TAG", "Failed to send message with status code: " + sendMessageResult.getStatus().getStatusCode());
+                                msg(getString(R.string.connect_fail_code) + sendMessageResult.getStatus().getStatusMessage());
+                                sendMobileActionDatamap(action);
+
+
+                                //Analytics
+                                mTracker.send(new HitBuilders.EventBuilder().setCategory("MobileConnection").setAction("failToSendAction").setLabel( sendMessageResult.getStatus().getStatusMessage()).build());
+
+                            }else {
+                                //sendMobileActionDatamap(action);
+
+                                msg(getString(R.string.connect_action_sent));
+
+                                //Analytics
+                                mTracker.send(new HitBuilders.EventBuilder().setCategory("MobileConnection").setAction("actionSent").setLabel( action).build());
+                            }
+                        }
+                    }
+            );
+        }else{
+            msg(getString(R.string.connect_connection_failed));
+
+            sendMobileActionDatamap(action);
+
+
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("MobileConnection").setAction("failToSendAction").setLabel( "Connection failed").build());
+        }
+
+    } //To Listener on mobile phone
+
 
     public static void  sendMobile(WearConnectService connect){
 
@@ -439,6 +527,8 @@ public class WearConnectService extends Service implements
         //---------------------------------------------------------------------取程序列表
         final PackageManager pm = getPackageManager(); //packge manager
         final List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA); // get list of installed program package
+        Collections.sort(packages, new ApplicationInfo.DisplayNameComparator(pm));//sort alphabetically
+
         for (ApplicationInfo packageInfo : packages) {
 
             if(checkForLaunchIntent(packageInfo)==true && checkForAlreadyExist(packageInfo)==false) { //如果这个包是可以运行的且不存在相应手势
@@ -510,7 +600,16 @@ public class WearConnectService extends Service implements
     }   //将要update的文件转化成byte以发送到手机
 
 
-    private DataMap createDatamap(){
+
+    public void sendDataMapToDataLayerForMobile(String location){
+        mobile_received = location;
+        if(mGoogleApiClient.isConnected()){
+            DataMap dataMap = createSyncDatamap();
+            new SendDataMapToDataLayer(mobile_received,dataMap).start();
+        }
+    } //发送
+
+    private DataMap createSyncDatamap(){
         DataMap dataMap = new DataMap();
         dataMap.putString("Received!","From wear");
         dataMap.putString("Time", Long.toString(System.currentTimeMillis()) );
@@ -539,13 +638,18 @@ public class WearConnectService extends Service implements
         return dataMap;
     } //建立数据包准备发送
 
-    public void sendDataMapToDataLayerForMobile(String location){
-        mobile_received = location;
+    private void sendMobileActionDatamap(String action){
+        DataMap dataMap = new DataMap();
+        dataMap.putString("action",action);
+        dataMap.putString("Time", Long.toString(System.currentTimeMillis()) );
+
+
+        mobile_received = locationAction;
         if(mGoogleApiClient.isConnected()){
-            DataMap dataMap = createDatamap();
             new SendDataMapToDataLayer(mobile_received,dataMap).start();
         }
-    } //发送
+    }//datamap for mobile action
+
 
 
 
@@ -586,7 +690,7 @@ public class WearConnectService extends Service implements
 
 
     public void msg(String message){
-        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
         Log.v(TAG,message);
     }
 }

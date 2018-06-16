@@ -44,7 +44,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="How to use?"
+                android:text="@string/help_t_how_to_uese"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textStyle="bold" />
@@ -57,7 +57,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="Anytime on the watch screen:"
+                android:text="@string/help_part1"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -69,7 +69,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="· Tap the edge to open gesture launcher\n· Long press to disable\n· Open from system launcher to re-enable"
+                android:text="@string/help_part2"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -82,38 +82,38 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="15dp"
                 android:scrollbars="none"
-                android:text="How to improve gesture recognition accuracy?"
+                android:text="@string/help_t_accuracy"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/title2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|center"
+            <!--<TextView-->
+                <!--android:id="@+id/title2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="top|center"-->
 
-                android:paddingBottom="5dp"
-                android:paddingTop="15dp"
-                android:scrollbars="none"
-                android:text="What to draw?"
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.WearDiag.Message"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingTop="15dp"-->
+                <!--android:scrollbars="none"-->
+                <!--android:text="What to draw?"-->
+                <!--android:textAlignment="viewStart"-->
+                <!--android:textAppearance="@style/TextAppearance.WearDiag.Message"-->
+                <!--android:textStyle="bold"-->
+                <!--android:visibility="gone" />-->
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|center"
+            <!--<TextView-->
+                <!--android:id="@+id/textView6"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="top|center"-->
 
-                android:paddingBottom="5dp"
-                android:scrollbars="none"
-                android:text="We've added a few popular gestures to get you started, you can add more from main screen."
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/TextAppearance.WearDiag.Message"
-                android:visibility="gone" />
+                <!--android:paddingBottom="5dp"-->
+                <!--android:scrollbars="none"-->
+                <!--android:text="We've added a few popular gestures to get you started, you can add more from main screen."-->
+                <!--android:textAlignment="viewStart"-->
+                <!--android:textAppearance="@style/TextAppearance.WearDiag.Message"-->
+                <!--android:visibility="gone" />-->
 
             <TextView
                 android:id="@+id/textView"
@@ -123,7 +123,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="Gesture recognition is based on strokes and turns, while matching,  draw it with the same order will help to recognize. Avoid using too simplfied gestures (e.g. a curve)"
+                android:text="@string/help_part3"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -136,7 +136,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="15dp"
                 android:scrollbars="none"
-                android:text="Use the mobile app"
+                android:text="@string/help_use_mobile"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textStyle="bold" />
@@ -149,7 +149,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="Use the mobile app to get more gesture options! (Android Only)"
+                android:text="@string/help_part4"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -159,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:text="Get it on your phone"
+                android:text="@string/help_b_get_on_phone"
                 android:textColor="@android:color/holo_blue_bright"
 
                 android:visibility="visible"
@@ -174,7 +174,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="30dp"
                 android:scrollbars="none"
-                android:text="About"
+                android:text="@string/help_t_about"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textStyle="bold" />
@@ -187,7 +187,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="Thank you for using!\nIf you have any issue or suggestion, please email me at \nhenryzhang9802@gmail.com"
+                android:text="@string/help_part5"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -200,7 +200,7 @@
                 android:paddingBottom="5dp"
                 android:paddingTop="15dp"
                 android:scrollbars="none"
-                android:text="Rate us"
+                android:text="@string/help_t_rate_us"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textStyle="bold" />
@@ -213,7 +213,7 @@
 
                 android:paddingBottom="5dp"
                 android:scrollbars="none"
-                android:text="This app is totally free, it is the best support to us if you could take a moment to rate it on Google Play Store!"
+                android:text="@string/help_part6"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message" />
 
@@ -223,7 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:text="Rate the App!"
+                android:text="@string/help_b_rate"
                 android:textColor="@android:color/holo_blue_bright"
 
                 android:visibility="visible"
@@ -242,19 +242,19 @@
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 android:textColor="#6c6c6c" />
 
-            <Button
-                android:id="@+id/buttongot"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:text="Got it"
-                android:textColor="@color/blue"
+            <!--<Button-->
+                <!--android:id="@+id/buttongot"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="bottom|center"-->
+                <!--android:text="Got it"-->
+                <!--android:textColor="@color/blue"-->
 
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:layout_box="all" />
+                <!--android:textSize="18sp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:visibility="gone"-->
+                <!--app:layout_box="all" />-->
         </LinearLayout>
     </ScrollView>
 

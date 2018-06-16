@@ -1,7 +1,10 @@
 package com.format.gesturelauncher;
 
+import android.app.ActivityManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,12 +23,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import java.util.List;
+
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
 
 public class FloaterService extends Service {
 
     static FrameLayout frameLayoutfloater;
-
+    public Tracker mTracker;
     public FloaterService() {
     }
 
@@ -38,6 +46,10 @@ public class FloaterService extends Service {
 
     @Override
     public void onCreate() {
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
         super.onCreate();
 //        MainActivity.floaterService=this;
         if(!apiCompatibleMode) {
@@ -231,6 +243,16 @@ public class FloaterService extends Service {
 //
 //                }
 
+
+                    //TODO put a layer detection here to detect current running activity
+                    //Analytics
+                    mTracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Floater")
+                            .setAction("floaterClicked")
+                            .setLabel("floater action")
+                            .build());
+                    //-----------------------
+
                     Intent intent = new Intent(context, GesturePerformActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//TODO Clear top so won't wake any previously launched activities up |Intent.FLAG_ACTIVITY_CLEAR_TASK
                     PendingIntent pendingIntent =
@@ -253,9 +275,17 @@ public class FloaterService extends Service {
                 public boolean onLongClick(View view) {
 
                     SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-                    boolean longpress=sharedPref.getBoolean("longPress",true);
+                    boolean longpress=sharedPref.getBoolean("longpress",true);
+
                     if(longpress) {
                         stopMe();
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Floater").setAction("floaterLongpressedStopped").setLabel("floater action").build());
+                        //-----------------------
+                    }else {
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Floater").setAction("floaterLongpressed").setLabel("floater action").build());
+                        //-----------------------
                     }
                     return true;
                 }
@@ -289,7 +319,7 @@ public class FloaterService extends Service {
     }
 
     public void stopMe(){
-        msg("Quick Launcher disabled");
+        msg(getString(R.string.floater_disabled));
         frameLayoutfloater.removeAllViews();
         frameLayoutfloater=null;
         stopSelf();

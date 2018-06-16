@@ -5,15 +5,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
 import android.support.wearable.view.ConfirmationOverlay;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.wearable.intent.RemoteIntent;
 
 import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
@@ -29,13 +33,23 @@ public class MainActivity extends Activity {
 
     boolean show;
 
+    public Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+        final SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
+        show = sharedPref.getBoolean("show", true);
 
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();;
+        mTracker.setScreenName("Wearable Main");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
 
 
@@ -44,6 +58,8 @@ public class MainActivity extends Activity {
 
             if(getIntent().getStringExtra("extra").equals("first")){ //startup
 //                Toast.makeText(getApplicationContext(),"Booted up",Toast.LENGTH_SHORT).show();
+                initiateConnection();
+                if(show){initiateFloater();}
                 finish();
             }
 
@@ -67,8 +83,7 @@ public class MainActivity extends Activity {
         }
 
 //----------------------check whether enter gesture perform directly or not
-        SharedPreferences sharedPref = getSharedPreferences("main", MODE_PRIVATE);
-        show = sharedPref.getBoolean("show", true);
+
 
         if(!show && doInitiate){
 
@@ -137,15 +152,42 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                Intent intentAndroid =
-                        new Intent(Intent.ACTION_VIEW)
-                                .addCategory(Intent.CATEGORY_BROWSABLE)
-                                .setData(getPackageManager().getLaunchIntentForPackage("com.android.browser").getData());
+//                Intent intentAndroid =
+//                        new Intent(Intent.ACTION_VIEW)
+//                                .addCategory(Intent.CATEGORY_BROWSABLE)
+//                                .setData(getPackageManager().getLaunchIntentForPackage("com.android.browser").getData());
+//
+//                RemoteIntent.startRemoteActivity(
+//                        getApplicationContext(),
+//                        intentAndroid,
+//                        mResultReceiver);
 
-                RemoteIntent.startRemoteActivity(
-                        getApplicationContext(),
-                        intentAndroid,
-                        mResultReceiver);
+                //-----------------------------------------
+
+
+
+//                Uri uri = Uri.parse("smsto:123456789");
+//                Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+//                it.putExtra("sms_body", "The SMS text");
+//                startActivity(it);
+
+
+                //-----------------------------------------TODO SMS doesn't work
+//                SmsManager smsManager = SmsManager.getDefault();
+//                smsManager.sendTextMessage("PhoneNumber-example:+989147375410", null, "SMS Message Body", null, null);
+
+
+                //---------------------------------------------
+//                Intent intent = new Intent(getApplicationContext(),AddGesture.class);
+//                intent.putExtra("method","Spotify phone##mapp##com.spotify.music");
+//                intent.putExtra("name","Spotify on phone");
+//                startActivity(intent);
+                Intent localIntent2 = new Intent("android.intent.action.PICK_ACTIVITY");
+//                Intent localIntent3 = new Intent("android.intent.action.MAIN",null);
+//                localIntent3.addCategory("android.intent.category.LAUNCHER");
+//                localIntent2.putExtra("android.intent.extra.INTENT",localIntent3);
+                startActivityForResult(localIntent2, 2);
+
             }
         });
 
@@ -165,22 +207,25 @@ public class MainActivity extends Activity {
             String side = "right";
             switch (location) {
                 case "r":
-                    side = "right";
+                    side = getString(R.string.settings_right_edge);
                     break;
                 case "l":
-                    side = "left";
+                    side = getString(R.string.settings_left_edge);
                     break;
                 case "t":
-                    side = "top";
+                    side = getString(R.string.settings_top_edge);
                     break;
                 case "b":
-                    side = "bottom";
+                    side = getString(R.string.settings_bottom_edge);
                     break;
 
             }
 
 
             text.setText(String.format(getResources().getString(R.string.settings_open_instruction), side));
+
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityIniWithFloater").setLabel(side).build());
 
         }else {
             text.setText(R.string.main_quicklauncher_disabled_notice);
@@ -190,11 +235,32 @@ public class MainActivity extends Activity {
                     if(!showQuickLauncher) {
                         Intent intent = new Intent(getApplicationContext(), GesturePerformActivity.class);
                         startActivity(intent);
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityIniWithoutFloaterToPerform").build());
                     }
                 }
             });
         }
 
+
+        //-------------------------------------Check oreo
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && show){
+            if(!sharedPref.getBoolean("oreoWarned", false)){
+                findViewById(R.id.oreoWarn).setVisibility(View.VISIBLE);
+            }
+        }
+
+        findViewById(R.id.buttonOreo).setOnClickListener(new View.OnClickListener() { //按钮事件
+            @Override
+            public void onClick(View view) {
+                sharedPref.edit().putBoolean("oreoWarned", true).apply();
+                findViewById(R.id.oreoWarn).setVisibility(View.GONE);
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("Oreo Gone").build());
+
+            }
+        });
 
     }
 
@@ -250,6 +316,8 @@ public class MainActivity extends Activity {
 
 
         if(apiCompatibleMode){
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("mainActivityCompatibleMode").build());
             TextView text=findViewById(R.id.textViewIns);
 //            text.setText("Compatible mode");
 //            text.setVisibility(View.GONE);
@@ -285,6 +353,8 @@ public class MainActivity extends Activity {
                     if(sharedPref.getBoolean("NEWINSTALL", true)) {
                         versionAlert();
                         sharedPref.edit().putBoolean("NEWINSTALL", false).apply();
+                        //Analytics
+                        mTracker.send(new HitBuilders.EventBuilder().setCategory("Wearable Action").setAction("AW1.5Warned").build());
                     }
 
 

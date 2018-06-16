@@ -3,8 +3,13 @@
     package="com.format.gesturelauncher">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="net.dinglisch.android.tasker.PERMISSION_RUN_TASKS"/>
+
 
     <application
+        android:name=".AnalyticsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -17,13 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity
             android:name=".GestureActivity"
-            android:label="Create a Gesture"
+            android:label="@string/title_create_gesture"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".dialog_confirm"
-            android:label="Confirm"
+            android:label="@string/title_confirm_gesture"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" /> <!-- 使其变成对话框 -->
 
         <activity
@@ -31,19 +38,39 @@
             android:label="@string/title_activity_app_select"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
 
+
+
+
         <service
             android:name=".MobileConnectService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <!--<data android:scheme="wear" android:host="*" android:pathPrefix="/needupdate" />-->
+            </intent-filter>
+        </service>
+
+
+
+        <service android:name=".ListenerServiceFromWear">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data android:scheme="wear" android:host="*"
+                    android:path="/sync" />
+            </intent-filter>
+        </service>
+
 
         <activity android:name=".WelcomeActivity" />
         <activity
             android:name=".HelpActivity"
-            android:label="Wear Gesture Launcher"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+            android:label="@string/title_help"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActionSelect"
-            android:label="Choose an Action"
+            android:label="@string/title_choose_action"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
         <activity
             android:name=".Settings"
@@ -51,7 +78,7 @@
             android:theme="@style/AppTheme" />
 
         <activity android:name=".BackUp"
-            android:label="Backup &amp; Restore"
+            android:label="@string/backup_and_restore"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
     </application>
 

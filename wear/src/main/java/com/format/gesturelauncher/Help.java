@@ -141,7 +141,7 @@ public class Help extends WearableActivity {
 
             } else if (resultCode == RemoteIntent.RESULT_FAILED) {
                 new ConfirmationOverlay()
-                        .setMessage("Phone disconnected")
+                        .setMessage(getString(R.string.help_phone_disc))
                         .setType(ConfirmationOverlay.FAILURE_ANIMATION)
                         .showOn(Help.this);
 

@@ -1,12 +1,15 @@
 package com.format.gesturelauncher;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.gesture.Gesture;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.AlarmClock;
 import android.support.wearable.view.BoxInsetLayout;
@@ -14,16 +17,26 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.format.gesturelauncher.MainActivity.apiCompatibleMode;
+import static com.format.gesturelauncher.MainActivity.wearConnect;
+import static com.format.gesturelauncher.WearConnectService.sendMobile;
+import static com.format.gesturelauncher.WearConnectService.sendMobileAction;
 import static com.format.gesturelauncher.WearConnectService.showQuickLauncher;
 import static com.format.gesturelauncher.WearConnectService.accuracy;
 import static com.format.gesturelauncher.WearConnectService.lib;
 import static com.format.gesturelauncher.WearConnectService.vibratorOn;
+import static com.format.gesturelauncher.WearConnectService.wait;
 
 public class GesturePerformActivity extends Activity {
 
@@ -32,11 +45,15 @@ public class GesturePerformActivity extends Activity {
     private TextView mClockView;
 //TODO 换mainactivity
 
+    public Tracker mTracker;
 
+    final Timer timer = new Timer();//for the delay
 
     TextView hintText;
     Button mButtonClose;
     Button mButtonWhat;
+    ProgressBar mProgress;
+    GestureOverlayView mGesture;
 
     static boolean active = false;//check if this is running
 
@@ -50,6 +67,18 @@ public class GesturePerformActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gesture_main);
 
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("Gesture Perform Activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        //Analytics
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("PerformActivity")
+                .setAction("openPerformActivity")
+                .setLabel("perform")
+                .build());
+        //-----------------------
 
 
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
@@ -66,6 +95,8 @@ public class GesturePerformActivity extends Activity {
         mTextView = (TextView) findViewById(R.id.text);
         mButtonClose = findViewById(R.id.buttonClose);
         mButtonWhat=findViewById(R.id.buttonwhat);
+        mProgress=findViewById(R.id.progressBar);
+
 //        mClockView = (TextView) findViewById(R.id.clock);
 
 
@@ -80,9 +111,11 @@ public class GesturePerformActivity extends Activity {
 
         if(vibratorOn){v.vibrate(right,-1);} //Vibrate to show it is open
 
-        GestureOverlayView mGesture = findViewById(R.id.gesture); //定义
+        mGesture = findViewById(R.id.gesture); //定义
         hintText = findViewById(R.id.text);//定义
 
+
+        mProgress.setVisibility(View.GONE);//progress bar
 
         //lib=GestureLibraries.fromRawResource(this,R.raw.gestures);//导入手势
 
@@ -95,6 +128,8 @@ public class GesturePerformActivity extends Activity {
                 hintText.setVisibility(View.GONE);
                 mButtonClose.setVisibility(View.INVISIBLE);
                 mButtonWhat.setVisibility(View.GONE);
+                mProgress.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -105,7 +140,7 @@ public class GesturePerformActivity extends Activity {
             @Override
             public void onGestureEnded(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
                 hintText.setVisibility(View.VISIBLE);
-                hintText.setText("Matching...");
+                hintText.setText(R.string.gesture_matching);
                 mButtonClose.setVisibility(View.VISIBLE);
 
             }
@@ -153,16 +188,18 @@ public class GesturePerformActivity extends Activity {
                 }
 
                 if(maxfound > accuracy){//2.0
-                    hintText.setText(maxName +" performed!");
+                    hintText.setText(String.format(getString(R.string.gesture_sth_performed), maxName));
                     //msg(prediction.toString());
                     matched=true;
                     if(vibratorOn){v.vibrate(right,-1);}
                     matchOpen(maxName);//尝试打开app
 
+
+
                     //break;
 
                 }else {
-                    hintText.setText("No match");
+                    hintText.setText(R.string.gesture_no_match);
 
 
                 }
@@ -176,6 +213,15 @@ public class GesturePerformActivity extends Activity {
 //                    msg("Please try again");
                 }
 
+                //Analytics
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("PerformActivity")
+                        .setAction("gestureMatched")
+                        .setLabel(maxName)
+                        .setValue(Math.round(maxfound))
+                        .build());
+                //-----------------------
+
             }
         });
 
@@ -185,9 +231,25 @@ public class GesturePerformActivity extends Activity {
         mButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                this.setVisibility(View.GONE);
-//                moveTaskToBack(true);
-                finish();
+
+
+                timer.cancel();  // Terminates this timer, discarding any currently scheduled tasks.
+                timer.purge();   // Removes all cancelled tasks from this timer's task queue.
+
+                if(mProgress.getVisibility()==View.VISIBLE){//if confirming, reopen
+                    //Analytics
+                    mTracker.send(new HitBuilders.EventBuilder().setCategory("PerformActivity").setAction("userCanceledAction").build());
+                    Intent intent=new Intent(GesturePerformActivity.this,GesturePerformActivity.class);
+                    finish();
+                    startActivity(intent);
+                }else{
+                    //Analytics
+                    mTracker.send(new HitBuilders.EventBuilder().setCategory("PerformActivity").setAction("userCanceledPerform").build());
+                    finish();
+
+                }
+
+
             }
         });
 
@@ -219,26 +281,46 @@ public class GesturePerformActivity extends Activity {
 
 
     //============================================================================================== 打开应用
+    @SuppressLint("SetTextI18n")
     public void matchOpen(String activity){
 
-        NameFilter name = new NameFilter(activity);
+        mGesture.setVisibility(View.GONE);
+        mProgress.setVisibility(View.VISIBLE);
+        mButtonClose.setTextColor(Color.rgb(118, 255, 3));//match color of the spinner
+        final NameFilter name = new NameFilter(activity);
+        int delay=0;
+        if(wait){delay=2600;}
+
+
+        TimerTask task = null;
+
+
         try {
             switch (name.getMethod()) {
                 case "wearapp":
 
                     if(name.getPackName().equals(getApplicationContext().getPackageName())) {
-                        hintText.setText("Opening Main screen");
+                        hintText.setText(R.string.gesture_open_main);
 
-                        Intent intent = new Intent(GesturePerformActivity.this,MainActivity.class); //spilt 2 是pakagename
-                        finish();
-                        startActivity(intent);
+                        //delayed opening
+                        task=new TimerTask() {@Override public void run() {
+                            Intent intent = new Intent(GesturePerformActivity.this,MainActivity.class); //spilt 2 是pakagename
+                            finish();
+                            startActivity(intent);
+                        }};
+
 
 
                     }else {
-                        Intent intent = getPackageManager().getLaunchIntentForPackage(name.getPackName()); //spilt 2 是pakagename
-                        startActivity(intent);
-                        //            msg("Opening " + spilt[0]);
-                        hintText.setText("Opening " + name.getFilteredName());
+                        hintText.setText(String.format(getString(R.string.gesture_opening), name.getFilteredName()));
+
+                        //delayed opening
+                        task=new TimerTask() {@Override public void run() {
+                                Intent intent = getPackageManager().getLaunchIntentForPackage(name.getPackName()); //spilt 2 是pakagename
+                                startActivity(intent);
+                            }};
+
+
                     }
 
 
@@ -246,24 +328,66 @@ public class GesturePerformActivity extends Activity {
 
 
                 case "timer":
-                    timerOpen(name.getPackName());
                     hintText.setText(name.getFilteredName());
+                    //delayed opening
+                    task=new TimerTask() {@Override public void run() {
+                        timerOpen(name.getPackName());
+                    }};
+
                     break;
 
 
                 case "call":
-                    callOpen(name.getPackName());
+
                     hintText.setText(name.getFilteredName());
+
+                    //delayed opening
+                    task=new TimerTask() {@Override public void run() {
+                        callOpen(name.getPackName());
+                    }};
+
                     break;
+
+
+                case "mapp":
+                    hintText.setText(String.format(getString(R.string.gesture_open_phone), name.getFilteredName()));
+                    if(delay==0){delay=1000;}
+                    task=new TimerTask() {@Override public void run() {
+                        mobileOpen(name.getOriginalName());
+                        moveTaskToBack(true);
+                    }};
+                    break;
+
+                case "tasker":
+                    if(delay==0){delay=1000;}
+                    hintText.setText(String.format(getString(R.string.gesture_open_phone), name.getFilteredName()));
+                    task=new TimerTask() {@Override public void run() {
+                        mobileOpen(name.getOriginalName());
+                        moveTaskToBack(true);
+                    }};
+                    break;
+
 
             }
 
         }catch (Exception e){
-            msg("Fail to open "+name.getFilteredName());
+            msg(getString(R.string.gesture_failed)+name.getFilteredName());
+            //Analytics
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("PerformActivity")
+                    .setAction("failToOpenMatch")
+                    .setLabel(activity)
+                    .build());
+            //-----------------------
             return;
         }
 
-          moveTaskToBack(true);//推出
+        if(task!=null) {
+            timer.schedule(task, delay);//Timer Action
+        }
+
+
+          //moveTaskToBack(true);//推出 TODO does this matter??
 
     }
 
@@ -304,6 +428,9 @@ public class GesturePerformActivity extends Activity {
     }
 
 
+    public void mobileOpen(String action){
+        sendMobileAction(wearConnect,action);
+    }
 
 
     //==============================================================================================

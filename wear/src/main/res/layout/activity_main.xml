@@ -106,7 +106,53 @@
                 android:textColor="@color/secondary_text_light"
                 android:visibility="gone" />
 
+            <LinearLayout
+                android:id="@+id/oreoWarn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#2affffff"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/titleOreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="5dp"
+
+                    android:text="@string/main_overlay_notif_title"
+                    android:textStyle="bold"
+                    app:layout_box="all" />
+
+                <TextView
+                    android:id="@+id/textViewOreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingLeft="5dp"
+
+                    android:text="@string/main_oreo_content"
+                    app:layout_box="all"
+                    tools:text="@string/main_oreo_content" />
+
+                <Button
+                    android:id="@+id/buttonOreo"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@android:string/ok"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_blue_bright"
+                    android:visibility="visible" />
+            </LinearLayout>
+
         </LinearLayout>
+
+
     </ScrollView>
 
 </android.support.wearable.view.BoxInsetLayout>

@@ -1,13 +1,10 @@
 package com.format.gesturelauncher;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.gesture.Gesture;
-import android.gesture.GestureLibraries;
-import android.gesture.GestureLibrary;
 import android.gesture.Prediction;
 import android.os.CountDownTimer;
-import android.provider.AlarmClock;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 
 import static com.format.gesturelauncher.MainActivity.main;
@@ -69,8 +68,16 @@ public class dialog_confirm extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Analytics
+                final Tracker mTracker;
+                AnalyticsApplication application = (AnalyticsApplication) getApplication();
+                 mTracker = application.getDefaultTracker();
+
                 if(MethodNameForReturn != null){
-                    Toast.makeText(getApplicationContext(),"Saving...",Toast.LENGTH_SHORT).show();
+                    final ProgressDialog dialog = ProgressDialog.show(dialog_confirm.this, "",
+                            getString(R.string.gesture_saving), true); //DIALOG saving...
+
                     next.setEnabled(false);
                     Sync(mobileconnect,false);
 
@@ -78,7 +85,17 @@ public class dialog_confirm extends AppCompatActivity {
 
                         public void onTick(long l) {
                             if(main.notsync.getVisibility()!=View.VISIBLE){
-                                Toast.makeText(getApplicationContext(),"Saved!",Toast.LENGTH_SHORT).show();
+
+
+                                mTracker.send(new HitBuilders.EventBuilder()
+                                        .setCategory("Mobile Action")
+                                        .setAction("newGestureAdded")
+                                        .setLabel(MethodNameForReturn)
+                                        .build());
+                                //-----------------------
+
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), R.string.gesture_saved,Toast.LENGTH_SHORT).show();
                                 lib.addGesture(MethodNameForReturn,gesture);
                                 lib.save();
                                 Sync(mobileconnect,true);
@@ -93,7 +110,15 @@ public class dialog_confirm extends AppCompatActivity {
                         }
 
                         public void onFinish() {
-                            Toast.makeText(getApplicationContext(),"Gesture didn't save, wearable sync failed, please try again",Toast.LENGTH_SHORT).show();
+                            //Analytics
+                            mTracker.send(new HitBuilders.EventBuilder()
+                                    .setCategory("Mobile Error")
+                                    .setAction("gestureAddFail")
+                                    .setLabel(MethodNameForReturn)
+                                    .build());
+
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(), R.string.confirm_gesture_save_fail,Toast.LENGTH_SHORT).show();
                             next.setEnabled(true);
 
                         }
@@ -104,7 +129,7 @@ public class dialog_confirm extends AppCompatActivity {
 
 
                 }else {
-                    Toast.makeText(getApplicationContext(),"You must choose an action",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.confirm_must_choose,Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -152,14 +177,14 @@ public class dialog_confirm extends AppCompatActivity {
 
         if(maxfound > 2.0){
 
-            String gesturename=new NameFilter(maxName).GetfiltedName();
+            String gesturename=new NameFilter(maxName).getFilteredName();
             int smilarity = (int) ((maxfound/4)*100);
 
-            text.setText("Possible gesture collision:\n"+ gesturename +" - Similarity "+smilarity +"%");
+            text.setText(String.format(getString(R.string.confirm_collision_similar), gesturename, smilarity));
 
 
         }else {
-            text.setText("Possible gesture collision:\nGreat! No similar gestures found");
+            text.setText(R.string.confirm_collision_clear);
 
 
         }

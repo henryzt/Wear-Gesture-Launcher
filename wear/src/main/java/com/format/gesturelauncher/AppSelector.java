@@ -1,8 +1,15 @@
 package com.format.gesturelauncher;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +17,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.format.gesturelauncher.WearConnectService.appNameList;
 import static com.format.gesturelauncher.WearConnectService.lib;
@@ -49,6 +59,9 @@ public class AppSelector extends Activity {
 //                        selectContact();
 //                         finish();
                         break;
+                    case "test":
+                        loadTest();
+                        break;
 
                 }
 
@@ -59,7 +72,7 @@ public class AppSelector extends Activity {
 
         try {
             if (mainListView.getAdapter().getCount() <= 0) {
-                Toast.makeText(getApplicationContext(), "You have created all items in this section!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.app_select_all_item), Toast.LENGTH_SHORT).show();
                 finish();
 
             }
@@ -142,7 +155,7 @@ public class AppSelector extends Activity {
 
         //----------------------------------------------------------------------
         final String[] methods = {"Alarm","Alarm List","Timer","Stopwatch"};
-        final String[] methodsIndicator = {"New Alarm","Manage Alarms","Open Timer","Open Stopwatch"};
+        final String[] methodsIndicator = {getString(R.string.timer_new_alarm),getString(R.string.timer_manage_alarms),getString(R.string.timer_open_timer),getString(R.string.timer_open_stopwatch)};
 
 
         final ArrayList<String> nonExistMethods=new ArrayList<>();
@@ -222,6 +235,130 @@ public class AppSelector extends Activity {
 //    }
 
 
+
+
+
+
+
+
+
+
+
+    public void loadTest(){
+//        Intent shortcutsIntent = new Intent(Intent.ACTION_CREATE_SHORTCUT);
+//        List<ResolveInfo> shortcuts = getPackageManager().queryIntentActivities(shortcutsIntent, 0);
+        List<PackageInfo> shortcuts=getAllApps(getApplicationContext());
+
+
+        ArrayList<String> listItems=new ArrayList<String>();
+        ArrayAdapter<String> listAdapter;
+        // Create ArrayAdapter
+        listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listItems);
+
+        //----------------------------------------------------------------------
+
+
+        for (int i=0;i < shortcuts.size();  i++) {
+
+            listAdapter.add(shortcuts.get(i).packageName);
+            packageName.add(shortcuts.get(i).packageName);
+
+            Log.v("tag","------------------------"+shortcuts.get(i).packageName);
+            ActivityInfo[] activityInfos=shortcuts.get(i).activities;
+
+            try {
+                for (int j = 0; j < activityInfos.length; j++) {
+                    Log.v("tag", activityInfos[i].parentActivityName);
+
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
+
+
+       //----------------------------------------------------------------------
+
+        mainListView.setAdapter( listAdapter );
+
+        //------------------------------------------Listener
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+//               String packName = mainListView.getItemAtPosition(position).toString();//Get the item user clicked
+                String packName = packageName.get(position);
+
+                generateMethod("wearapp",packName,mainListView.getItemAtPosition(position).toString());
+            }
+
+        });
+
+    }
+
+
+
+
+
+
+
+//    private List<ApplicationInfo> queryFilterAppInfo() {
+//        PackageManager pm = this.getPackageManager();
+//        // 查询所有已经安装的应用程序
+//        List<ApplicationInfo> appInfos= pm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);// GET_UNINSTALLED_PACKAGES代表已删除，但还有安装目录的
+//        List<ApplicationInfo> applicationInfos=new ArrayList<>();
+//
+//        // 创建一个类别为CATEGORY_LAUNCHER的该包名的Intent
+//        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
+//        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//
+//        // 通过getPackageManager()的queryIntentActivities方法遍历,得到所有能打开的app的packageName
+//        List<ResolveInfo>  resolveinfoList = getPackageManager()
+//                .queryIntentActivities(resolveIntent, 0);
+//        Set<String> allowPackages=new HashSet();
+//        for (ResolveInfo resolveInfo:resolveinfoList){
+//            allowPackages.add(resolveInfo.activityInfo.packageName);
+//        }
+//
+//        for (ApplicationInfo app:appInfos) {
+////            if((app.flags & ApplicationInfo.FLAG_SYSTEM) <= 0)//通过flag排除系统应用，会将电话、短信也排除掉
+////            {
+////                applicationInfos.add(app);
+////            }
+////            if(app.uid > 10000){//通过uid排除系统应用，在一些手机上效果不好
+////                applicationInfos.add(app);
+////            }
+//            if (allowPackages.contains(app.packageName)){
+//                applicationInfos.add(app);
+//            }
+//        }
+//        return applicationInfos;
+//    }
+
+
+
+    public static List<PackageInfo> getAllApps(Context context) {
+
+        List<PackageInfo> apps = new ArrayList<PackageInfo>();
+        PackageManager pManager = context.getPackageManager();
+        // 获取手机内所有应用
+        List<PackageInfo> packlist = pManager.getInstalledPackages(0);
+        for (int i = 0; i < packlist.size(); i++) {
+            PackageInfo pak = (PackageInfo) packlist.get(i);
+            // if()里的值如果<=0则为自己装的程序，否则为系统工程自带
+            if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
+                // 添加自己已经安装的应用程序
+                // apps.add(pak);
+            }
+            apps.add(pak);
+        }
+        return apps;
+    }
+
+
+//----------------------------------------------====================================================
     public void generateMethod(String runType, String runMethod, String Label ){
         try {
 

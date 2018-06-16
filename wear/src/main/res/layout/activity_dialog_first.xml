@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:text="Skip"
+                android:text="@string/skip"
                 android:textColor="@color/card_grey_text_color"
                 app:layout_box="all" />
         </LinearLayout>

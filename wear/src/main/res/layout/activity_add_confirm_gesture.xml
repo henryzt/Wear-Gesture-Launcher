@@ -31,7 +31,7 @@
                 android:paddingLeft="@dimen/diag_content_side_padding_round"
                 android:paddingRight="@dimen/diag_content_side_padding_round"
                 android:scrollbars="none"
-                android:text="Confirm to add this gesture?"
+                android:text="@string/confirm_cofirm_notice"
                 android:textAppearance="@style/TextAppearance.WearDiag.Message"
                 app:layout_box="all" />
 
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:text="Confirm"
+                android:text="@string/confirm"
 
                 app:layout_box="all" />
 
@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:text="Back"
+                android:text="@string/back"
                 android:textColor="@android:color/holo_blue_bright"
                 app:layout_box="all" />
 
