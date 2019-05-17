@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity{
 //    Snackbar notsyncIndicator;
 
     public final static String TAG = "fz"; //tag
-    ArrayList<String> titles = new ArrayList<String>(); //used for gridview, title of gestures unfiltered
-    ArrayList<String> shortentitles = new ArrayList<String>(); //used for gridview, title of gestures filtered
-    ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(); //used for gridview
+    List<String> titles = new ArrayList<String>(); //used for gridview, title of gestures unfiltered
+    List<String> shortentitles = new ArrayList<String>(); //used for gridview, title of gestures filtered
+    List<Bitmap> bitmaps = new ArrayList<Bitmap>(); //used for gridview
 
     int defColor = Color.BLACK;
 
@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //-----------------------------------------------
         notsync=(LinearLayout)findViewById(R.id.notSync);

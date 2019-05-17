@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +17,10 @@ import java.util.ArrayList;
  */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
-    ArrayList<String> title;
-    ArrayList<Bitmap> Imageid;
+    private List<String> title;
+    private List<Bitmap> Imageid;
 
-    public ImageAdapter(Context c, ArrayList<String> title, ArrayList<Bitmap> Imageid ) {
+    public ImageAdapter(Context c, List<String> title, List<Bitmap> Imageid ) {
         mContext = c;
         this.Imageid = Imageid;
         this.title = title;
