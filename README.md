@@ -1,10 +1,13 @@
 # Wear Gesture Launcher
 
+> Code was written when I was inexperienced, and haven't been updated recently. Bad code structure & commenting, deprecated use of code can be expected :/
+
  [View on Playstore](https://play.google.com/store/apps/details?id=com.format.gesturelauncher)
 
 Gesture launcher for Android Wear OS
 
 Forget about swiping that long list of small icons. Just tap, draw, and done!
+
 
 
 ## Key features:
